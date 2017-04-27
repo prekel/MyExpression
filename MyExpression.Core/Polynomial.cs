@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MyExpression.Core
 {
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
-    public class Polynomial : List<Monomial>
+    public class Polynomial : SortedList<Monomial, bool>
     {
         public double Evaluate(double x)
         {
@@ -16,7 +16,7 @@ namespace MyExpression.Core
             //{
             //    c += i.Evaluate(x);
             //}
-            return this.Sum(m => m.Evaluate(x));
+            return Keys.Sum(m => m.Evaluate(x));
             //return c;
         }
 
@@ -25,14 +25,21 @@ namespace MyExpression.Core
             get { return Evaluate(x); }
         }
 
+		public int Rank
+		{
+			get{
+				return Keys.Max(m => m.Count);
+			}
+		}
+
         public Polynomial Derivative
         {
             get 
             {
                 var d = new Polynomial();
-                foreach (var i in this)
+                foreach (var i in Keys)
                 {
-                    d.Add(i.Derivative);
+                    d.Add(i.Derivative, true);
                 }
                 return d;
             }
@@ -41,7 +48,7 @@ namespace MyExpression.Core
         public override string ToString()
         {
             var s = "";
-            foreach (var i in this)
+            foreach (var i in Keys)
             {
                 if (i.Ratio > 0 && s != "")
                 {
@@ -51,5 +58,12 @@ namespace MyExpression.Core
             }
             return s;
         }
+
+		public SquareEquation ToSquareEquation(string x = "x")
+		{
+			if (Count > 3 || Rank > 1)
+				throw new InvalidOperationException();
+			return new SquareEquation(Keys[0].Ratio, Keys[1].Ratio, Keys[2].Ratio);
+		}
     }
 }

@@ -13,9 +13,10 @@ namespace MyExpression.Console
         static void Main(string[] args)
         {
             var poly = new Polynomial
-            {
-                new Monomial(2, 2),
-                new Monomial()
+			{
+				[new Monomial(2, 2)] = true,
+				[new Monomial(-1, 1)] = true,
+				[new Monomial(-2)] = true
             };
             while (true)
             {
