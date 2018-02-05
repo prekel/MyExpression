@@ -45,6 +45,7 @@ namespace MyExpression.Core
 
 		public void Add(T item)
 		{
+			if (Contains(item)) return;
 			Base.Add(item, true);
 		}
 

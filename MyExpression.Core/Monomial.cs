@@ -50,17 +50,33 @@ namespace MyExpression.Core
 			}
 		}
 
+		private static readonly Regex Pattern = new Regex("([+,-]{0,1})([0-9]{0,})[*,]{0,1}([x]{0,1})([^,]{0,1})([0-9,-]{0,})");
+
 		public static Monomial Parse(string p)
 		{
-			var r = new Regex("([+,-]{0,1})([0-9]{0,})([x]{0,1})([^,]{0,1})([0-9,-]{0,})");
-			var m = r.Match(p);
+			var m = Pattern.Match(p);
 			if (m.Groups[1].Value.Length > 1) throw new FormatException();
 			if (m.Groups[4].Value.Length == 0 && m.Groups[5].Value.Length > 0) throw new FormatException();
+			if (m.Groups[4].Value.Length > 0 && m.Groups[5].Value.Length == 0) throw new FormatException();
 			var f = m.Groups[1].Length == 1 ? Double.Parse(m.Groups[1] + "1") : 1;
 			var c = m.Groups[2].Length > 0 ? Double.Parse(m.Groups[2].Value) : 1;
 			var d = m.Groups[5].Length > 0 ? Double.Parse(m.Groups[5].Value) : 1;
 			if (m.Groups[3].Length == 0) d = 0;
 			return new Monomial(f * c, d);
+		}
+
+		public static bool TryParse(string p, out Monomial result)
+		{
+			try
+			{
+				result = Parse(p);
+				return true;
+			}
+			catch
+			{
+				result = null;
+				return false;
+			}
 		}
 
 		public override string ToString()

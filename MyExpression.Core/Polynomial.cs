@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace MyExpression.Core
 {
 	//[System.Diagnostics.DebuggerDisplay("{ToString()}")]
 	public class Polynomial : MySortedList<Monomial>
 	{
-		public double Degree => this[Count - 1].Degree;
+		public double Degree => this.First().Degree;
 
 		public double Evaluate(double x)
 		{
@@ -50,6 +51,26 @@ namespace MyExpression.Core
 				}
 				return d;
 			}
+		}
+
+		public static Polynomial Parse(string p)
+		{
+			if (p[0] != '-' && p[0] != '+') p = "+" + p;
+			var s1 = p.Split(new char[] { '-', '+' }, StringSplitOptions.RemoveEmptyEntries);
+
+			var j = 0;
+			for (var i = 0; i < s1.Length; i++)
+			{
+				s1[i] = p[j] + s1[i];
+				j += s1[i].Length;
+			}
+
+			var pl = new Polynomial();
+			foreach (var i in s1)
+			{
+				pl.Add(Monomial.Parse(i));
+			}
+			return pl;
 		}
 
 		public override string ToString()
