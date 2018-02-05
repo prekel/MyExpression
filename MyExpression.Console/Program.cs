@@ -8,24 +8,19 @@ using MyExpression.Core;
 
 namespace MyExpression.Console
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var poly = new Polynomial
+	public class Program
+	{
+		private static void Main(string[] args)
+		{
+			var poly = new Polynomial { new Monomial(2, 2), new Monomial(-1, 1), new Monomial(-2) };
+			while (true)
 			{
-				[new Monomial(2, 2)] = true,
-				[new Monomial(-1, 1)] = true,
-				[new Monomial(-2)] = true
-            };
-            while (true)
-            {
-                var inp = 0d;
-                if (!double.TryParse(System.Console.ReadLine(), out inp))
-                    break;
-                var c1 = poly[inp];
-                System.Console.WriteLine(c1);
-            }
-        }
-    }
+				double inp;
+				if (!double.TryParse(System.Console.ReadLine(), out inp))
+					break;
+				var c1 = poly[inp];
+				System.Console.WriteLine(c1);
+			}
+		}
+	}
 }

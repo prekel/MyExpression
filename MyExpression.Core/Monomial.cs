@@ -14,13 +14,12 @@ namespace MyExpression.Core
 
 		public double Evaluate(double x)
 		{
-			return Ratio * Math.Pow(x, Values[0]);
+			if (Count == 0)
+				return Ratio;
+			return Ratio * this.Sum(i => Math.Pow(x, i.Value));
 		}
 
-		public double this[double x]
-		{
-			get { return Evaluate(x); }
-		}
+		public double this[double x] => Evaluate(x);
 
 		//public Monomial(double ratio, string variable, double degree)
 		//{
@@ -44,7 +43,7 @@ namespace MyExpression.Core
 
 			get
 			{
-				if (Count > 1)
+				if (Count > 1) 
 					throw new NotImplementedException();
 				return new Monomial(Ratio * Values[0], Values[0] - 1);
 			}
@@ -52,7 +51,7 @@ namespace MyExpression.Core
 
 		public override string ToString()
 		{
-			return string.Format("{0}{1}^{2}", Ratio, Var, Values[0]);
+			return $"{Ratio}{Var}^{Values[0]}";
 		}
 
 		public int CompareTo(object obj)
