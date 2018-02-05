@@ -9,6 +9,8 @@ namespace MyExpression.Core
 	//[System.Diagnostics.DebuggerDisplay("{ToString()}")]
 	public class Polynomial : MySortedList<Monomial>
 	{
+		public double Degree => this[Count - 1].Degree;
+
 		public double Evaluate(double x)
 		{
 			//var c = 0d;
@@ -20,17 +22,26 @@ namespace MyExpression.Core
 			//return c;
 		}
 
-		public double this[double x] => Evaluate(x);
+		//public double this[double x] => Evaluate(x);
 
 		//public int Rank => this.Max(m => m.Count);
 
-		public Polynomial() {
-			
+		class MonomialComparer : Comparer<Monomial>
+		{
+			public override int Compare(Monomial x, Monomial y)
+			{
+				return -x.CompareTo(y);
+			}
+		}
+
+		public Polynomial() : base(new MonomialComparer())
+		{
+
 		}
 
 		public Polynomial Derivative
 		{
-			get 
+			get
 			{
 				var d = new Polynomial();
 				foreach (var i in this)

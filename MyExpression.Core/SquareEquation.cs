@@ -25,6 +25,8 @@ namespace MyExpression.Core
 			}
 		}
 
+		public double X0 => -B / (2 * A);
+
 		public double X1 => (-B + Math.Sqrt(D)) / (2 * A);
 
 		public double X2 => (-B - Math.Sqrt(D)) / (2 * A);

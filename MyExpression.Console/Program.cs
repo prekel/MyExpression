@@ -27,6 +27,8 @@ namespace MyExpression.Console
 			var m11 = Monomial.Parse("-1231x");
 			var m12 = Monomial.Parse("+213x");
 
+			var s = "x^​3-​3*​x^​2-​4*​x+​1";
+
 			//while (true)
 			//{
 			//	double inp;
