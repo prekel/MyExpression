@@ -22,7 +22,11 @@ namespace MyExpression.Core
 
 		public double this[double x] => Evaluate(x);
 
-		public int Rank => this.Max(m => m.Count);
+		//public int Rank => this.Max(m => m.Count);
+
+		public Polynomial() {
+			
+		}
 
 		public Polynomial Derivative
 		{
@@ -42,7 +46,7 @@ namespace MyExpression.Core
 			var s = "";
 			foreach (var i in this)
 			{
-				if (i.Ratio > 0 && s != "")
+				if (i.Coefficient > 0 && s != "")
 				{
 					s += "+";
 				}
@@ -51,11 +55,11 @@ namespace MyExpression.Core
 			return s;
 		}
 
-		public SquareEquation ToSquareEquation(string x = "x")
+		public SquareEquation ToSquareEquation()
 		{
-			if (Count > 3 || Rank > 1)
+			if (Count > 3)
 				throw new InvalidOperationException();
-			return new SquareEquation(base[0].Ratio, base[1].Ratio, base[2].Ratio);
+			return new SquareEquation(base[0].Coefficient, base[1].Coefficient, base[2].Coefficient);
 		}
 	}
 }

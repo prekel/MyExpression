@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Monomial.cs" />
     <Compile Include="MySortedList.cs" />
     <Compile Include="Polynomial.cs" />

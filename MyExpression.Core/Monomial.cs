@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace MyExpression.Core
 {
-	public class Monomial : SortedList<string, double>, IComparable
+	public class Monomial : IComparable
 	{
-		public double Ratio { get; set; }
-		//public double Degree { get; set; }
-		public string Var { get; set; }
+		public double Coefficient { get; set; }
+		public double Degree { get; set; }
+		//public string Var { get; set; }
 
 		public double Evaluate(double x)
 		{
-			if (Count == 0)
-				return Ratio;
-			return Ratio * this.Sum(i => Math.Pow(x, i.Value));
+			//if (Count == 0)
+			//	return Ratio;
+			//return Ratio * this.Sum(i => Math.Pow(x, i.Value));
+			return Coefficient * Math.Pow(x, Degree);
 		}
 
 		public double this[double x] => Evaluate(x);
@@ -27,36 +29,48 @@ namespace MyExpression.Core
 		//	this[variable] = degree;
 		//}
 
-		public Monomial(double ratio, double degree, string variable = "x")
-		{
-			Ratio = ratio;
-			this[variable] = degree;
-		}
+		//public Monomial(double ratio, double degree, string variable = "x")
+		//{
+		//	//Ratio = ratio;
+		//	//this[variable] = degree;
+		//}
 
-		public Monomial(double ratio)
+		public Monomial(double ratio = 1, double degree = 1)
 		{
-			Ratio = ratio;
+			Coefficient = ratio;
+			Degree = degree;
 		}
 
 		public Monomial Derivative
 		{
-
 			get
 			{
-				if (Count > 1) 
-					throw new NotImplementedException();
-				return new Monomial(Ratio * Values[0], Values[0] - 1);
+				if (Degree == 0) return new Monomial(0, 0);
+				return new Monomial(Coefficient * Degree, Degree - 1);
 			}
+		}
+
+		public static Monomial Parse(string p)
+		{
+			var r = new Regex("([+,-]{0,1})([0-9]{0,})([x]{0,1})([^,]{0,1})([0-9,-]{0,})");
+			var m = r.Match(p);
+			if (m.Groups[1].Value.Length > 1) throw new FormatException();
+			if (m.Groups[4].Value.Length == 0 && m.Groups[5].Value.Length > 0) throw new FormatException();
+			var f = m.Groups[1].Length == 1 ? Double.Parse(m.Groups[1] + "1") : 1;
+			var c = m.Groups[2].Length > 0 ? Double.Parse(m.Groups[2].Value) : 1;
+			var d = m.Groups[5].Length > 0 ? Double.Parse(m.Groups[5].Value) : 1;
+			if (m.Groups[3].Length == 0) d = 0;
+			return new Monomial(f * c, d);
 		}
 
 		public override string ToString()
 		{
-			return $"{Ratio}{Var}^{Values[0]}";
+			return $"{Coefficient}x^{Degree}";
 		}
 
 		public int CompareTo(object obj)
 		{
-			return Values.Sum().CompareTo(((Monomial)obj).Values.Sum());
+			return Degree.CompareTo(((Monomial)obj).Degree);
 		}
 	}
 }
