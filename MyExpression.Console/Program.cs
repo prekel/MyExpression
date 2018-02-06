@@ -35,6 +35,11 @@ namespace MyExpression.Console
 
 			var p1 = Polynomial.Parse("x^2-4x+2");
 
+			var h1 = new PolynomialEquation.Intervals(new List<double>(new double[] { }));
+			var h2 = new PolynomialEquation.Intervals(new List<double>(new double[] { 1 }));
+			var h3 = new PolynomialEquation.Intervals(new List<double>(new double[] { 1, 2 }));
+			var h4 = new PolynomialEquation.Intervals(new List<double>(new double[] { 1, 2, 3 }));
+
 			while (true)
 			{
 				double inp;

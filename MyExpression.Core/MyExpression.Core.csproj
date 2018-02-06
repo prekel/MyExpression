@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interval.cs" />
     <Compile Include="Monomial.cs" />
     <Compile Include="MySortedList.cs" />
     <Compile Include="Polynomial.cs" />
