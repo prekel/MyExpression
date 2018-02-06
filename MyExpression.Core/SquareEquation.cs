@@ -14,6 +14,8 @@ namespace MyExpression.Core
 
 		public double D => B * B - 4 * A * C;
 
+		public double this[double x] => A * x * x + B * x + C;
+
 		public int N
 		{
 			get
@@ -27,17 +29,35 @@ namespace MyExpression.Core
 
 		public double X0 => -B / (2 * A);
 
+		public double Y0 => this[X0];
+
 		public double X1 => (-B + Math.Sqrt(D)) / (2 * A);
 
 		public double X2 => (-B - Math.Sqrt(D)) / (2 * A);
 
 		public Tuple<double, double> X => Tuple.Create(X1, X2);
 
-		public SquareEquation(double a = 1, double b = 1, double c = 1)
+		public SquareEquation(double a = 1, double b = 0, double c = 0)
 		{
 			A = a;
 			B = b;
 			C = c;
+		}
+
+		public Polynomial ToPolynomial()
+		{
+			var p = new Polynomial
+			{
+				new Monomial(A, 2),
+				new Monomial(B, 1),
+				new Monomial(C, 0)
+			};
+			return p;
+		}
+
+		public override string ToString()
+		{
+			return $"{A}x^2{(B >= 0 ? "+" + B : B.ToString())}{(C >= 0 ? "+" + C : C.ToString())}";
 		}
 	}
 }

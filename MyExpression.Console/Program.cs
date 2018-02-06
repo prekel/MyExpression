@@ -27,9 +27,11 @@ namespace MyExpression.Console
 			//var m11 = Monomial.Parse("-1231x");
 			//var m12 = Monomial.Parse("+213x");
 
-			var s = "+x^3-3x^2-4x+1";
+			var s = "1x^3-3x^2-4x+1";
 			var p = Polynomial.Parse(s);
 			var d = p.Derivative;
+
+			var p1 = Polynomial.Parse("x^2-4x+2");
 
 			while (true)
 			{
