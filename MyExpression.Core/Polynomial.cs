@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 namespace MyExpression.Core
 {
 	//[System.Diagnostics.DebuggerDisplay("{ToString()}")]
-	public class Polynomial : MySortedList<Monomial>
+	public class Polynomial : IEnumerable<Monomial>
 	{
-		public double Degree => this.First().Degree;
+		private SortedDictionary<double, Monomial> Data { get; set; }
+
+		public double Degree => Data.Last().Value.Degree;
 
 		public double Evaluate(double x)
 		{
@@ -19,25 +22,72 @@ namespace MyExpression.Core
 			//{
 			//	c += i.Evaluate(x);
 			//}
-			return this.Sum(m => m.Evaluate(x));
+			return Data.Values.Sum(m => m.Evaluate(x));
 			//return c;
+		}
+
+		public Monomial this[double degree]
+		{
+			get
+			{
+				if (Data.ContainsKey(degree))
+				{
+					return Data[degree];
+				}
+				else
+				{
+					return new Monomial(0, degree);
+				}
+			}
 		}
 
 		//public double this[double x] => Evaluate(x);
 
 		//public int Rank => this.Max(m => m.Count);
 
-		class MonomialComparer : Comparer<Monomial>
+		//class MonomialComparer : Comparer<Monomial>
+		//{
+		//	public override int Compare(Monomial x, Monomial y)
+		//	{
+		//		return -x.CompareTo(y);
+		//	}
+		//}
+
+		public Polynomial()
 		{
-			public override int Compare(Monomial x, Monomial y)
+			Data = new SortedDictionary<double, Monomial>();
+		}
+
+		public Polynomial(Polynomial a)
+		{
+			foreach (var i in a)
 			{
-				return -x.CompareTo(y);
+				Data.Add(i.Degree, i);
 			}
 		}
 
-		public Polynomial() : base(new MonomialComparer())
+		public void Add(Monomial a)
 		{
+			if (Data.ContainsKey(a.Degree))
+			{
+				Data[a.Degree].Add(a);
+			}
+			else
+			{
+				Data.Add(a.Degree, a);
+			}
+		}
 
+		public void Sub(Monomial a)
+		{
+			if (Data.ContainsKey(a.Degree))
+			{
+				Data[a.Degree].Sub(a);
+			}
+			else
+			{
+				Data.Add(a.Degree, -a);
+			}
 		}
 
 		public Polynomial Derivative
@@ -45,7 +95,7 @@ namespace MyExpression.Core
 			get
 			{
 				var d = new Polynomial();
-				foreach (var i in this)
+				foreach (var i in Data.Values)
 				{
 					d.Add(i.Derivative);
 				}
@@ -73,10 +123,99 @@ namespace MyExpression.Core
 			return pl;
 		}
 
+		public static Polynomial operator +(Polynomial a, Polynomial b)
+		{
+			var p = new Polynomial(a);
+			foreach (var i in b)
+			{
+				p.Add(i);
+			}
+			return p;
+		}
+
+		public static Polynomial operator -(Polynomial a, Polynomial b)
+		{
+			var p = new Polynomial(a);
+			foreach (var i in b)
+			{
+				p.Sub(i);
+			}
+			return p;
+		}
+
+		public static Polynomial operator +(Polynomial a, Monomial b)
+		{
+			var p = new Polynomial(a);
+			p.Add(b);
+			return p;
+		}
+
+		public static Polynomial operator -(Polynomial a, Monomial b)
+		{
+			var p = new Polynomial(a);
+			p.Sub(b);
+			return p;
+		}
+
+		public static Polynomial operator +(Monomial b, Polynomial a)
+		{
+			return a + b;
+		}
+
+		public static Polynomial operator -(Monomial b, Polynomial a)
+		{
+			return a - b;
+		}
+
+		public static Polynomial operator -(Polynomial a)
+		{
+			var p = new Polynomial(a);
+			foreach (var i in p)
+			{
+				i.Coefficient *= -1;
+			}
+			return p;
+		}
+
+		public static Polynomial operator +(Polynomial a)
+		{
+			return a;
+		}
+
+		public static Polynomial operator *(Polynomial a, Monomial b)
+		{
+			var p = new Polynomial(a);
+			foreach (var i in p)
+			{
+				i.Multiply(b);
+			}
+			return p;
+		}
+
+		public static Polynomial operator *(Monomial a, Polynomial b)
+		{
+			return b * a;
+		}
+
+		public static Polynomial operator *(Polynomial a, double b)
+		{
+			var p = new Polynomial(a);
+			foreach (var i in p)
+			{
+				i.Multiply(b);
+			}
+			return p;
+		}
+
+		public static Polynomial operator *(double a, Polynomial b)
+		{
+			return b * a;
+		}
+
 		public override string ToString()
 		{
 			var s = "";
-			foreach (var i in this)
+			foreach (var i in Data.Values.OrderByDescending(i => i))
 			{
 				if (i.Coefficient > 0 && s != "")
 				{
@@ -87,11 +226,23 @@ namespace MyExpression.Core
 			return s;
 		}
 
+		public SquareEquation SquareEquation => ToSquareEquation();
+
 		public SquareEquation ToSquareEquation()
 		{
-			if (Count > 3)
+			if (Degree != 2)
 				throw new InvalidOperationException();
-			return new SquareEquation(base[0].Coefficient, base[1].Coefficient, base[2].Coefficient);
+			return new SquareEquation(this[2].Coefficient, this[1].Coefficient, this[0].Coefficient);
+		}
+
+		public IEnumerator<Monomial> GetEnumerator()
+		{
+			return Data.Values.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return Data.Values.GetEnumerator();
 		}
 	}
 }

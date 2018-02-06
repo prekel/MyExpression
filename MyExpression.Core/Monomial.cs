@@ -35,9 +35,64 @@ namespace MyExpression.Core
 		//	//this[variable] = degree;
 		//}
 
-		public Monomial(double ratio = 1, double degree = 1)
+		public void Add(Monomial a)
 		{
-			Coefficient = ratio;
+			if (a.Degree != Degree) throw new InvalidOperationException();
+			Coefficient += a.Coefficient;
+		}
+
+		public void Sub(Monomial a)
+		{
+			if (a.Degree != Degree) throw new InvalidOperationException();
+			Coefficient -= a.Coefficient;
+		}
+
+		public void Multiply(Monomial a)
+		{
+			Degree += a.Degree;
+			Coefficient *= a.Coefficient;
+		}
+
+		public void Multiply(double a)
+		{
+			Coefficient *= a;
+		}
+
+		public static Monomial operator +(Monomial a, Monomial b)
+		{
+			if (a.Degree != b.Degree) throw new InvalidOperationException();
+			return new Monomial(a.Coefficient + b.Coefficient, a.Degree);
+		}
+
+		public static Monomial operator -(Monomial a, Monomial b)
+		{
+			if (a.Degree != b.Degree) throw new InvalidOperationException();
+			return new Monomial(a.Coefficient - b.Coefficient, a.Degree);
+		}
+
+		public static Monomial operator -(Monomial a)
+		{
+			return new Monomial(-a.Coefficient, a.Degree);
+		}
+
+		public static Monomial operator +(Monomial a)
+		{
+			return new Monomial(a.Coefficient, a.Degree);
+		}
+
+		public static Monomial operator *(Monomial a, Monomial b)
+		{
+			return new Monomial(a.Coefficient * b.Coefficient, a.Degree + b.Degree);
+		}
+
+		public static Monomial operator *(Monomial a, double b)
+		{
+			return new Monomial(a.Coefficient * b, a.Degree);
+		}
+
+		public Monomial(double coef = 1, double degree = 1)
+		{
+			Coefficient = coef;
 			Degree = degree;
 		}
 
