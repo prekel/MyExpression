@@ -11,7 +11,7 @@ namespace MyExpression.Core
 	//[System.Diagnostics.DebuggerDisplay("{ToString()}")]
 	public class Polynomial : IEnumerable<Monomial>
 	{
-		private SortedDictionary<double, Monomial> Data { get; set; } = new SortedDictionary<double, Monomial>();
+		private SortedDictionary<double, Monomial> Data { get; private set; } = new SortedDictionary<double, Monomial>();
 
 		public double Degree => Data.Last().Value.Degree;
 
