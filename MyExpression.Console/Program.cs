@@ -31,6 +31,8 @@ namespace MyExpression.Console
 			var p = Polynomial.Parse(s);
 			var d = p.Derivative;
 
+			var g = p + d;
+
 			var p1 = Polynomial.Parse("x^2-4x+2");
 
 			while (true)

@@ -11,7 +11,7 @@ namespace MyExpression.Core
 	//[System.Diagnostics.DebuggerDisplay("{ToString()}")]
 	public class Polynomial : IEnumerable<Monomial>
 	{
-		private SortedDictionary<double, Monomial> Data { get; set; }
+		private SortedDictionary<double, Monomial> Data { get; set; } = new SortedDictionary<double, Monomial>();
 
 		public double Degree => Data.Last().Value.Degree;
 
@@ -55,14 +55,13 @@ namespace MyExpression.Core
 
 		public Polynomial()
 		{
-			Data = new SortedDictionary<double, Monomial>();
 		}
 
 		public Polynomial(Polynomial a)
 		{
 			foreach (var i in a)
 			{
-				Data.Add(i.Degree, i);
+				Data.Add(i.Degree, new Monomial(i.Coefficient, i.Degree));
 			}
 		}
 
@@ -217,7 +216,7 @@ namespace MyExpression.Core
 			var s = "";
 			foreach (var i in Data.Values.OrderByDescending(i => i))
 			{
-				if (i.Coefficient > 0 && s != "")
+				if (i.Coefficient >= 0 && s != "")
 				{
 					s += "+";
 				}
