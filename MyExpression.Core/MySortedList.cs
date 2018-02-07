@@ -10,16 +10,22 @@ namespace MyExpression.Core
 	public class MySortedList<T> : IList<T>
 		where T : IComparable
 	{
-		public SortedList<T, bool> Base = new SortedList<T, bool>();
-		
+		protected SortedList<T, bool> Base;
+
 		public T this[int index]
 		{
 			get => Base.Keys[index];
 			set => Base.Keys[index] = value;
 		}
-		
+
 		public MySortedList()
 		{
+			Base = new SortedList<T, bool>();
+		}
+
+		public MySortedList(Comparer<T> comparer)
+		{
+			Base = new SortedList<T, bool>(comparer);
 		}
 
 		public int IndexOf(T item)
@@ -39,6 +45,7 @@ namespace MyExpression.Core
 
 		public void Add(T item)
 		{
+			if (Contains(item)) return;
 			Base.Add(item, true);
 		}
 
@@ -70,7 +77,7 @@ namespace MyExpression.Core
 		{
 			return Base.Keys.GetEnumerator();
 		}
-		
+
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return Base.Keys.GetEnumerator();
