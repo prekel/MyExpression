@@ -64,67 +64,19 @@ namespace MyExpression.Core
 
 			if (a.Left == Double.NegativeInfinity && l < r)
 			{
-				var k = 1;
-				var l1 = a.Right;
-				while (true)
-				{
-					l1 = a.Right - k;
-					if (Polynomial.Evaluate(l1) < 0)
-					{
-						BinarySearch(new Interval(l1, a.Right), (x, y) => x.CompareTo(y));
-						break;
-					}
-					k *= 2;
-				}
+				return BinarySearch(new Interval(Dasdas(1, a.Right, u => u < 0), a.Right), (x, y) => x.CompareTo(y));
 			}
 			if (a.Left == Double.NegativeInfinity && l > r)
 			{
-				var k = 1;
-				var l1 = a.Right;
-				while (true)
-				{
-					l1 = a.Right - k;
-					if (Polynomial.Evaluate(l1) > 0)
-					{
-						BinarySearch(new Interval(l1, a.Right), (x, y) => -x.CompareTo(y));
-						break;
-					}
-					k *= 2;
-				}
+				return BinarySearch(new Interval(Dasdas(1, a.Right, u => u > 0), a.Right), (x, y) => -x.CompareTo(y));
 			}
-			if (a.Right == Double.NegativeInfinity && l < r)
+			if (a.Right == Double.PositiveInfinity && l < r)
 			{
-				var k = 1;
-				var r1 = a.Left;
-				while (true)
-				{
-					r1 = a.Right + k;
-					if (Polynomial.Evaluate(r1) > 0)
-					{
-						BinarySearch(new Interval(a.Left, r1), (x, y) => x.CompareTo(y));
-						break;
-					}
-					k *= 2;
-				}
+				return BinarySearch(new Interval(a.Left, Dasdas(1, a.Left, u => u > 0)), (x, y) => x.CompareTo(y));
 			}
-			if (a.Right == Double.NegativeInfinity && l > r)
+			if (a.Right == Double.PositiveInfinity && l > r)
 			{
-				var k = 1;
-				var r1 = a.Left;
-				while (true)
-				{
-					r1 = a.Right + k;
-					if (Polynomial.Evaluate(r1) < 0)
-					{
-						BinarySearch(new Interval(a.Left, r1), (x, y) => -x.CompareTo(y));
-						break;
-					}
-					k *= 2;
-				}
-			}
-			if (a.Right == Double.NegativeInfinity && l > r)
-			{
-				BinarySearch(new Interval(a.Left, Dasdas(1, a.Left, u => u < 0)), (x, y) => -x.CompareTo(y));
+				return BinarySearch(new Interval(a.Left, Dasdas(1, a.Left, u => u < 0)), (x, y) => -x.CompareTo(y));
 			}
 
 			double Dasdas(int k, double rl, Func<double, bool> cnd)
@@ -141,7 +93,12 @@ namespace MyExpression.Core
 				}
 			}
 
-			return 0;
+			if (l < r)
+			{
+				return BinarySearch(a, (x, y) => x.CompareTo(y));
+			}
+			
+			return BinarySearch(a, (x, y) => -x.CompareTo(y));
 		}
 
 		public double BinarySearch(Interval a, Func<double, double, int> comp)
