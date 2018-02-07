@@ -38,14 +38,134 @@ namespace MyExpression.Core
 
 		public void Solve()
 		{
+			DerivativeEquation.Solve();
+			var intr = DerivativeEquation.RIntervals;
+			foreach (var i in intr)
+			{
+				var a = Polynomial.Evaluate(i.Left);
+				var b = Polynomial.Evaluate(i.Right);
+				if (a * b > 0) continue;
+				Roots.Add(BinarySearch(i));
+			}
+			IsSolved = true;
+		}
 
+		public double BinarySearch(Interval a)
+		{
+			if (a.Left == Double.NegativeInfinity && a.Right == Double.PositiveInfinity)
+			{
+				return 0;
+			}
+			var l = Polynomial.Evaluate(a.Left);
+			var r = Polynomial.Evaluate(a.Right);
+
+			if (Math.Abs(l) < Epsilon) return a.Left;
+			if (Math.Abs(r) < Epsilon) return a.Right;
+
+			if (a.Left == Double.NegativeInfinity && l < r)
+			{
+				var k = 1;
+				var l1 = a.Right;
+				while (true)
+				{
+					l1 = a.Right - k;
+					if (Polynomial.Evaluate(l1) < 0)
+					{
+						BinarySearch(new Interval(l1, a.Right), (x, y) => x.CompareTo(y));
+						break;
+					}
+					k *= 2;
+				}
+			}
+			if (a.Left == Double.NegativeInfinity && l > r)
+			{
+				var k = 1;
+				var l1 = a.Right;
+				while (true)
+				{
+					l1 = a.Right - k;
+					if (Polynomial.Evaluate(l1) > 0)
+					{
+						BinarySearch(new Interval(l1, a.Right), (x, y) => -x.CompareTo(y));
+						break;
+					}
+					k *= 2;
+				}
+			}
+			if (a.Right == Double.NegativeInfinity && l < r)
+			{
+				var k = 1;
+				var r1 = a.Left;
+				while (true)
+				{
+					r1 = a.Right + k;
+					if (Polynomial.Evaluate(r1) > 0)
+					{
+						BinarySearch(new Interval(a.Left, r1), (x, y) => x.CompareTo(y));
+						break;
+					}
+					k *= 2;
+				}
+			}
+			if (a.Right == Double.NegativeInfinity && l > r)
+			{
+				var k = 1;
+				var r1 = a.Left;
+				while (true)
+				{
+					r1 = a.Right + k;
+					if (Polynomial.Evaluate(r1) < 0)
+					{
+						BinarySearch(new Interval(a.Left, r1), (x, y) => -x.CompareTo(y));
+						break;
+					}
+					k *= 2;
+				}
+			}
+			if (a.Right == Double.NegativeInfinity && l > r)
+			{
+				BinarySearch(new Interval(a.Left, Dasdas(1, a.Left, u => u < 0)), (x, y) => -x.CompareTo(y));
+			}
+
+			double Dasdas(int k, double rl, Func<double, bool> cnd)
+			{
+				var rl1 = 0.0;
+				while (true)
+				{
+					rl1 = rl + k;
+					if (cnd(rl1))
+					{
+						return rl1;
+					}
+					k *= 2;
+				}
+			}
+
+			return 0;
+		}
+
+		public double BinarySearch(Interval a, Func<double, double, int> comp)
+		{
+
+			return 0;
+		}
+
+		private Intervals intervals;
+		public Intervals RIntervals
+		{
+			get
+			{
+				if (!IsSolved) return null;
+				if (intervals == null) intervals = new Intervals(Roots, Polynomial);
+				return intervals;
+			}
 		}
 
 		public class Interval : Core.Interval
 		{
 			public double P { get; set; }
-			public bool Increasing => P > 0;
-			public bool Decreasing => P < 0;
+			public bool IsPositive => P > 0;
+			public bool IsNegative => P < 0;
 
 			public Interval(double l, double r) : base(l, r)
 			{

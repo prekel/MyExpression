@@ -35,18 +35,20 @@ namespace MyExpression.Console
 
 			var p1 = Polynomial.Parse("x^2-4x+2");
 
-			var h1 = new PolynomialEquation.Intervals(new List<double>(new double[] { }));
-			var h2 = new PolynomialEquation.Intervals(new List<double>(new double[] { 1 }));
-			var h3 = new PolynomialEquation.Intervals(new List<double>(new double[] { 1, 2 }));
-			var h4 = new PolynomialEquation.Intervals(new List<double>(new double[] { 1, 2, 3 }));
+			var a = Double.PositiveInfinity;
+			var b = Double.NegativeInfinity;
+			var c1 = a * a;
+			var c2 = a * b;
+			var c3 = b * b;
+			var c4 = a * a;
 
 			while (true)
 			{
 				double inp;
 				if (!double.TryParse(System.Console.ReadLine(), out inp))
 					break;
-				var c1 = p.Evaluate(inp);
-				System.Console.WriteLine(c1);
+				var c11 = p.Evaluate(inp);
+				System.Console.WriteLine(c11);
 			}
 		}
 	}
