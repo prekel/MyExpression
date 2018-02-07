@@ -97,14 +97,24 @@ namespace MyExpression.Core
 			{
 				return BinarySearch(a, (x, y) => x.CompareTo(y));
 			}
-			
+
 			return BinarySearch(a, (x, y) => -x.CompareTo(y));
 		}
 
 		public double BinarySearch(Interval a, Func<double, double, int> comp)
 		{
-
-			return 0;
+			var m = a.Left / 2 + a.Right / 2;
+			if (Math.Abs(a.Left - a.Right) < Epsilon) return m;
+			var p = Polynomial.Evaluate(m);
+			if (comp(p, 0) == 1)
+			{
+				return BinarySearch(new Interval(a.Left, m));
+			}
+			if (comp(p, 0) == -1)
+			{
+				return BinarySearch(new Interval(m, a.Right));
+			}
+			return m;
 		}
 
 		private Intervals intervals;
