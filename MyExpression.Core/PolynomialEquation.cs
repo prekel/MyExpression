@@ -38,6 +38,12 @@ namespace MyExpression.Core
 
 		public void Solve()
 		{
+			if (Polynomial.Degree == 1)
+			{
+				Roots.Add(-Polynomial[0].Coefficient / Polynomial[1].Coefficient);
+				IsSolved = true;
+				return;
+			}
 			DerivativeEquation.Solve();
 			var intr = DerivativeEquation.RIntervals;
 			foreach (var i in intr)
@@ -62,19 +68,19 @@ namespace MyExpression.Core
 			if (Math.Abs(l) < Epsilon) return a.Left;
 			if (Math.Abs(r) < Epsilon) return a.Right;
 
-			if (a.Left == Double.NegativeInfinity && l < r)
+			if (a.Left == Double.NegativeInfinity && a.IsPositive)
 			{
-				return BinarySearch(new Interval(Dasdas(1, a.Right, u => u < 0), a.Right), (x, y) => x.CompareTo(y));
+				return BinarySearch(new Interval(Dasdas(-1, a.Right, u => u < 0), a.Right), (x, y) => x.CompareTo(y));
 			}
-			if (a.Left == Double.NegativeInfinity && l > r)
+			if (a.Left == Double.NegativeInfinity && a.IsNegative)
 			{
-				return BinarySearch(new Interval(Dasdas(1, a.Right, u => u > 0), a.Right), (x, y) => -x.CompareTo(y));
+				return BinarySearch(new Interval(Dasdas(-1, a.Right, u => u > 0), a.Right), (x, y) => -x.CompareTo(y));
 			}
-			if (a.Right == Double.PositiveInfinity && l < r)
+			if (a.Right == Double.PositiveInfinity && a.IsPositive)
 			{
 				return BinarySearch(new Interval(a.Left, Dasdas(1, a.Left, u => u > 0)), (x, y) => x.CompareTo(y));
 			}
-			if (a.Right == Double.PositiveInfinity && l > r)
+			if (a.Right == Double.PositiveInfinity && a.IsNegative)
 			{
 				return BinarySearch(new Interval(a.Left, Dasdas(1, a.Left, u => u < 0)), (x, y) => -x.CompareTo(y));
 			}
@@ -85,7 +91,7 @@ namespace MyExpression.Core
 				while (true)
 				{
 					rl1 = rl + k;
-					if (cnd(rl1))
+					if (cnd(Polynomial.Evaluate(rl1)))
 					{
 						return rl1;
 					}

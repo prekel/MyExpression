@@ -27,29 +27,38 @@ namespace MyExpression.Console
 			//var m11 = Monomial.Parse("-1231x");
 			//var m12 = Monomial.Parse("+213x");
 
-			var s = "1x^3-3x^2-4x+1";
+			//var s = "1x^3-3x^2-4x+1";
+			//var p = Polynomial.Parse(s);
+			//var d = p.Derivative;
+
+			//var g = p + d;
+
+			//var p1 = Polynomial.Parse("x^2-4x+2");
+
+			//var a = Double.PositiveInfinity;
+			//var b = Double.NegativeInfinity;
+			//var c1 = a * a;
+			//var c2 = a * b;
+			//var c3 = b * b;
+			//var c4 = a * a;
+
+			//var e = new PolynomialEquation(p);
+			//e.Solve();
+
+			//while (true)
+			//{
+			//	double inp;
+			//	if (!double.TryParse(System.Console.ReadLine(), out inp))
+			//		break;
+			//	var c11 = p.Evaluate(inp);
+			//	System.Console.WriteLine(c11);
+			//}
+			
+			var s = System.Console.ReadLine();
 			var p = Polynomial.Parse(s);
-			var d = p.Derivative;
-
-			var g = p + d;
-
-			var p1 = Polynomial.Parse("x^2-4x+2");
-
-			var a = Double.PositiveInfinity;
-			var b = Double.NegativeInfinity;
-			var c1 = a * a;
-			var c2 = a * b;
-			var c3 = b * b;
-			var c4 = a * a;
-
-			while (true)
-			{
-				double inp;
-				if (!double.TryParse(System.Console.ReadLine(), out inp))
-					break;
-				var c11 = p.Evaluate(inp);
-				System.Console.WriteLine(c11);
-			}
+			var e = new PolynomialEquation(p);
+			e.Solve();
+			System.Console.WriteLine(String.Join(" ", e.Roots));
 		}
 	}
 }
