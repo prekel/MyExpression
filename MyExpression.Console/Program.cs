@@ -56,7 +56,7 @@ namespace MyExpression.Console
 			
 			var s = System.Console.ReadLine();
 			var p = Polynomial.Parse(s);
-			var e = new PolynomialEquation(p);
+			var e = new PolynomialEquation(p, 1e-8);
 			e.Solve();
 			System.Console.WriteLine(String.Join(" ", e.Roots));
 		}
