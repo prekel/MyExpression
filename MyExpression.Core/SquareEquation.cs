@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyExpression.Core
 {
-	public class SquareEquation
+	public class SquareEquation : IEquation
 	{
 		public double A { get; set; }
 		public double B { get; set; }
@@ -37,11 +37,30 @@ namespace MyExpression.Core
 
 		public Tuple<double, double> X => Tuple.Create(X1, X2);
 
+		public IList<double> Roots
+		{
+			get
+			{
+				var ret = new List<double>(2);
+				if (N == 1) ret.Add(X0);
+				if (N == 2) ret.AddRange(new double[] { X1, X2 });
+				return ret;
+			}
+		}
+
 		public SquareEquation(double a = 1, double b = 0, double c = 0)
 		{
 			A = a;
 			B = b;
 			C = c;
+		}
+
+		public SquareEquation(PolynomialEquation p)
+		{
+			if (p.Polynomial.Degree != 2) throw new InvalidOperationException();
+			A = p.Polynomial[2].Coefficient;
+			B = p.Polynomial[1].Coefficient;
+			C = p.Polynomial[0].Coefficient;
 		}
 
 		public Polynomial ToPolynomial()

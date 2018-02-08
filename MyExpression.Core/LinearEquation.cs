@@ -27,5 +27,15 @@ namespace MyExpression.Core
 			A = p.Polynomial[1].Coefficient;
 			B = p.Polynomial[0].Coefficient;
 		}
+
+		public Polynomial ToPolynomial()
+		{
+			var p = new Polynomial
+			{
+				new Monomial(A, 1),
+				new Monomial(B, 0),
+			};
+			return p;
+		}
 	}
 }
