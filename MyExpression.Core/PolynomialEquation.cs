@@ -61,8 +61,19 @@ namespace MyExpression.Core
 		{
 			if (a.Left == Double.NegativeInfinity && a.Right == Double.PositiveInfinity)
 			{
-				return 0;
+				var z = Polynomial.Calculate(0);
+				if (z >= 0)
+				{
+					if (a.IsPositive) return BinarySearch(new Interval(Increaser(-1, 0, u => u < 0), 0), (x, y) => x.CompareTo(y));
+					if (a.IsNegative) return BinarySearch(new Interval(0, Increaser(1, 0, u => u < 0)), (x, y) => -x.CompareTo(y));
+				}
+				if (z < 0)
+				{
+					if (a.IsPositive) return BinarySearch(new Interval(0, Increaser(1, 0, u => u > 0)), (x, y) => x.CompareTo(y));
+					if (a.IsNegative) return BinarySearch(new Interval(Increaser(-1, 0, u => u > 0), 0), (x, y) => -x.CompareTo(y));
+				}
 			}
+
 			var l = Polynomial.Calculate(a.Left);
 			var r = Polynomial.Calculate(a.Right);
 
@@ -153,7 +164,7 @@ namespace MyExpression.Core
 
 		public class Intervals : List<Interval>
 		{
-			public Intervals(List<double> r, Polynomial p)
+			public Intervals(IList<double> r, Polynomial p)
 			{
 				if (r.Count == 0)
 				{
