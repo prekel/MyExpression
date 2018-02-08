@@ -8,23 +8,13 @@ using System.Collections;
 
 namespace MyExpression.Core
 {
-	//[System.Diagnostics.DebuggerDisplay("{ToString()}")]
 	public class Polynomial : IEnumerable<Monomial>
 	{
 		private SortedDictionary<double, Monomial> Data { get; set; } = new SortedDictionary<double, Monomial>();
 
 		public double Degree => Data.Last().Value.Degree;
 
-		public double Evaluate(double x)
-		{
-			//var c = 0d;
-			//foreach (var i in this)
-			//{
-			//	c += i.Evaluate(x);
-			//}
-			return Data.Values.Sum(m => m.Evaluate(x));
-			//return c;
-		}
+		public double Calculate(double x) => Data.Values.Sum(m => m.Calculate(x));
 
 		public Monomial this[double degree]
 		{
@@ -40,18 +30,6 @@ namespace MyExpression.Core
 				}
 			}
 		}
-
-		//public double this[double x] => Evaluate(x);
-
-		//public int Rank => this.Max(m => m.Count);
-
-		//class MonomialComparer : Comparer<Monomial>
-		//{
-		//	public override int Compare(Monomial x, Monomial y)
-		//	{
-		//		return -x.CompareTo(y);
-		//	}
-		//}
 
 		public Polynomial()
 		{

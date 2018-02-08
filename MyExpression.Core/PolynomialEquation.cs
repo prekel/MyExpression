@@ -45,11 +45,11 @@ namespace MyExpression.Core
 				return;
 			}
 			DerivativeEquation.Solve();
-			var intr = DerivativeEquation.RIntervals;
+			var intr = DerivativeEquation.MonotonyIntervals;
 			foreach (var i in intr)
 			{
-				var a = Polynomial.Evaluate(i.Left);
-				var b = Polynomial.Evaluate(i.Right);
+				var a = Polynomial.Calculate(i.Left);
+				var b = Polynomial.Calculate(i.Right);
 				if (a * b > 0) continue;
 				Roots.Add(BinarySearch(i));
 			}
@@ -62,36 +62,36 @@ namespace MyExpression.Core
 			{
 				return 0;
 			}
-			var l = Polynomial.Evaluate(a.Left);
-			var r = Polynomial.Evaluate(a.Right);
+			var l = Polynomial.Calculate(a.Left);
+			var r = Polynomial.Calculate(a.Right);
 
 			if (Math.Abs(l) < Epsilon) return a.Left;
 			if (Math.Abs(r) < Epsilon) return a.Right;
 
 			if (a.Left == Double.NegativeInfinity && a.IsPositive)
 			{
-				return BinarySearch(new Interval(Dasdas(-1, a.Right, u => u < 0), a.Right), (x, y) => x.CompareTo(y));
+				return BinarySearch(new Interval(Increaser(-1, a.Right, u => u < 0), a.Right), (x, y) => x.CompareTo(y));
 			}
 			if (a.Left == Double.NegativeInfinity && a.IsNegative)
 			{
-				return BinarySearch(new Interval(Dasdas(-1, a.Right, u => u > 0), a.Right), (x, y) => -x.CompareTo(y));
+				return BinarySearch(new Interval(Increaser(-1, a.Right, u => u > 0), a.Right), (x, y) => -x.CompareTo(y));
 			}
 			if (a.Right == Double.PositiveInfinity && a.IsPositive)
 			{
-				return BinarySearch(new Interval(a.Left, Dasdas(1, a.Left, u => u > 0)), (x, y) => x.CompareTo(y));
+				return BinarySearch(new Interval(a.Left, Increaser(1, a.Left, u => u > 0)), (x, y) => x.CompareTo(y));
 			}
 			if (a.Right == Double.PositiveInfinity && a.IsNegative)
 			{
-				return BinarySearch(new Interval(a.Left, Dasdas(1, a.Left, u => u < 0)), (x, y) => -x.CompareTo(y));
+				return BinarySearch(new Interval(a.Left, Increaser(1, a.Left, u => u < 0)), (x, y) => -x.CompareTo(y));
 			}
 
-			double Dasdas(int k, double rl, Func<double, bool> cnd)
+			double Increaser(int k, double rl, Func<double, bool> cnd)
 			{
 				var rl1 = 0.0;
 				while (true)
 				{
 					rl1 = rl + k;
-					if (cnd(Polynomial.Evaluate(rl1)))
+					if (cnd(Polynomial.Calculate(rl1)))
 					{
 						return rl1;
 					}
@@ -111,7 +111,7 @@ namespace MyExpression.Core
 		{
 			var m = a.Left / 2 + a.Right / 2;
 			if (Math.Abs(a.Left - a.Right) < Epsilon) return m;
-			var p = Polynomial.Evaluate(m);
+			var p = Polynomial.Calculate(m);
 			if (comp(p, 0) == 1)
 			{
 				return BinarySearch(new Interval(a.Left, m));
@@ -124,7 +124,7 @@ namespace MyExpression.Core
 		}
 
 		private Intervals intervals;
-		public Intervals RIntervals
+		public Intervals MonotonyIntervals
 		{
 			get
 			{
@@ -156,21 +156,21 @@ namespace MyExpression.Core
 			{
 				if (r.Count == 0)
 				{
-					Add(new Interval(Double.NegativeInfinity, Double.PositiveInfinity, p.Evaluate(0)));
+					Add(new Interval(Double.NegativeInfinity, Double.PositiveInfinity, p.Calculate(0)));
 				}
 				else if (r.Count == 1)
 				{
-					Add(new Interval(Double.NegativeInfinity, r[0], p.Evaluate(r[0] - 1)));
-					Add(new Interval(r[0], Double.PositiveInfinity, p.Evaluate(r[0] + 1)));
+					Add(new Interval(Double.NegativeInfinity, r[0], p.Calculate(r[0] - 1)));
+					Add(new Interval(r[0], Double.PositiveInfinity, p.Calculate(r[0] + 1)));
 				}
 				else
 				{
-					Add(new Interval(Double.NegativeInfinity, r[0], p.Evaluate(r[0] - 1)));
+					Add(new Interval(Double.NegativeInfinity, r[0], p.Calculate(r[0] - 1)));
 					for (var i = 0; i < r.Count - 1; i++)
 					{
-						Add(new Interval(r[i], r[i + 1], p.Evaluate((r[i] + r[i + 1]) / 2)));
+						Add(new Interval(r[i], r[i + 1], p.Calculate((r[i] + r[i + 1]) / 2)));
 					}
-					Add(new Interval(r[r.Count - 1], Double.PositiveInfinity, p.Evaluate(r[r.Count - 1] + 1)));
+					Add(new Interval(r[r.Count - 1], Double.PositiveInfinity, p.Calculate(r[r.Count - 1] + 1)));
 				}
 			}
 		}

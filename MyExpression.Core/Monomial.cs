@@ -11,29 +11,10 @@ namespace MyExpression.Core
 	{
 		public double Coefficient { get; set; }
 		public double Degree { get; set; }
-		//public string Var { get; set; }
 
-		public double Evaluate(double x)
-		{
-			//if (Count == 0)
-			//	return Ratio;
-			//return Ratio * this.Sum(i => Math.Pow(x, i.Value));
-			return Coefficient * Math.Pow(x, Degree);
-		}
+		public double Calculate(double x) => Coefficient * Math.Pow(x, Degree);
 
-		public double this[double x] => Evaluate(x);
-
-		//public Monomial(double ratio, string variable, double degree)
-		//{
-		//	Ratio = ratio;
-		//	this[variable] = degree;
-		//}
-
-		//public Monomial(double ratio, double degree, string variable = "x")
-		//{
-		//	//Ratio = ratio;
-		//	//this[variable] = degree;
-		//}
+		public double this[double x] => Calculate(x);
 
 		public void Add(Monomial a)
 		{
