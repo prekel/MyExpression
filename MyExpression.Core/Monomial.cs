@@ -86,7 +86,7 @@ namespace MyExpression.Core
 			}
 		}
 
-		private static readonly Regex Pattern = new Regex("([+,-]{0,1})([0-9]{0,})[*,]{0,1}([x]{0,1})([^,]{0,1})([0-9,-]{0,})");
+		private static readonly Regex Pattern = new Regex("([+,-]{0,1})([0-9,.]{0,})[*,]{0,1}([x]{0,1})([^,]{0,1})([0-9,-]{0,})");
 
 		public static Monomial Parse(string p)
 		{
@@ -95,8 +95,8 @@ namespace MyExpression.Core
 			if (m.Groups[4].Value.Length == 0 && m.Groups[5].Value.Length > 0) throw new FormatException();
 			if (m.Groups[4].Value.Length > 0 && m.Groups[5].Value.Length == 0) throw new FormatException();
 			var f = m.Groups[1].Length == 1 ? Double.Parse(m.Groups[1] + "1") : 1;
-			var c = m.Groups[2].Length > 0 ? Double.Parse(m.Groups[2].Value) : 1;
-			var d = m.Groups[5].Length > 0 ? Double.Parse(m.Groups[5].Value) : 1;
+			var c = m.Groups[2].Length > 0 ? Double.Parse(m.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture) : 1;
+			var d = m.Groups[5].Length > 0 ? Double.Parse(m.Groups[5].Value, System.Globalization.CultureInfo.InvariantCulture) : 1;
 			if (m.Groups[3].Length == 0) d = 0;
 			return new Monomial(f * c, d);
 		}
