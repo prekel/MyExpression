@@ -115,11 +115,11 @@ namespace MyExpression.Core
 			var p = Polynomial.Calculate(m);
 			if (comp(p, 0) == 1)
 			{
-				return BinarySearch(new Interval(a.Left, m));
+				return BinarySearch(new Interval(a.Left, m), comp);
 			}
 			if (comp(p, 0) == -1)
 			{
-				return BinarySearch(new Interval(m, a.Right));
+				return BinarySearch(new Interval(m, a.Right), comp);
 			}
 			return m;
 		}
