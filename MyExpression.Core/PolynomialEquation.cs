@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyExpression.Core
 {
-	public class PolynomialEquation
+	public class PolynomialEquation : IEquation
 	{
 		public double Epsilon { get; set; }
 		public Polynomial Polynomial { get; private set; }
@@ -32,7 +32,7 @@ namespace MyExpression.Core
 			Epsilon = eps;
 		}
 
-		public List<double> Roots { get; private set; } = new List<double>();
+		public IList<double> Roots { get; private set; } = new List<double>();
 
 		public bool IsSolved { get; private set; }
 
@@ -40,7 +40,8 @@ namespace MyExpression.Core
 		{
 			if (Polynomial.Degree == 1)
 			{
-				Roots.Add(-Polynomial[0].Coefficient / Polynomial[1].Coefficient);
+				var le = new LinearEquation(this);
+				Roots.Add(le.X);
 				IsSolved = true;
 				return;
 			}
