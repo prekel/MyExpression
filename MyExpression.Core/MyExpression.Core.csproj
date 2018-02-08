@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Equation.cs" />
     <Compile Include="Interval.cs" />
+    <Compile Include="LinearEquation.cs" />
     <Compile Include="Monomial.cs" />
     <Compile Include="MySortedList.cs" />
     <Compile Include="Polynomial.cs" />
