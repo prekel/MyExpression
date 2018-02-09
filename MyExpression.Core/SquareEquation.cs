@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2018 Vladislav Prekel
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +36,10 @@ namespace MyExpression.Core
 		public double X1 => (-B + Math.Sqrt(D)) / (2 * A);
 
 		public double X2 => (-B - Math.Sqrt(D)) / (2 * A);
+
+		public double XMin => Math.Min(X1, X2);
+
+		public double XMax => Math.Max(X1, X2);
 
 		public Tuple<double, double> X => Tuple.Create(X1, X2);
 
