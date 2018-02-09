@@ -33,15 +33,17 @@ namespace MyExpression.Core
 
 		public double Y0 => this[X0];
 
-		public double X1 => (-B + Math.Sqrt(D)) / (2 * A);
+		public double X1 => (-B - Math.Sqrt(D)) / (2 * A);
 
-		public double X2 => (-B - Math.Sqrt(D)) / (2 * A);
+		public double X2 => (-B + Math.Sqrt(D)) / (2 * A);
 
-		public double XMin => Math.Min(X1, X2);
+		public double XMin => A > 0 ? X1 : X2;
 
-		public double XMax => Math.Max(X1, X2);
+		public double XMax => A < 0 ? X1 : X2;
 
 		public Tuple<double, double> X => Tuple.Create(X1, X2);
+
+		public Tuple<double, double> XMinMax => Tuple.Create(XMin, XMax);
 
 		public IList<double> Roots
 		{
@@ -49,7 +51,7 @@ namespace MyExpression.Core
 			{
 				var ret = new List<double>(2);
 				if (N == 1) ret.Add(X0);
-				if (N == 2) ret.AddRange(new double[] { X1, X2 });
+				if (N == 2) ret.AddRange(new double[] { XMin, XMax });
 				return ret;
 			}
 		}
