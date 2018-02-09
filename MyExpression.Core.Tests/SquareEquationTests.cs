@@ -71,7 +71,7 @@ namespace MyExpression.Core.Tests
 		}
 
 		[Test]
-		public void ToPolynomialRandom()
+		public void ToPolynomialIntRandom()
 		{
 			var r = new Random();
 			var a = r.Next(1, 10000) * (r.Next() % 2 == 0 ? -1 : 1);
@@ -85,6 +85,10 @@ namespace MyExpression.Core.Tests
 			Assert.AreEqual(se.A, p[2].Coefficient);
 			Assert.AreEqual(se.B, p[1].Coefficient);
 			Assert.AreEqual(se.C, p[0].Coefficient);
+
+			Assert.AreEqual(a, p[2].Coefficient);
+			Assert.AreEqual(b, p[1].Coefficient);
+			Assert.AreEqual(c, p[0].Coefficient);
 		}
 	}
 }

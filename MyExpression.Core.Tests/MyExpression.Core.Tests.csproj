@@ -46,6 +46,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LinearEquationTests.cs" />
     <Compile Include="SquareEquationTests.cs" />
   </ItemGroup>
   <ItemGroup>
