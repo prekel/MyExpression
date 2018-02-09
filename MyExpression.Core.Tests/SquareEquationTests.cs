@@ -34,7 +34,7 @@ namespace MyExpression.Core.Tests
 		public void XMinXmax_Int3()
 		{
 			var se1 = new SquareEquation(3, -10, 3);
-			Assert.AreEqual(1 / 3, se1.XMin, 0.001);
+			Assert.AreEqual(1 / 3.0, se1.XMin, 0.0001);
 			Assert.AreEqual(3, se1.XMax);
 		}
 
