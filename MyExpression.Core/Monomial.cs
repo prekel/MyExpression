@@ -124,5 +124,28 @@ namespace MyExpression.Core
 		{
 			return Degree.CompareTo(((Monomial)obj).Degree);
 		}
+
+		public override bool Equals(object obj)
+		{
+			if (ReferenceEquals(null, obj)) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (!(obj is Monomial)) return false;
+			var o = (Monomial)obj;
+			return Coefficient == o.Coefficient && Degree == o.Degree;
+		}
+
+		public bool Equals(Monomial m, double epscoef, double epsdegree = 0)
+		{
+			if (epsdegree == 0)
+			{
+				return Math.Abs(Coefficient - m.Coefficient) <= epscoef && Degree == m.Degree;
+			}
+			return Math.Abs(Coefficient - m.Coefficient) <= epscoef && Math.Abs(Degree - m.Degree) <= epsdegree;
+		}
+
+		public override int GetHashCode()
+		{
+			return Coefficient.GetHashCode() ^ Degree.GetHashCode();
+		}
 	}
 }

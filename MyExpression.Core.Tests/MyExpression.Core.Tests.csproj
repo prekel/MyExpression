@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LinearEquationTests.cs" />
+    <Compile Include="PolynomialTests.cs" />
     <Compile Include="SquareEquationTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +55,9 @@
       <Project>{b53ad36c-1482-4d56-9601-33ab1ce095be}</Project>
       <Name>MyExpression.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -12,6 +12,7 @@ using NUnit.Framework;
 
 namespace MyExpression.Core.Tests
 {
+	[TestFixture]
 	public class SquareEquationTests
 	{
 		[Test]

@@ -221,5 +221,36 @@ namespace MyExpression.Core
 		{
 			return Data.Values.GetEnumerator();
 		}
+
+		public override bool Equals(object obj)
+		{
+			if (ReferenceEquals(null, obj)) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (!(obj is Polynomial)) return false;
+			var p = (Polynomial)obj;
+			if (p.Degree != p.Degree) return false;
+			for (var i = 0d; i <= Math.Max(Degree, p.Degree); i++)
+			{
+				if (this[i].Coefficient != p[i].Coefficient)
+					return false;
+			}
+			return true;
+		}
+
+		public bool Equals(Polynomial p, double epscoef = 0)
+		{
+			if (p.Degree != p.Degree) return false;
+			for (var i = 0d; i <= Math.Max(Degree, p.Degree); i++)
+			{
+				if (Math.Abs(this[i].Coefficient - p[i].Coefficient) > epscoef)
+					return false;
+			}
+			return true;
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
 	}
 }
