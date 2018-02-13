@@ -18,15 +18,30 @@ namespace MyExpression.Core.Tests
 		[Test]
 		public void X_IntRandom()
 		{
-			var r = new Random();
-			var a = r.Next(1, 100000) * (r.Next() % 2 == 0 ? -1 : 1);
-			var b = r.Next(0, 100000) * (r.Next() % 2 == 0 ? -1 : 1);
+			var r = new MyRandom();
+			var a = r.Next(1, 100000) * r.NextSign();
+			var b = r.Next(0, 100000) * r.NextSign();
 
 			var le = new LinearEquation(a, b);
 
 			var x = -b / (double)a;
 
 			Assert.AreEqual(x, le.X);
+		}
+
+		[Test]
+		public void ParseTest_Random()
+		{
+			var r = new MyRandom();
+			var a = r.Next(1, 100000) * r.NextSign();
+			var b = r.Next(0, 100000) * r.NextSign();
+
+			var s = $"{a}x^{b}";
+
+			var le = LinearEquation.Parse(s);
+
+			Assert.AreEqual(a, le.A);
+			Assert.AreEqual(b, le.B);
 		}
 	}
 }

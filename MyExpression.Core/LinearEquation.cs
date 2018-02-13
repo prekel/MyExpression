@@ -37,5 +37,11 @@ namespace MyExpression.Core
 			};
 			return p;
 		}
+
+		public static LinearEquation Parse(string s)
+		{
+			var p = Polynomial.Parse(s);
+			return new LinearEquation(p[1].Coefficient, p[0].Coefficient);
+		}
 	}
 }
