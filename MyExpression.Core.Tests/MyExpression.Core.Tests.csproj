@@ -46,6 +46,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntervalTests.cs" />
     <Compile Include="MyRandom.cs" />
     <Compile Include="LinearEquationTests.cs" />
     <Compile Include="MonomialTests.cs" />

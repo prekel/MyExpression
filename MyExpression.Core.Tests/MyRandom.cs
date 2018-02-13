@@ -21,5 +21,7 @@ namespace MyExpression.Core.Tests
 		}
 
 		public int NextSign() => Next() % 2 == 0 ? -1 : 1;
+
+		public bool NextBool() => Next() % 2 == 0 ? true : false;
 	}
 }
