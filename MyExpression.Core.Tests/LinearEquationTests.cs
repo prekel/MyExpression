@@ -36,7 +36,7 @@ namespace MyExpression.Core.Tests
 			var a = r.Next(1, 100000) * r.NextSign();
 			var b = r.Next(0, 100000) * r.NextSign();
 
-			var s = $"{a}x^{b}";
+			var s = $"{a}x{(b >= 0 ? "+" : "")}{b}";
 
 			var le = LinearEquation.Parse(s);
 

@@ -45,8 +45,6 @@ namespace MyExpression.Core.Tests
 			Assert.AreEqual(r, iw.Right);
 			Assert.AreEqual(lo, iw.IsLeftOpen);
 			Assert.AreEqual(ro, iw.IsRightOpen);
-			Assert.IsFalse(iw.IsLeftOpen);
-			Assert.IsFalse(iw.IsRightOpen);
 		}
 	}
 }
