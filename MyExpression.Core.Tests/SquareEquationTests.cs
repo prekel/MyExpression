@@ -74,10 +74,10 @@ namespace MyExpression.Core.Tests
 		[Test]
 		public void ToPolynomialIntRandom()
 		{
-			var r = new Random();
-			var a = r.Next(1, 10000) * (r.Next() % 2 == 0 ? -1 : 1);
-			var b = r.Next(0, 10000) * (r.Next() % 2 == 0 ? -1 : 1);
-			var c = r.Next(0, 10000) * (r.Next() % 2 == 0 ? -1 : 1);
+			var r = new MyRandom();
+			var a = r.Next(1, 10000) * r.NextSign();
+			var b = r.Next(0, 10000) * r.NextSign();
+			var c = r.Next(0, 10000) * r.NextSign();
 
 			var se = new SquareEquation(a, b, c);
 
