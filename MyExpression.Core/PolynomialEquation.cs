@@ -193,7 +193,7 @@ namespace MyExpression.Core
 
 		public override string ToString()
 		{
-			return $"{Polynomial} = 0 IsSolved = {IsSolved}" + (Roots.Count > 0 ? $" Roots = {String.Join(" ", Roots)}" : "");
+			return $"{Polynomial} = 0 IsSolved = {IsSolved}" + (Roots.Count > 0 ? $" Roots = {{{String.Join(" ", Roots)}}}" : "");
 		}
 	}
 }

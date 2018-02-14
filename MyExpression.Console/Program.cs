@@ -59,6 +59,7 @@ namespace MyExpression.Console
 			var e = new PolynomialEquation(p, 1e-8);
 			e.Solve();
 			System.Console.WriteLine(String.Join(" ", e.AllRoots));
+			System.Console.WriteLine(String.Join(" ", e.Roots));
 		}
 	}
 }
