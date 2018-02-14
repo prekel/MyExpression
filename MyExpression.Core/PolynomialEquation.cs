@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2018 Vladislav Prekel
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +34,9 @@ namespace MyExpression.Core
 			Epsilon = eps;
 		}
 
-		public IList<double> Roots { get; private set; } = new List<double>();
+		public IList<double> AllRoots { get; private set; } = new List<double>();
+
+		public IList<double> Roots { get => new SortedSet<double>(AllRoots).ToList(); }
 
 		public bool IsSolved { get; private set; }
 
@@ -41,7 +45,7 @@ namespace MyExpression.Core
 			if (Polynomial.Degree == 1)
 			{
 				var le = new LinearEquation(this);
-				Roots.Add(le.X);
+				AllRoots.Add(le.X);
 				IsSolved = true;
 				return;
 			}
@@ -52,7 +56,7 @@ namespace MyExpression.Core
 				var a = Polynomial.Calculate(i.Left);
 				var b = Polynomial.Calculate(i.Right);
 				if (a * b > 0) continue;
-				Roots.Add(BinarySearch(i));
+				AllRoots.Add(BinarySearch(i));
 			}
 			IsSolved = true;
 		}
@@ -141,7 +145,7 @@ namespace MyExpression.Core
 			get
 			{
 				if (!IsSolved) return null;
-				if (intervals == null) intervals = new Intervals(Roots, Polynomial);
+				if (intervals == null) intervals = new Intervals(AllRoots, Polynomial);
 				return intervals;
 			}
 		}
@@ -185,6 +189,11 @@ namespace MyExpression.Core
 					Add(new Interval(r[r.Count - 1], Double.PositiveInfinity, p.Calculate(r[r.Count - 1] + 1)));
 				}
 			}
+		}
+
+		public override string ToString()
+		{
+			return $"{Polynomial} = 0 IsSolved = {IsSolved}" + (Roots.Count > 0 ? $" Roots = {{{String.Join(" ", Roots)}}}" : "");
 		}
 	}
 }

@@ -44,7 +44,7 @@ namespace MyExpression.Core.Tests
 				new Monomial(c, 1),
 				new Monomial(d, 0),
 			};
-			var pe = new PolynomialEquation(p, 1e-7);
+			var pe = new PolynomialEquation(p, 1e-8);
 			pe.Solve();
 
 			var x1 = pe.Roots[0];
@@ -57,8 +57,8 @@ namespace MyExpression.Core.Tests
 
 			if (Math.Abs(d) >= 0.01)
 			{
-				Assert.AreEqual(-c / d, 1 / x1 + 1 / x2 + 1 / x3, 1e-4);
-				Assert.AreEqual(b / d, 1 / (x1 * x2) + 1 / (x2 * x3) + 1 / (x1 * x3), 1e-4);
+				Assert.AreEqual(-c / d, 1 / x1 + 1 / x2 + 1 / x3, 1e-3);
+				Assert.AreEqual(b / d, 1 / (x1 * x2) + 1 / (x2 * x3) + 1 / (x1 * x3), 1e-3);
 			}
 		}
 	}

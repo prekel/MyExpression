@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2018 Vladislav Prekel
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +15,8 @@ namespace MyExpression.Core
 
 		public double X => -B / A;
 
-		public IList<double> Roots { get => new List<double>(new double[] { X }); }
+		public IList<double> AllRoots => new List<double>(new double[] { X });
+		public IList<double> Roots => AllRoots;
 
 		public LinearEquation(double a, double b)
 		{
@@ -42,6 +45,11 @@ namespace MyExpression.Core
 		{
 			var p = Polynomial.Parse(s);
 			return new LinearEquation(p[1].Coefficient, p[0].Coefficient);
+		}
+
+		public override string ToString()
+		{
+			return ToPolynomial() + " = 0";
 		}
 	}
 }
