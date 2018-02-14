@@ -61,5 +61,34 @@ namespace MyExpression.Core.Tests
 				Assert.AreEqual(b / d, 1 / (x1 * x2) + 1 / (x2 * x3) + 1 / (x1 * x3), 1e-3);
 			}
 		}
+
+		[Test]
+		public void CubicEquation_Manual()
+		{
+			var e = new List<double[]>();
+			var a = new List<double[]>();
+			e.Add(new double[] { 8, -36, 54, -27 });
+			a.Add(new double[] { 1.5 });
+			e.Add(new double[] { 1, -2, -16, 32 });
+			a.Add(new double[] { -4, 2, 4 });
+			e.Add(new double[] { 2, -7, 4, -14 });
+			a.Add(new double[] { 3.5 });
+			e.Add(new double[] { -1, -5, 4, 20 });
+			a.Add(new double[] { -5, -2, 2 });
+			e.Add(new double[] { 3, -3, -0.75, 0.75 });
+			a.Add(new double[] { -0.5, 0.5, 1 });
+			e.Add(new double[] { 1, -2, -1, 1 });
+			a.Add(new double[] { -0.801937735804838, 0.5549581320873701, 2.246979603717467 });
+
+			for (var i = 0; i < e.Count; i++)
+			{
+				var pe = new PolynomialEquation(new Polynomial(e[i]), 1e-9);
+				pe.Solve();
+				for (var j = 0; j < pe.Roots.Count; j++)
+				{
+					Assert.AreEqual(a[i][j], pe.Roots[j], 1e-5);
+				}
+			}
+		}
 	}
 }

@@ -43,6 +43,14 @@ namespace MyExpression.Core
 			}
 		}
 
+		public Polynomial(double[] v)
+		{
+			for (var i = v.Length - 1; i >= 0; i--)
+			{
+				Add(new Monomial(v[v.Length - i - 1], i));
+			}
+		}
+
 		public void Add(Monomial a)
 		{
 			if (Data.ContainsKey(a.Degree))
