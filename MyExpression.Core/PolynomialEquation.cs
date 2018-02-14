@@ -36,7 +36,7 @@ namespace MyExpression.Core
 
 		public IList<double> AllRoots { get; private set; } = new List<double>();
 
-		public IList<double> Roots { get => new SortedSet<double>(AllRoots).ToList(); }
+		public IList<double> Roots => new SortedSet<double>(AllRoots).ToList();
 
 		public bool IsSolved { get; private set; }
 
