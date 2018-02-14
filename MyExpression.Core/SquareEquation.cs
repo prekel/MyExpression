@@ -45,6 +45,7 @@ namespace MyExpression.Core
 
 		public Tuple<double, double> XMinMax => Tuple.Create(XMin, XMax);
 
+		public IList<double> AllRoots => new List<double>(new double[] { XMin, XMax });
 		public IList<double> Roots
 		{
 			get
@@ -84,7 +85,7 @@ namespace MyExpression.Core
 
 		public override string ToString()
 		{
-			return $"{A}x^2{(B >= 0 ? "+" + B : B.ToString())}{(C >= 0 ? "+" + C : C.ToString())}";
+			return $"{A}x^2{(B >= 0 ? "+" + B : B.ToString())}{(C >= 0 ? "+" + C : C.ToString())} = 0";
 		}
 	}
 }

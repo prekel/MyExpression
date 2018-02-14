@@ -43,16 +43,16 @@ namespace MyExpression.Core.Tests
 		public void Roots_Int1()
 		{
 			var se1 = new SquareEquation(2, 5, -3);
-			Assert.AreEqual(-3, se1.Roots[0]);
-			Assert.AreEqual(0.5, se1.Roots[1]);
+			Assert.AreEqual(-3, se1.AllRoots[0]);
+			Assert.AreEqual(0.5, se1.AllRoots[1]);
 		}
 
 		[Test]
 		public void Roots_Int4()
 		{
 			var se1 = new SquareEquation(-2, 5, -3);
-			Assert.AreEqual(1, se1.Roots[0]);
-			Assert.AreEqual(1.5, se1.Roots[1]);
+			Assert.AreEqual(1, se1.AllRoots[0]);
+			Assert.AreEqual(1.5, se1.AllRoots[1]);
 		}
 
 		[Test]
