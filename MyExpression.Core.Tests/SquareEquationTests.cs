@@ -91,5 +91,42 @@ namespace MyExpression.Core.Tests
 			Assert.AreEqual(b, p[1].Coefficient);
 			Assert.AreEqual(c, p[0].Coefficient);
 		}
+
+		[Test]
+		public void AllRoots_Manual()
+		{
+			var a = new SquareEquation(1, 4, 4);
+			Assert.AreEqual(-2, a.X0);
+			Assert.AreEqual(-2, a.X.Item1);
+			Assert.AreEqual(-2, a.X.Item1);
+			Assert.AreEqual(-2, a.X1);
+			Assert.AreEqual(-2, a.X2);
+			Assert.AreEqual(1, a.Roots.Count);
+			Assert.AreEqual(2, a.AllRoots.Count);
+			Assert.AreEqual(-2, a.Roots[0]);
+			Assert.AreEqual(-2, a.AllRoots[0]);
+			Assert.AreEqual(-2, a.AllRoots[1]);
+		}
+
+		private double Discriminant(double a, double b, double c) => b * b - 4 * a * c;
+
+		[Test]
+		public void Wieth_Random()
+		{
+			var r = new MyRandom();
+			double a, b, c;
+			while (true)
+			{
+				a = r.Next(1, 1000) * r.NextDouble() * r.NextSign();
+				b = r.Next(0, 1000) * r.NextDouble() * r.NextSign();
+				c = r.Next(0, 1000) * r.NextDouble() * r.NextSign();
+				if (Discriminant(a, b, c) > 0 && a != 0) break;
+			}
+
+			var se = new SquareEquation(a, b, c);
+
+			Assert.AreEqual(-b / a, se.X1 + se.X2, 1e-8);
+			Assert.AreEqual(c / a, se.X1 * se.X2, 1e-8);
+		}
 	}
 }

@@ -24,7 +24,7 @@ namespace MyExpression.Core.Tests
 		}
 
 		[Test]
-		public void CubicEquation_Random_3Roots()
+		public void CubicEquation_Wieth_Random()
 		{
 			var r = new MyRandom();
 			double a, b, c, d;
@@ -34,7 +34,7 @@ namespace MyExpression.Core.Tests
 				b = r.Next(0, 100) * r.NextDouble() * r.NextSign();
 				c = r.Next(0, 100) * r.NextDouble() * r.NextSign();
 				d = r.Next(0, 100) * r.NextDouble() * r.NextSign();
-				if (CubicDiscriminant(a, b, c, d) > 0) break;
+				if (CubicDiscriminant(a, b, c, d) > 0 && a != 0) break;
 			}
 
 			var p = new Polynomial
