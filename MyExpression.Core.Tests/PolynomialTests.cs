@@ -75,5 +75,27 @@ namespace MyExpression.Core.Tests
 			Assert.AreEqual(0, c[1].Coefficient);
 			Assert.AreEqual(0, c[0].Coefficient);
 		}
+
+		[Test]
+		public void SubTest()
+		{
+			var a = new Polynomial(1, 2, 3, 4);
+			var b = new Polynomial(1, 2, -3, -4);
+			var c = a - b;
+			Assert.AreEqual(1, c.Degree);
+			Assert.AreEqual(0, c[3].Coefficient);
+			Assert.AreEqual(0, c[2].Coefficient);
+			Assert.AreEqual(6, c[1].Coefficient);
+			Assert.AreEqual(8, c[0].Coefficient);
+
+			a = new Polynomial(1, 2, 3, 4);
+			b = new Polynomial(-1, 2, -3, -4);
+			c = a - b;
+			Assert.AreEqual(3, c.Degree);
+			Assert.AreEqual(2, c[3].Coefficient);
+			Assert.AreEqual(0, c[2].Coefficient);
+			Assert.AreEqual(6, c[1].Coefficient);
+			Assert.AreEqual(8, c[0].Coefficient);
+		}
 	}
 }

@@ -76,8 +76,14 @@ namespace MyExpression.Core
 		{
 			if (Data.ContainsKey(a.Degree))
 			{
-				Data[a.Degree].Add(a);
-				DeleteZeros();
+				if (Data[a.Degree].Coefficient + a.Coefficient == 0)
+				{
+					Data.Remove(a.Degree);
+				}
+				else
+				{
+					Data[a.Degree].Add(a);
+				}
 			}
 			else
 			{
@@ -89,8 +95,14 @@ namespace MyExpression.Core
 		{
 			if (Data.ContainsKey(a.Degree))
 			{
-				Data[a.Degree].Sub(a);
-				DeleteZeros();
+				if (Data[a.Degree].Coefficient - a.Coefficient == 0)
+				{
+					Data.Remove(a.Degree);
+				}
+				else
+				{
+					Data[a.Degree].Add(-a);
+				}
 			}
 			else
 			{
