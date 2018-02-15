@@ -8,23 +8,13 @@ using System.Collections;
 
 namespace MyExpression.Core
 {
-	//[System.Diagnostics.DebuggerDisplay("{ToString()}")]
 	public class Polynomial : IEnumerable<Monomial>
 	{
 		private SortedDictionary<double, Monomial> Data { get; set; } = new SortedDictionary<double, Monomial>();
 
 		public double Degree => Data.Last().Value.Degree;
 
-		public double Evaluate(double x)
-		{
-			//var c = 0d;
-			//foreach (var i in this)
-			//{
-			//	c += i.Evaluate(x);
-			//}
-			return Data.Values.Sum(m => m.Evaluate(x));
-			//return c;
-		}
+		public double Calculate(double x) => Data.Values.Sum(m => m.Calculate(x));
 
 		public Monomial this[double degree]
 		{
@@ -41,18 +31,6 @@ namespace MyExpression.Core
 			}
 		}
 
-		//public double this[double x] => Evaluate(x);
-
-		//public int Rank => this.Max(m => m.Count);
-
-		//class MonomialComparer : Comparer<Monomial>
-		//{
-		//	public override int Compare(Monomial x, Monomial y)
-		//	{
-		//		return -x.CompareTo(y);
-		//	}
-		//}
-
 		public Polynomial()
 		{
 		}
@@ -65,11 +43,47 @@ namespace MyExpression.Core
 			}
 		}
 
+		public Polynomial(params double[] v)
+		{
+			for (var i = v.Length - 1; i >= 0; i--)
+			{
+				Add(new Monomial(v[v.Length - i - 1], i));
+			}
+		}
+
+		public void DeleteZeros()
+		{
+			//var zk = new List<double>();
+			//foreach (var i in Data)
+			//{
+			//	if (i.Value.Coefficient == 0)
+			//	{
+			//		zk.Add(i.Key);
+			//	}
+			//}
+			//foreach (var i in zk)
+			//{
+			//	Data.Remove(i);
+			//}
+
+			Data = new SortedDictionary<double, Monomial>(
+				(from i in Data where i.Value.Coefficient != 0 select i)
+				.ToDictionary(x => x.Value.Degree, y => y.Value)
+			);
+		}
+
 		public void Add(Monomial a)
 		{
 			if (Data.ContainsKey(a.Degree))
 			{
-				Data[a.Degree].Add(a);
+				if (Data[a.Degree].Coefficient + a.Coefficient == 0)
+				{
+					Data.Remove(a.Degree);
+				}
+				else
+				{
+					Data[a.Degree].Add(a);
+				}
 			}
 			else
 			{
@@ -81,7 +95,14 @@ namespace MyExpression.Core
 		{
 			if (Data.ContainsKey(a.Degree))
 			{
-				Data[a.Degree].Sub(a);
+				if (Data[a.Degree].Coefficient - a.Coefficient == 0)
+				{
+					Data.Remove(a.Degree);
+				}
+				else
+				{
+					Data[a.Degree].Add(-a);
+				}
 			}
 			else
 			{
@@ -188,6 +209,7 @@ namespace MyExpression.Core
 			{
 				i.Multiply(b);
 			}
+			p.DeleteZeros();
 			return p;
 		}
 
@@ -203,6 +225,7 @@ namespace MyExpression.Core
 			{
 				i.Multiply(b);
 			}
+			p.DeleteZeros();
 			return p;
 		}
 
@@ -242,6 +265,37 @@ namespace MyExpression.Core
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return Data.Values.GetEnumerator();
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj is null) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (!(obj is Polynomial)) return false;
+			var p = (Polynomial)obj;
+			if (p.Degree != p.Degree) return false;
+			for (var i = 0d; i <= Math.Max(Degree, p.Degree); i++)
+			{
+				if (this[i].Coefficient != p[i].Coefficient)
+					return false;
+			}
+			return true;
+		}
+
+		public bool Equals(Polynomial p, double epscoef = 0)
+		{
+			if (p.Degree != p.Degree) return false;
+			for (var i = 0d; i <= Math.Max(Degree, p.Degree); i++)
+			{
+				if (Math.Abs(this[i].Coefficient - p[i].Coefficient) > epscoef)
+					return false;
+			}
+			return true;
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
 		}
 	}
 }

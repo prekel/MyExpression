@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2018 Vladislav Prekel
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyExpression.Core
 {
-	public class SquareEquation
+	public class SquareEquation : IEquation
 	{
 		public double A { get; set; }
 		public double B { get; set; }
@@ -31,17 +33,43 @@ namespace MyExpression.Core
 
 		public double Y0 => this[X0];
 
-		public double X1 => (-B + Math.Sqrt(D)) / (2 * A);
+		public double X1 => (-B - Math.Sqrt(D)) / (2 * A);
 
-		public double X2 => (-B - Math.Sqrt(D)) / (2 * A);
+		public double X2 => (-B + Math.Sqrt(D)) / (2 * A);
+
+		public double XMin => A > 0 ? X1 : X2;
+
+		public double XMax => A < 0 ? X1 : X2;
 
 		public Tuple<double, double> X => Tuple.Create(X1, X2);
+
+		public Tuple<double, double> XMinMax => Tuple.Create(XMin, XMax);
+
+		public IList<double> AllRoots => new List<double>(new double[] { XMin, XMax });
+		public IList<double> Roots
+		{
+			get
+			{
+				var ret = new List<double>(2);
+				if (N == 1) ret.Add(X0);
+				if (N == 2) ret.AddRange(new double[] { XMin, XMax });
+				return ret;
+			}
+		}
 
 		public SquareEquation(double a = 1, double b = 0, double c = 0)
 		{
 			A = a;
 			B = b;
 			C = c;
+		}
+
+		public SquareEquation(PolynomialEquation p)
+		{
+			if (p.Polynomial.Degree != 2) throw new InvalidOperationException();
+			A = p.Polynomial[2].Coefficient;
+			B = p.Polynomial[1].Coefficient;
+			C = p.Polynomial[0].Coefficient;
 		}
 
 		public Polynomial ToPolynomial()
@@ -57,7 +85,7 @@ namespace MyExpression.Core
 
 		public override string ToString()
 		{
-			return $"{A}x^2{(B >= 0 ? "+" + B : B.ToString())}{(C >= 0 ? "+" + C : C.ToString())}";
+			return $"{A}x^2{(B >= 0 ? "+" + B : B.ToString())}{(C >= 0 ? "+" + C : C.ToString())} = 0";
 		}
 	}
 }

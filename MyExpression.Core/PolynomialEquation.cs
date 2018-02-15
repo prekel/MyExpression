@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2018 Vladislav Prekel
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyExpression.Core
 {
-	public class PolynomialEquation
+	public class PolynomialEquation : IEquation
 	{
 		public double Epsilon { get; set; }
 		public Polynomial Polynomial { get; private set; }
@@ -32,7 +34,9 @@ namespace MyExpression.Core
 			Epsilon = eps;
 		}
 
-		public List<double> Roots { get; private set; } = new List<double>();
+		public IList<double> AllRoots { get; private set; } = new List<double>();
+
+		public IList<double> Roots => new SortedSet<double>(AllRoots).ToList();
 
 		public bool IsSolved { get; private set; }
 
@@ -40,18 +44,19 @@ namespace MyExpression.Core
 		{
 			if (Polynomial.Degree == 1)
 			{
-				Roots.Add(-Polynomial[0].Coefficient / Polynomial[1].Coefficient);
+				var le = new LinearEquation(this);
+				AllRoots.Add(le.X);
 				IsSolved = true;
 				return;
 			}
 			DerivativeEquation.Solve();
-			var intr = DerivativeEquation.RIntervals;
+			var intr = DerivativeEquation.MonotonyIntervals;
 			foreach (var i in intr)
 			{
-				var a = Polynomial.Evaluate(i.Left);
-				var b = Polynomial.Evaluate(i.Right);
+				var a = Polynomial.Calculate(i.Left);
+				var b = Polynomial.Calculate(i.Right);
 				if (a * b > 0) continue;
-				Roots.Add(BinarySearch(i));
+				AllRoots.Add(BinarySearch(i));
 			}
 			IsSolved = true;
 		}
@@ -60,38 +65,49 @@ namespace MyExpression.Core
 		{
 			if (a.Left == Double.NegativeInfinity && a.Right == Double.PositiveInfinity)
 			{
-				return 0;
+				var z = Polynomial.Calculate(0);
+				if (z >= 0)
+				{
+					if (a.IsPositive) return BinarySearch(new Interval(Increaser(-1, 0, u => u < 0), 0), (x, y) => x.CompareTo(y));
+					if (a.IsNegative) return BinarySearch(new Interval(0, Increaser(1, 0, u => u < 0)), (x, y) => -x.CompareTo(y));
+				}
+				if (z < 0)
+				{
+					if (a.IsPositive) return BinarySearch(new Interval(0, Increaser(1, 0, u => u > 0)), (x, y) => x.CompareTo(y));
+					if (a.IsNegative) return BinarySearch(new Interval(Increaser(-1, 0, u => u > 0), 0), (x, y) => -x.CompareTo(y));
+				}
 			}
-			var l = Polynomial.Evaluate(a.Left);
-			var r = Polynomial.Evaluate(a.Right);
+
+			var l = Polynomial.Calculate(a.Left);
+			var r = Polynomial.Calculate(a.Right);
 
 			if (Math.Abs(l) < Epsilon) return a.Left;
 			if (Math.Abs(r) < Epsilon) return a.Right;
 
 			if (a.Left == Double.NegativeInfinity && a.IsPositive)
 			{
-				return BinarySearch(new Interval(Dasdas(-1, a.Right, u => u < 0), a.Right), (x, y) => x.CompareTo(y));
+				return BinarySearch(new Interval(Increaser(-1, a.Right, u => u < 0), a.Right), (x, y) => x.CompareTo(y));
 			}
 			if (a.Left == Double.NegativeInfinity && a.IsNegative)
 			{
-				return BinarySearch(new Interval(Dasdas(-1, a.Right, u => u > 0), a.Right), (x, y) => -x.CompareTo(y));
+				return BinarySearch(new Interval(Increaser(-1, a.Right, u => u > 0), a.Right), (x, y) => -x.CompareTo(y));
 			}
 			if (a.Right == Double.PositiveInfinity && a.IsPositive)
 			{
-				return BinarySearch(new Interval(a.Left, Dasdas(1, a.Left, u => u > 0)), (x, y) => x.CompareTo(y));
+				return BinarySearch(new Interval(a.Left, Increaser(1, a.Left, u => u > 0)), (x, y) => x.CompareTo(y));
 			}
 			if (a.Right == Double.PositiveInfinity && a.IsNegative)
 			{
-				return BinarySearch(new Interval(a.Left, Dasdas(1, a.Left, u => u < 0)), (x, y) => -x.CompareTo(y));
+				return BinarySearch(new Interval(a.Left, Increaser(1, a.Left, u => u < 0)), (x, y) => -x.CompareTo(y));
 			}
 
-			double Dasdas(int k, double rl, Func<double, bool> cnd)
+			double Increaser(int k, double rl, Func<double, bool> cnd)
 			{
 				var rl1 = 0.0;
 				while (true)
 				{
 					rl1 = rl + k;
-					if (cnd(Polynomial.Evaluate(rl1)))
+					if (cnd(Polynomial.Calculate(rl1)))
 					{
 						return rl1;
 					}
@@ -111,25 +127,25 @@ namespace MyExpression.Core
 		{
 			var m = a.Left / 2 + a.Right / 2;
 			if (Math.Abs(a.Left - a.Right) < Epsilon) return m;
-			var p = Polynomial.Evaluate(m);
+			var p = Polynomial.Calculate(m);
 			if (comp(p, 0) == 1)
 			{
-				return BinarySearch(new Interval(a.Left, m));
+				return BinarySearch(new Interval(a.Left, m), comp);
 			}
 			if (comp(p, 0) == -1)
 			{
-				return BinarySearch(new Interval(m, a.Right));
+				return BinarySearch(new Interval(m, a.Right), comp);
 			}
 			return m;
 		}
 
 		private Intervals intervals;
-		public Intervals RIntervals
+		public Intervals MonotonyIntervals
 		{
 			get
 			{
 				if (!IsSolved) return null;
-				if (intervals == null) intervals = new Intervals(Roots, Polynomial);
+				if (intervals == null) intervals = new Intervals(AllRoots, Polynomial);
 				return intervals;
 			}
 		}
@@ -152,27 +168,32 @@ namespace MyExpression.Core
 
 		public class Intervals : List<Interval>
 		{
-			public Intervals(List<double> r, Polynomial p)
+			public Intervals(IList<double> r, Polynomial p)
 			{
 				if (r.Count == 0)
 				{
-					Add(new Interval(Double.NegativeInfinity, Double.PositiveInfinity, p.Evaluate(0)));
+					Add(new Interval(Double.NegativeInfinity, Double.PositiveInfinity, p.Calculate(0)));
 				}
 				else if (r.Count == 1)
 				{
-					Add(new Interval(Double.NegativeInfinity, r[0], p.Evaluate(r[0] - 1)));
-					Add(new Interval(r[0], Double.PositiveInfinity, p.Evaluate(r[0] + 1)));
+					Add(new Interval(Double.NegativeInfinity, r[0], p.Calculate(r[0] - 1)));
+					Add(new Interval(r[0], Double.PositiveInfinity, p.Calculate(r[0] + 1)));
 				}
 				else
 				{
-					Add(new Interval(Double.NegativeInfinity, r[0], p.Evaluate(r[0] - 1)));
+					Add(new Interval(Double.NegativeInfinity, r[0], p.Calculate(r[0] - 1)));
 					for (var i = 0; i < r.Count - 1; i++)
 					{
-						Add(new Interval(r[i], r[i + 1], p.Evaluate((r[i] + r[i + 1]) / 2)));
+						Add(new Interval(r[i], r[i + 1], p.Calculate((r[i] + r[i + 1]) / 2)));
 					}
-					Add(new Interval(r[r.Count - 1], Double.PositiveInfinity, p.Evaluate(r[r.Count - 1] + 1)));
+					Add(new Interval(r[r.Count - 1], Double.PositiveInfinity, p.Calculate(r[r.Count - 1] + 1)));
 				}
 			}
+		}
+
+		public override string ToString()
+		{
+			return $"{Polynomial} = 0 IsSolved = {IsSolved}" + (Roots.Count > 0 ? $" Roots = {{{String.Join(" ", Roots)}}}" : "");
 		}
 	}
 }
