@@ -43,7 +43,7 @@ namespace MyExpression.Core
 			}
 		}
 
-		public Polynomial(double[] v)
+		public Polynomial(params double[] v)
 		{
 			for (var i = v.Length - 1; i >= 0; i--)
 			{
@@ -51,11 +51,33 @@ namespace MyExpression.Core
 			}
 		}
 
+		public void DeleteZeros()
+		{
+			//var zk = new List<double>();
+			//foreach (var i in Data)
+			//{
+			//	if (i.Value.Coefficient == 0)
+			//	{
+			//		zk.Add(i.Key);
+			//	}
+			//}
+			//foreach (var i in zk)
+			//{
+			//	Data.Remove(i);
+			//}
+
+			Data = new SortedDictionary<double, Monomial>(
+				(from i in Data where i.Value.Coefficient != 0 select i)
+				.ToDictionary(x => x.Value.Degree, y => y.Value)
+			);
+		}
+
 		public void Add(Monomial a)
 		{
 			if (Data.ContainsKey(a.Degree))
 			{
 				Data[a.Degree].Add(a);
+				DeleteZeros();
 			}
 			else
 			{
@@ -68,6 +90,7 @@ namespace MyExpression.Core
 			if (Data.ContainsKey(a.Degree))
 			{
 				Data[a.Degree].Sub(a);
+				DeleteZeros();
 			}
 			else
 			{
@@ -174,6 +197,7 @@ namespace MyExpression.Core
 			{
 				i.Multiply(b);
 			}
+			p.DeleteZeros();
 			return p;
 		}
 
@@ -189,6 +213,7 @@ namespace MyExpression.Core
 			{
 				i.Multiply(b);
 			}
+			p.DeleteZeros();
 			return p;
 		}
 

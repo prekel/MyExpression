@@ -54,5 +54,26 @@ namespace MyExpression.Core.Tests
 			Assert.AreEqual(b[1].Coefficient, d[1].Coefficient);
 			Assert.AreEqual(b[0].Coefficient, d[0].Coefficient);
 		}
+
+		[Test]
+		public void SumTest()
+		{
+			var a = new Polynomial(1, 2, 3, 4);
+			var b = new Polynomial(1, 2, -3, -4);
+			var c = a + b;
+			Assert.AreEqual(2, c[3].Coefficient);
+			Assert.AreEqual(4, c[2].Coefficient);
+			Assert.AreEqual(0, c[1].Coefficient);
+			Assert.AreEqual(0, c[0].Coefficient);
+
+			a = new Polynomial(1, 2, 3, 4);
+			b = new Polynomial(-1, 2, -3, -4);
+			c = a + b;
+			Assert.AreEqual(2, c.Degree);
+			Assert.AreEqual(0, c[3].Coefficient);
+			Assert.AreEqual(4, c[2].Coefficient);
+			Assert.AreEqual(0, c[1].Coefficient);
+			Assert.AreEqual(0, c[0].Coefficient);
+		}
 	}
 }
