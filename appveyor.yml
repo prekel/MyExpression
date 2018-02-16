@@ -24,6 +24,10 @@ artifacts:
   name: MyExpression.Core.Tests
 - path: MyExpression.Console\bin\Release\
   name: MyExpression.Console
+- path: \
+  name: MyExpression
+- path: MyExpression.Core\bin\Release\MyExpression.Core.dll
+  name: MyExpression.Core.dll
 notifications:
 - provider: Email
   to:
