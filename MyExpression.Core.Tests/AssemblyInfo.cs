@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("MyExpression.Console")]
+[assembly: AssemblyTitle("MyExpression.Core.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MyExpression.Console")]
+[assembly: AssemblyProduct("MyExpression.Core.Tests")]
 [assembly: AssemblyCopyright("Copyright (c) 2018 Vladislav Prekel")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("28bd1620-c561-4b63-b06a-1a5df030e483")]
+[assembly: Guid("0A86B42A-7F3D-45DA-823A-A69930E06064")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //
