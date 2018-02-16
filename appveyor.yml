@@ -1,0 +1,33 @@
+version: 0.1.{build}
+image: Visual Studio 2017
+configuration: Release
+platform: Any CPU
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}.$(rev)'
+  assembly_file_version: '{version}.$(rev)'
+  assembly_informational_version: '{version}.$(rev)'
+install:
+- ps: $env:rev = git rev-list HEAD --count
+before_build:
+- ps: nuget restore MyExpression.sln
+build:
+  project: MyExpression.sln
+  verbosity: minimal
+artifacts:
+- path: TestResult.xml
+  name: TestResult
+- path: MyExpression.Core\bin\Release\
+  name: MyExpression.Core
+- path: MyExpression.Core.Tests\bin\Release\
+  name: MyExpression.Core.Tests
+- path: MyExpression.Console\bin\Release\
+  name: MyExpression.Console
+notifications:
+- provider: Email
+  to:
+  - 79232809414@ya.ru
+  on_build_success: false
+  on_build_failure: false
+  on_build_status_changed: true
