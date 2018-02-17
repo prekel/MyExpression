@@ -37,14 +37,19 @@ notifications:
   on_build_success: false
   on_build_failure: false
   on_build_status_changed: true
+before_deploy:
+- ps: >-
+    Remove-Item packages -Recurse
+    $g = Get-ChildItem -Recurse -Include nunit.framework.xml
+    Remove-Item $g -Recurse
 deploy:
   tag: $(APPVEYOR_REPO_TAG_NAME)
   release: MyExpression $(APPVEYOR_REPO_TAG_NAME)
-  description: v$(APPVEYOR_REPO_TAG_NAME) $(appveyor_build_version).$(rev)
+  description: $(APPVEYOR_REPO_TAG_NAME) $(appveyor_build_version).$(rev)
   provider: GitHub
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression.Core.dll; MyExpression.Console.exe
+  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe
   prerelease: true
   on:
     branch: develop
