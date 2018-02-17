@@ -9,7 +9,10 @@ assembly_info:
   assembly_file_version: '{version}.$(rev)'
   assembly_informational_version: '{version}.$(rev)'
 install:
-- ps: $env:rev = git rev-list HEAD --count
+- ps: >-
+    $env:rev = git rev-list HEAD --count
+
+    Write-Host -Backgroundcolor Green -Foregroundcolor Blue Version:' '$env:appveyor_build_version.$env
 before_build:
 - ps: nuget restore MyExpression.sln
 build:
@@ -43,9 +46,9 @@ after_build:
 
     Remove-Item (Get-ChildItem -Recurse -Include nunit.framework.xml)
 deploy:
-  tag: $(APPVEYOR_REPO_TAG_NAME)
-  release: MyExpression $(APPVEYOR_REPO_TAG_NAME)
-  description: $(APPVEYOR_REPO_TAG_NAME) $(appveyor_build_version).$(rev)
+  tag: $(appveyor_repo_tag_name)
+  release: MyExpression $(appveyor_repo_tag_name)
+  description: $(appveyor_repo_tag_name) $(appveyor_build_version).$(rev)
   provider: GitHub
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
