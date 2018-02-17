@@ -16,18 +16,20 @@ build:
   project: MyExpression.sln
   verbosity: minimal
 artifacts:
+- path: MyExpression.Core\bin\Release\MyExpression.Core.dll
+  name: MyExpression.Core.dll
+- path: MyExpression.Console\bin\Release\MyExpression.Console.exe
+  name: MyExpression.Console.exe
+- path: \
+  name: MyExpression 
+- path: MyExpression.Core\bin\Release\
+  name: MyExpression.Core
+- path: MyExpression.Core.Tests\bin\Release\
+  name: MyExpression.Core.Tests
+- path: MyExpression.Console\bin\Release\
+  name: MyExpression.Console
 - path: TestResult.xml
   name: TestResult
-- path: MyExpression.Core\bin\Release\
-  name: MyExpression.Core $(appveyor_build_version).$(rev)
-- path: MyExpression.Core.Tests\bin\Release\
-  name: MyExpression.Core.Tests $(appveyor_build_version).$(rev)
-- path: MyExpression.Console\bin\Release\
-  name: MyExpression.Console $(appveyor_build_version).$(rev)
-- path: \
-  name: MyExpression $(appveyor_build_version).$(rev)
-- path: MyExpression.Core\bin\Release\MyExpression.Core.dll
-  name: MyExpression.Core.dll $(appveyor_build_version).$(rev)
 notifications:
 - provider: Email
   to:
@@ -36,13 +38,13 @@ notifications:
   on_build_failure: false
   on_build_status_changed: true
 deploy:
-  tag: v$(APPVEYOR_REPO_TAG_NAME)
-  release: MyExpression v$(appveyor_build_version).$(rev)
-  description: $(appveyor_build_version).$(rev) v$(APPVEYOR_REPO_TAG_NAME)
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  release: MyExpression $(APPVEYOR_REPO_TAG_NAME)
+  description: v$(APPVEYOR_REPO_TAG_NAME) $(appveyor_build_version).$(rev)
   provider: GitHub
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression $(appveyor_build_version).$(rev); MyExpression.Core $(appveyor_build_version).$(rev); MyExpression.Console $(appveyor_build_version).$(rev); MyExpression.Core.Tests $(appveyor_build_version).$(rev); MyExpression.Core.dll $(appveyor_build_version).$(rev)
+  artifact: MyExpression.Core.dll; MyExpression.Console.exe
   prerelease: true
   on:
     branch: develop
