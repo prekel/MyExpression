@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyExpression.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="625">
+        Title="MainWindow" Height="500" Width="675">
 	<Grid>
 		<local:FunctionGraph x:Name="Graph" Margin="300,40,40,40" RenderTransformOrigin="0.5,0.5">
 			<local:FunctionGraph.RenderTransform>
@@ -20,15 +20,30 @@
 		<Rectangle Fill="White"  Height="40" VerticalAlignment="Top" Margin="0,0,0,0"/>
 		<Rectangle Fill="White"  Height="40" VerticalAlignment="Bottom" Margin="0,0,0,0"/>
 		<Rectangle Fill="White" HorizontalAlignment="Right" Width="40"/>
-		<Button x:Name="Button" Content="Axis" HorizontalAlignment="Left" Margin="70,70,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-		<Button x:Name="Button1" Content="Draw" HorizontalAlignment="Left" Margin="70,95,0,0" VerticalAlignment="Top" Width="75" Click="Button1_Click"/>
-		<TextBox x:Name="OffsetX" HorizontalAlignment="Left" Height="23" Margin="70,120,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
-		<TextBox x:Name="OffsetY" HorizontalAlignment="Left" Height="23" Margin="70,148,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
-		<Label Content="OffsetX" HorizontalAlignment="Left" Margin="21,120,0,0" VerticalAlignment="Top" Height="23"/>
-		<Label Content="OffsetY" HorizontalAlignment="Left" Margin="21,148,0,0" VerticalAlignment="Top" Height="23"/>
-		<TextBox x:Name="ScaleX" HorizontalAlignment="Left" Height="23" Margin="70,190,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Width="120"/>
-		<TextBox x:Name="ScaleY" HorizontalAlignment="Left" Height="23" Margin="70,218,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Width="120"/>
-		<Label Content="ScaleX" HorizontalAlignment="Left" Margin="21,190,0,0" VerticalAlignment="Top" Height="23"/>
-		<Label Content="ScaleY" HorizontalAlignment="Left" Margin="21,218,0,0" VerticalAlignment="Top" Height="23"/>
+		<Button x:Name="ResetButton" Content="Reset" HorizontalAlignment="Left" Margin="115,11,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+		<Button x:Name="DrawButton" Content="Draw" HorizontalAlignment="Left" Margin="115,36,0,0" VerticalAlignment="Top" Width="75" Click="Button1_Click"/>
+		<TextBox x:Name="OffsetX" HorizontalAlignment="Left" Height="23" Margin="115,61,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="60"/>
+		<TextBox x:Name="OffsetY" HorizontalAlignment="Left" Height="23" Margin="180,61,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="60"/>
+		<Label Content="Offset" HorizontalAlignment="Left" Margin="66,61,0,0" VerticalAlignment="Top" Height="28" Width="49"/>
+		<TextBox x:Name="ScaleX" HorizontalAlignment="Left" Height="23" Margin="115,89,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Width="60"/>
+		<TextBox x:Name="ScaleY" HorizontalAlignment="Left" Height="23" Margin="180,89,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Width="60"/>
+		<Label Content="Scale" HorizontalAlignment="Left" Margin="66,89,0,0" VerticalAlignment="Top" Height="28" Width="49"/>
+		<TextBox x:Name="Step" HorizontalAlignment="Left" Height="23" Margin="115,117,0,0" TextWrapping="Wrap" Text="0,01" VerticalAlignment="Top" Width="125"/>
+		<Label Content="Step" HorizontalAlignment="Left" Margin="76,117,0,0" VerticalAlignment="Top" Height="28" Width="39"/>
+		<TextBox x:Name="CellsStepX" HorizontalAlignment="Left" Height="23" Margin="115,201,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="60"/>
+		<Label Content="CellsStep" HorizontalAlignment="Left" Margin="51,201,0,0" VerticalAlignment="Top" Height="28" Width="64"/>
+		<TextBox x:Name="CellsStepY" HorizontalAlignment="Left" Height="23" Margin="180,201,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="60"/>
+
+		<Label Content="CellsIntervalX" HorizontalAlignment="Left" Margin="29,145,0,0" VerticalAlignment="Top" Height="28"/>
+		<TextBox x:Name="CellsIntervalXLeft" HorizontalAlignment="Left" Height="23" Margin="115,145,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Width="60"/>
+		<TextBox x:Name="CellsIntervalXRight" HorizontalAlignment="Left" Height="23" Margin="180,145,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="60"/>
+		<Label Content="CellsIntervalY" HorizontalAlignment="Left" Margin="29,173,0,0" VerticalAlignment="Top" Height="28"/>
+		<TextBox x:Name="CellsIntervalYLeft" HorizontalAlignment="Left" Height="23" Margin="115,173,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Width="60"/>
+		<TextBox x:Name="CellsIntervalYRight" HorizontalAlignment="Left" Height="23" Margin="180,173,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="60"/>
+		<Label Content="Polynomial" HorizontalAlignment="Left" Margin="42,229,0,0" VerticalAlignment="Top" Height="28"/>
+		<TextBox x:Name="Polynomial" HorizontalAlignment="Left" Height="23" Margin="115,229,0,0" TextWrapping="Wrap" Text="x^3-2x^2-x+3" VerticalAlignment="Top" Width="125"/>
+		<Label Content="DefinitionArea" HorizontalAlignment="Left" Margin="24,257,0,0" VerticalAlignment="Top" Height="28" Width="91"/>
+		<TextBox x:Name="DefinitionAreaLeft" HorizontalAlignment="Left" Height="23" Margin="115,257,0,0" TextWrapping="Wrap" Text="-20" VerticalAlignment="Top" Width="60"/>
+		<TextBox x:Name="DefinitionAreaRight" HorizontalAlignment="Left" Height="23" Margin="180,257,0,0" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="60"/>
 	</Grid>
 </Window>

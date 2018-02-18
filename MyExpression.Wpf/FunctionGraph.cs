@@ -87,7 +87,7 @@ namespace MyExpression.Wpf
 
 		public void DrawCells()
 		{
-			for (var i = 1; i <= CellsIntervalX.Right; i++)
+			for (var i = CellsStep.X; i <= CellsIntervalX.Right; i += CellsStep.X)
 			{
 				var l = new Line()
 				{
@@ -100,7 +100,7 @@ namespace MyExpression.Wpf
 				};
 				Children.Add(l);
 			}
-			for (var i = -1; i >= CellsIntervalX.Left; i--)
+			for (var i = -CellsStep.X; i >= CellsIntervalX.Left; i -= CellsStep.X)
 			{
 				var l = new Line()
 				{
@@ -113,7 +113,7 @@ namespace MyExpression.Wpf
 				};
 				Children.Add(l);
 			}
-			for (var i = 1; i <= CellsIntervalY.Right; i++)
+			for (var i = CellsStep.Y; i <= CellsIntervalY.Right; i += CellsStep.Y)
 			{
 				var l = new Line()
 				{
@@ -126,7 +126,7 @@ namespace MyExpression.Wpf
 				};
 				Children.Add(l);
 			}
-			for (var i = -1; i >= CellsIntervalY.Left; i--)
+			for (var i = -CellsStep.Y; i >= CellsIntervalY.Left; i -= CellsStep.Y)
 			{
 				var l = new Line()
 				{
