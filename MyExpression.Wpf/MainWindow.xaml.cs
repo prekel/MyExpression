@@ -41,7 +41,7 @@ namespace MyExpression.Wpf
 			//Graph.Functions[0] = f;
 
 			Graph.DefinitionArea = new Interval(-20, 20);
-			Graph.Scale = new Point(40, 40);
+			Graph.Scale = new Point(Double.Parse(ScaleX.Text), Double.Parse(ScaleY.Text));
 			Graph.Step = 0.01;
 			Graph.Offset = new Point(Double.Parse(OffsetX.Text), Double.Parse(OffsetY.Text));
 			Graph.CellsIntervalX = new Interval(-10, 10);

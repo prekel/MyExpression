@@ -16,9 +16,19 @@
 				</TransformGroup>
 			</local:FunctionGraph.RenderTransform>
 		</local:FunctionGraph>
-		<Button x:Name="Button" Content="Axis" HorizontalAlignment="Left" Margin="72,168,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-		<Button x:Name="Button1" Content="Draw" HorizontalAlignment="Left" Margin="72,193,0,0" VerticalAlignment="Top" Width="75" Click="Button1_Click"/>
-		<TextBox x:Name="OffsetX" HorizontalAlignment="Left" Height="23" Margin="50,229,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
-		<TextBox x:Name="OffsetY" HorizontalAlignment="Left" Height="23" Margin="50,257,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+		<Rectangle Fill="White" HorizontalAlignment="Left" Width="300"/>
+		<Rectangle Fill="White"  Height="40" VerticalAlignment="Top" Margin="0,0,0,0"/>
+		<Rectangle Fill="White"  Height="40" VerticalAlignment="Bottom" Margin="0,0,0,0"/>
+		<Rectangle Fill="White" HorizontalAlignment="Right" Width="40"/>
+		<Button x:Name="Button" Content="Axis" HorizontalAlignment="Left" Margin="70,70,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+		<Button x:Name="Button1" Content="Draw" HorizontalAlignment="Left" Margin="70,95,0,0" VerticalAlignment="Top" Width="75" Click="Button1_Click"/>
+		<TextBox x:Name="OffsetX" HorizontalAlignment="Left" Height="23" Margin="70,120,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+		<TextBox x:Name="OffsetY" HorizontalAlignment="Left" Height="23" Margin="70,148,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+		<Label Content="OffsetX" HorizontalAlignment="Left" Margin="21,120,0,0" VerticalAlignment="Top" Height="23"/>
+		<Label Content="OffsetY" HorizontalAlignment="Left" Margin="21,148,0,0" VerticalAlignment="Top" Height="23"/>
+		<TextBox x:Name="ScaleX" HorizontalAlignment="Left" Height="23" Margin="70,190,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Width="120"/>
+		<TextBox x:Name="ScaleY" HorizontalAlignment="Left" Height="23" Margin="70,218,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Width="120"/>
+		<Label Content="ScaleX" HorizontalAlignment="Left" Margin="21,190,0,0" VerticalAlignment="Top" Height="23"/>
+		<Label Content="ScaleY" HorizontalAlignment="Left" Margin="21,218,0,0" VerticalAlignment="Top" Height="23"/>
 	</Grid>
 </Window>
