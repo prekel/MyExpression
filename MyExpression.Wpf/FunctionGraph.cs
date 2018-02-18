@@ -21,7 +21,9 @@ namespace MyExpression.Wpf
 {
 	public class FunctionGraph : Canvas
 	{
-		public Interval Interval { get; set; }
+		public Interval DefinitionArea { get; set; }
+
+		public Point Offset { get; set; }
 
 		public double Step { get; set; }
 
@@ -30,13 +32,16 @@ namespace MyExpression.Wpf
 
 		public Func<double, double> Function { get; set; }
 
-		public void DrawAxis()
+		public void ResetTranslateTransform()
 		{
-			Children.Clear();
 			var tg1 = (TransformGroup)RenderTransform;
-			var tt = new TranslateTransform((int)(ActualWidth / 2) + 0.5, -(int)(ActualHeight / 2) + 0.5);
+			var tt = new TranslateTransform((int)(ActualWidth / 2 + Offset.X * ScaleX) + 0.5, -(int)(ActualHeight / 2 + Offset.Y * ScaleY) + 0.5);
 			if (tg1.Children.Count == 3) tg1.Children.Add(tt);
 			else tg1.Children[3] = tt;
+		}
+
+		public void DrawAxis()
+		{
 			var l1 = new Line
 			{
 				X1 = 0,
@@ -61,27 +66,83 @@ namespace MyExpression.Wpf
 
 		public void DrawFunction()
 		{
-			//var l1 = new Line
-			//{
-			//	X1 = 0,
-			//	Y1 = 500,
-			//	X2 = 500,
-			//	Y2 = 0,
-			//	Stroke = Brushes.DarkMagenta,
-			//	StrokeThickness = 1
-			//};
-			var l2 = new Line
+			var l = new Polyline
 			{
-				X1 = 0,
-				Y1 = 0,
-				X2 = 100,
-				Y2 = 200,
 				Stroke = Brushes.DarkMagenta,
 				StrokeThickness = 1
 			};
+			for (var i = DefinitionArea.Left; i <= DefinitionArea.Right; i += Step)
+			{
+				l.Points.Add(new Point(i * ScaleX, Function(i) * ScaleY));
+			}
+			Children.Add(l);
+		}
 
-			//Children.Add(l1);
-			Children.Add(l2);
+		public double CellsStepX { get; set; }
+		public double CellsStepY { get; set; }
+
+		public Interval CellsIntervalX { get; set; }
+		public Interval CellsIntervalY { get; set; }
+
+		public void DrawCells()
+		{
+			for (var i = 1; i <= CellsIntervalX.Right; i++)
+			{
+				var l = new Line()
+				{
+					Stroke = Brushes.LightGray,
+					StrokeThickness = 0.5,
+					X1 = i * ScaleX,
+					X2 = i * ScaleX,
+					Y1 = -ActualHeight / 2,
+					Y2 = ActualHeight / 2,
+				};
+				Children.Add(l);
+			}
+			for (var i = -1; i >= CellsIntervalX.Left; i--)
+			{
+				var l = new Line()
+				{
+					Stroke = Brushes.LightGray,
+					StrokeThickness = 0.5,
+					X1 = i * ScaleX,
+					X2 = i * ScaleX,
+					Y1 = -ActualHeight / 2,
+					Y2 = ActualHeight / 2,
+				};
+				Children.Add(l);
+			}
+			for (var i = 1; i <= CellsIntervalY.Right; i++)
+			{
+				var l = new Line()
+				{
+					Stroke = Brushes.LightGray,
+					StrokeThickness = 0.5,
+					X1 = -ActualWidth / 2,
+					X2 = ActualWidth / 2,
+					Y1 = i * ScaleY,
+					Y2 = i * ScaleY,
+				};
+				Children.Add(l);
+			}
+			for (var i = -1; i >= CellsIntervalY.Left; i--)
+			{
+				var l = new Line()
+				{
+					Stroke = Brushes.LightGray,
+					StrokeThickness = 0.5,
+					X1 = -ActualWidth / 2,
+					X2 = ActualWidth / 2,
+					Y1 = i * ScaleY,
+					Y2 = i * ScaleY,
+				};
+				Children.Add(l);
+			}
+		}
+
+		public void Clear()
+		{
+			Children.Clear();
 		}
 	}
 }

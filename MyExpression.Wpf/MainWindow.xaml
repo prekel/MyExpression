@@ -16,7 +16,9 @@
 				</TransformGroup>
 			</local:FunctionGraph.RenderTransform>
 		</local:FunctionGraph>
-		<Button x:Name="Button" Content="Button" HorizontalAlignment="Left" Margin="72,168,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-		<Button x:Name="Button1" Content="Button1" HorizontalAlignment="Left" Margin="72,204,0,0" VerticalAlignment="Top" Width="75" Click="Button1_Click"/>
+		<Button x:Name="Button" Content="Axis" HorizontalAlignment="Left" Margin="72,168,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+		<Button x:Name="Button1" Content="Draw" HorizontalAlignment="Left" Margin="72,193,0,0" VerticalAlignment="Top" Width="75" Click="Button1_Click"/>
+		<TextBox x:Name="OffsetX" HorizontalAlignment="Left" Height="23" Margin="50,229,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+		<TextBox x:Name="OffsetY" HorizontalAlignment="Left" Height="23" Margin="50,257,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
 	</Grid>
 </Window>
