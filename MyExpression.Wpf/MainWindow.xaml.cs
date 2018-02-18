@@ -24,5 +24,15 @@ namespace MyExpression.Wpf
 		{
 			InitializeComponent();
 		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			Graph.DrawAxis();
+		}
+
+		private void Button1_Click(object sender, RoutedEventArgs e)
+		{
+			Graph.DrawFunction();
+		}
 	}
 }
