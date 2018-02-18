@@ -40,10 +40,15 @@ namespace MyExpression.Wpf
 			//	Stroke = Brushes.Black,
 			//	StrokeThickness = 1
 			//};
-			var tg = new TransformGroup();
-			tg.Children.Add(new TranslateTransform((int)(ActualWidth / 2) + 0.5, (int)(ActualHeight / 2) + 0.5));
-			tg.Children.Add(new ScaleTransform(1, -1));
-			RenderTransform = tg;
+			//var tg = new TransformGroup();
+			//tg.Children.Add(new TranslateTransform((int)(ActualWidth / 2) + 0.5, (int)(ActualHeight / 2) + 0.5));
+			//tg.Children.Add(new ScaleTransform(1, -1));
+			//RenderTransform = tg;
+			Children.Clear();
+			var tg1 = (TransformGroup)RenderTransform;
+			var tt = new TranslateTransform((int)(ActualWidth / 2) + 0.5, -(int)(ActualHeight / 2) + 0.5);
+			if (tg1.Children.Count == 3) tg1.Children.Add(tt);
+			else tg1.Children[3] = tt;
 			var l1 = new Line
 			{
 				X1 = 0,
@@ -86,7 +91,7 @@ namespace MyExpression.Wpf
 				Stroke = Brushes.DarkMagenta,
 				StrokeThickness = 1
 			};
-			
+
 			//Children.Add(l1);
 			Children.Add(l2);
 		}
