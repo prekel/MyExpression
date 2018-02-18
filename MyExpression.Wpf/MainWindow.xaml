@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyExpression.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="675">
+        Title="MyExpression.Wpf" Height="500" Width="675">
 	<Grid>
 		<local:FunctionGraph x:Name="Graph" Margin="300,40,40,40" RenderTransformOrigin="0.5,0.5">
 			<local:FunctionGraph.RenderTransform>

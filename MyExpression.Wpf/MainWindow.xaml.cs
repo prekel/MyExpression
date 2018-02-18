@@ -29,16 +29,6 @@ namespace MyExpression.Wpf
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			//double f1(double x) => x * x * x - 2 * x * x - x + 3;
-			//double f2(double x) => x * x - 1;
-			//double f3(double x) => x * x * x - 2 * x * x - x + 3 - x * x + 1;
-			//if (Graph.Functions.Count == 0)
-			//{
-			//	Graph.Functions.Add(f1);
-			//	Graph.Functions.Add(f2);
-			//	Graph.Functions.Add(f3);
-			//}
-			//Graph.Functions[0] = f;
 			if (Graph.Functions.Count == 0)
 			{
 				var p = Core.Polynomial.Parse(Polynomial.Text);
@@ -50,7 +40,7 @@ namespace MyExpression.Wpf
 				Graph.Functions[0] = p.Calculate;
 			}
 
-			Graph.DefinitionArea = new Interval(-20, 20);
+			Graph.DefinitionArea = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
 			Graph.Scale = new Point(Double.Parse(ScaleX.Text), Double.Parse(ScaleY.Text));
 			Graph.Step = Double.Parse(Step.Text);
 			Graph.Offset = new Point(Double.Parse(OffsetX.Text), Double.Parse(OffsetY.Text));

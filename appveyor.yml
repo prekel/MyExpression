@@ -31,6 +31,8 @@ artifacts:
   name: MyExpression.Core.Tests
 - path: MyExpression.Console\bin\Release\
   name: MyExpression.Console
+- path: MyExpression.Wpf\bin\Release\
+  name: MyExpression.Wpf
 - path: TestResult.xml
   name: TestResult
 notifications:
@@ -52,7 +54,7 @@ deploy:
   description: $(appveyor_repo_tag_name) $(appveyor_build_version).$(rev)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe
+  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf
   draft: false
   prerelease: true
   on:
@@ -64,7 +66,7 @@ deploy:
   description: $(appveyor_repo_tag_name) $(appveyor_build_version).$(rev)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe
+  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf
   draft: false
   prerelease: false
   on:
