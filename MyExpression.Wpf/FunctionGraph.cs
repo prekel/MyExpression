@@ -26,16 +26,15 @@ namespace MyExpression.Wpf
 		public Point Offset { get; set; }
 
 		public double Step { get; set; }
+		
+		public Point Scale { get; set; }
 
-		public double ScaleX { get; set; }
-		public double ScaleY { get; set; }
-
-		public Func<double, double> Function { get; set; }
+		public IList<Func<double, double>> Functions { get; set; } = new List<Func<double, double>>(1);
 
 		public void ResetTranslateTransform()
 		{
 			var tg1 = (TransformGroup)RenderTransform;
-			var tt = new TranslateTransform((int)(ActualWidth / 2 + Offset.X * ScaleX) + 0.5, -(int)(ActualHeight / 2 + Offset.Y * ScaleY) + 0.5);
+			var tt = new TranslateTransform((int)(ActualWidth / 2 + Offset.X * Scale.X) + 0.5, -(int)(ActualHeight / 2 + Offset.Y * Scale.Y) + 0.5);
 			if (tg1.Children.Count == 3) tg1.Children.Add(tt);
 			else tg1.Children[3] = tt;
 		}
@@ -66,20 +65,22 @@ namespace MyExpression.Wpf
 
 		public void DrawFunction()
 		{
-			var l = new Polyline
+			foreach (var f in Functions)
 			{
-				Stroke = Brushes.DarkMagenta,
-				StrokeThickness = 1
-			};
-			for (var i = DefinitionArea.Left; i <= DefinitionArea.Right; i += Step)
-			{
-				l.Points.Add(new Point(i * ScaleX, Function(i) * ScaleY));
+				var l = new Polyline
+				{
+					Stroke = Brushes.DarkMagenta,
+					StrokeThickness = 1
+				};
+				for (var i = DefinitionArea.Left; i <= DefinitionArea.Right; i += Step)
+				{
+					l.Points.Add(new Point(i * Scale.X, f(i) * Scale.Y));
+				}
+				Children.Add(l);
 			}
-			Children.Add(l);
 		}
-
-		public double CellsStepX { get; set; }
-		public double CellsStepY { get; set; }
+		
+		public Point CellsStep { get; set; }
 
 		public Interval CellsIntervalX { get; set; }
 		public Interval CellsIntervalY { get; set; }
@@ -92,8 +93,8 @@ namespace MyExpression.Wpf
 				{
 					Stroke = Brushes.LightGray,
 					StrokeThickness = 0.5,
-					X1 = i * ScaleX,
-					X2 = i * ScaleX,
+					X1 = i * Scale.X,
+					X2 = i * Scale.X,
 					Y1 = -ActualHeight / 2,
 					Y2 = ActualHeight / 2,
 				};
@@ -105,8 +106,8 @@ namespace MyExpression.Wpf
 				{
 					Stroke = Brushes.LightGray,
 					StrokeThickness = 0.5,
-					X1 = i * ScaleX,
-					X2 = i * ScaleX,
+					X1 = i * Scale.X,
+					X2 = i * Scale.X,
 					Y1 = -ActualHeight / 2,
 					Y2 = ActualHeight / 2,
 				};
@@ -120,8 +121,8 @@ namespace MyExpression.Wpf
 					StrokeThickness = 0.5,
 					X1 = -ActualWidth / 2,
 					X2 = ActualWidth / 2,
-					Y1 = i * ScaleY,
-					Y2 = i * ScaleY,
+					Y1 = i * Scale.Y,
+					Y2 = i * Scale.Y,
 				};
 				Children.Add(l);
 			}
@@ -133,8 +134,8 @@ namespace MyExpression.Wpf
 					StrokeThickness = 0.5,
 					X1 = -ActualWidth / 2,
 					X2 = ActualWidth / 2,
-					Y1 = i * ScaleY,
-					Y2 = i * ScaleY,
+					Y1 = i * Scale.Y,
+					Y2 = i * Scale.Y,
 				};
 				Children.Add(l);
 			}

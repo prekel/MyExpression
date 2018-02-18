@@ -29,17 +29,24 @@ namespace MyExpression.Wpf
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			//Graph.Function = x => x * x * x - 2 * x * x - x + 3;
-			Graph.Function = x => Math.Sqrt(x);
-			Graph.DefinitionArea = new Interval(0, 20);
-			Graph.ScaleX = 40;
-			Graph.ScaleY = 40;
+			double f1(double x) => x * x * x - 2 * x * x - x + 3;
+			double f2(double x) => x * x - 1;
+			double f3(double x) => x * x * x - 2 * x * x - x + 3 - x * x + 1;
+			if (Graph.Functions.Count == 0)
+			{
+				Graph.Functions.Add(f1);
+				Graph.Functions.Add(f2);
+				Graph.Functions.Add(f3);
+			}
+			//Graph.Functions[0] = f;
+
+			Graph.DefinitionArea = new Interval(-20, 20);
+			Graph.Scale = new Point(40, 40);
 			Graph.Step = 0.01;
 			Graph.Offset = new Point(Double.Parse(OffsetX.Text), Double.Parse(OffsetY.Text));
-			Graph.CellsIntervalX = new Interval(-40, 40);
-			Graph.CellsIntervalY = new Interval(-40, 40);
-			Graph.CellsStepX = 1;
-			Graph.CellsStepY = 1;
+			Graph.CellsIntervalX = new Interval(-10, 10);
+			Graph.CellsIntervalY = new Interval(-10, 10);
+			Graph.CellsStep = new Point(40, 40);
 
 			Graph.Clear();
 			Graph.ResetTranslateTransform();
