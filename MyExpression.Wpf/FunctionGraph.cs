@@ -15,35 +15,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using MyExpression.Core;
+
 namespace MyExpression.Wpf
 {
 	public class FunctionGraph : Canvas
 	{
+		public Interval Interval { get; set; }
+
+		public double Step { get; set; }
+
+		public double ScaleX { get; set; }
+		public double ScaleY { get; set; }
+
 		public Func<double, double> Function { get; set; }
+
 		public void DrawAxis()
 		{
-			//var l1 = new Line
-			//{
-			//	X1 = Math.Ceiling(ActualWidth / 2) + 0.5,
-			//	X2 = Math.Ceiling(ActualWidth / 2) + 0.5,
-			//	Y1 = 0,
-			//	Y2 = ActualHeight,
-			//	Stroke = Brushes.Black,
-			//	StrokeThickness = 1
-			//};
-			//var l2 = new Line
-			//{
-			//	X1 = 0,
-			//	X2 = ActualWidth,
-			//	Y1 = Math.Ceiling(ActualHeight / 2) + 0.5,
-			//	Y2 = Math.Ceiling(ActualHeight / 2) + 0.5,
-			//	Stroke = Brushes.Black,
-			//	StrokeThickness = 1
-			//};
-			//var tg = new TransformGroup();
-			//tg.Children.Add(new TranslateTransform((int)(ActualWidth / 2) + 0.5, (int)(ActualHeight / 2) + 0.5));
-			//tg.Children.Add(new ScaleTransform(1, -1));
-			//RenderTransform = tg;
 			Children.Clear();
 			var tg1 = (TransformGroup)RenderTransform;
 			var tt = new TranslateTransform((int)(ActualWidth / 2) + 0.5, -(int)(ActualHeight / 2) + 0.5);
