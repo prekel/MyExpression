@@ -53,7 +53,21 @@ deploy:
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
   artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe
+  draft: false
   prerelease: true
   on:
     branch: develop
+    appveyor_repo_tag: true
+deploy:
+  tag: $(appveyor_repo_tag_name)
+  release: MyExpression $(appveyor_repo_tag_name)
+  description: $(appveyor_repo_tag_name) $(appveyor_build_version).$(rev)
+  provider: GitHub
+  auth_token:
+    secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
+  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe
+  draft: false
+  prerelease: false
+  on:
+    branch: master
     appveyor_repo_tag: true
