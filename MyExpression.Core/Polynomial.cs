@@ -49,6 +49,28 @@ namespace MyExpression.Core
 			}
 		}
 
+		public Polynomial(CalculateMode mode) : this()
+		{
+			Mode = mode;
+		}
+
+		public Polynomial(Polynomial a, CalculateMode mode) : this(a)
+		{
+			Mode = mode;
+		}
+
+		public Polynomial(CalculateMode mode, params double[] v) : this(v)
+		{
+			Mode = mode;
+		}
+
+		public enum CalculateMode
+		{
+			Manual, Compile
+		}
+
+		public CalculateMode Mode { get; set; } = CalculateMode.Compile;
+
 		public double ManualCalculate(double x) => Data.Values.Sum(m => m.Calculate(x));
 
 		private CodeDomEval Evaluator { get; set; }
@@ -66,8 +88,12 @@ namespace MyExpression.Core
 
 		public double Calculate(double x)
 		{
-			if (!IsCompiled) Compile();
-			return Evaluator.Eval(x);
+			if (Mode == CalculateMode.Compile)
+			{
+				if (!IsCompiled) Compile();
+				return Evaluator.Eval(x);
+			}
+			return ManualCalculate(x);
 		}
 
 		public void DeleteZeros()
