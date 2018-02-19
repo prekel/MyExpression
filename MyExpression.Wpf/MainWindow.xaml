@@ -40,7 +40,7 @@
 		<Label Content="CellsIntervalY" HorizontalAlignment="Left" Margin="29,173,0,0" VerticalAlignment="Top" Height="28"/>
 		<TextBox x:Name="CellsIntervalYLeft" HorizontalAlignment="Left" Height="23" Margin="115,173,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Width="60"/>
 		<TextBox x:Name="CellsIntervalYRight" HorizontalAlignment="Left" Height="23" Margin="180,173,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="60"/>
-		<Label Content="Polynomial" HorizontalAlignment="Left" Margin="42,229,0,0" VerticalAlignment="Top" Height="28"/>
+		<Label Content="Polynomial/Function" HorizontalAlignment="Left" Margin="-3,229,0,0" VerticalAlignment="Top" Height="28" Width="118"/>
 		<TextBox x:Name="Polynomial" HorizontalAlignment="Left" Height="23" Margin="115,229,0,0" TextWrapping="Wrap" Text="x^3-2x^2-x+3" VerticalAlignment="Top" Width="125"/>
 		<Label Content="DefinitionArea" HorizontalAlignment="Left" Margin="24,257,0,0" VerticalAlignment="Top" Height="28" Width="91"/>
 		<TextBox x:Name="DefinitionAreaLeft" HorizontalAlignment="Left" Height="23" Margin="115,257,0,0" TextWrapping="Wrap" Text="-20" VerticalAlignment="Top" Width="60"/>

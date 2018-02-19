@@ -29,15 +29,27 @@ namespace MyExpression.Wpf
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			if (Graph.Functions.Count == 0)
+			Func<double, double> f;
+			try
 			{
 				var p = Core.Polynomial.Parse(Polynomial.Text);
-				Graph.Functions.Add(p.Calculate);
+				f = p.Calculate;
 			}
-			else
+			catch
 			{
-				var p = Core.Polynomial.Parse(Polynomial.Text);
-				Graph.Functions[0] = p.Calculate;
+				var ev = new CodeDomEval(Polynomial.Text);
+				f = ev.Eval;
+			}
+			finally
+			{
+				if (Graph.Functions.Count == 0)
+				{
+					Graph.Functions.Add(f);
+				}
+				else
+				{
+					Graph.Functions[0] = f;
+				}
 			}
 
 			Graph.DefinitionArea = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
