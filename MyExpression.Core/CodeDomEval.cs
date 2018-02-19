@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace MyExpression.Core
 {
-	public class FunctionCompiler
+	public class CodeDomEval
 	{
 		CompilerResults compilerResults;
 
@@ -34,10 +34,11 @@ public double Evaluate(double[] args)
 		/// Конструктор
 		/// </summary>
 		/// <param name="expression">Выражение, которое будем вычислять</param>
-		public FunctionCompiler(string expression)
+		public CodeDomEval(string expression)
 		{
 			//var providerOptions = new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } };
-			var providerOptions = new Dictionary<string, string>() { { "CompilerVersion", "v7.1" } };
+			var providerOptions = new Dictionary<string, string>() { { "CompilerVersion", "v4.0" } };
+			//var providerOptions = new Dictionary<string, string>() { { "CompilerVersion", "v7.1" } };
 			var provider = new CSharpCodeProvider(providerOptions);
 
 			// Компиляция сборки с вычисляющим классом
@@ -51,7 +52,10 @@ public double Evaluate(double[] args)
 			{
 				sb.Append(error.ErrorText + "\n");
 			}
-			throw new Exception(sb.ToString());
+			if (compilerResults.Errors.Count > 0)
+			{
+				throw new Exception(sb.ToString());
+			}
 		}
 
 		/// <summary>
