@@ -15,11 +15,11 @@ install:
 
     if ($env:appveyor_repo_tag_name -eq $True) { $env:product_version = $env:appveyor_repo_tag_name }
 
-    else { $env:product_version = "$env:assembly_version-$env:appveyor_repo_branch-$env:appveyor_repo_commit" }
+    else { $env:product_version = "$env:appveyor_build_version.$env:rev-$env:appveyor_repo_branch-$env:appveyor_repo_commit" }
     
-    Write-Host -Backgroundcolor Green -Foregroundcolor White 'Assembly Version: '$env:assembly_version
+    Write-Host -Backgroundcolor Green -Foregroundcolor White "Assembly Version: $env:assembly_version"
 
-    Write-Host -Backgroundcolor Green -Foregroundcolor White ' Product Version: '$env:assembly_version
+    Write-Host -Backgroundcolor Green -Foregroundcolor White " Product Version: $env:assembly_version"
 before_build:
 - ps: nuget restore MyExpression.sln
 build:
