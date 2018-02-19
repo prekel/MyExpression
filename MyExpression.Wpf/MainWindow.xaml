@@ -20,8 +20,8 @@
 		<Rectangle Fill="White"  Height="40" VerticalAlignment="Top" Margin="0,0,0,0"/>
 		<Rectangle Fill="White"  Height="40" VerticalAlignment="Bottom" Margin="0,0,0,0"/>
 		<Rectangle Fill="White" HorizontalAlignment="Right" Width="40"/>
-		<Button x:Name="ResetButton" Content="Reset" HorizontalAlignment="Left" Margin="115,11,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-		<Button x:Name="DrawButton" Content="Draw" HorizontalAlignment="Left" Margin="115,36,0,0" VerticalAlignment="Top" Width="75" Click="Button1_Click"/>
+		<Button x:Name="ResetButton" Content="Reset" HorizontalAlignment="Left" Margin="115,11,0,0" VerticalAlignment="Top" Width="75" Click="ResetButton_Click"/>
+		<Button x:Name="DrawButton" Content="Draw" HorizontalAlignment="Left" Margin="115,36,0,0" VerticalAlignment="Top" Width="75" Click="DrawButton_Click"/>
 		<TextBox x:Name="OffsetX" HorizontalAlignment="Left" Height="23" Margin="115,61,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="60"/>
 		<TextBox x:Name="OffsetY" HorizontalAlignment="Left" Height="23" Margin="180,61,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="60"/>
 		<Label Content="Offset" HorizontalAlignment="Left" Margin="66,61,0,0" VerticalAlignment="Top" Height="28" Width="49"/>
