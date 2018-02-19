@@ -26,7 +26,7 @@ namespace MyExpression.Wpf
 		public Point Offset { get; set; }
 
 		public double Step { get; set; }
-		
+
 		public Point Scale { get; set; }
 
 		public IList<Func<double, double>> Functions { get; set; } = new List<Func<double, double>>(1);
@@ -74,12 +74,32 @@ namespace MyExpression.Wpf
 				};
 				for (var i = DefinitionArea.Left; i <= DefinitionArea.Right; i += Step)
 				{
-					l.Points.Add(new Point(i * Scale.X, f(i) * Scale.Y));
+					var p = new Point(i * Scale.X, f(i) * Scale.Y);
+					if (p.Y.Equals(Double.NaN) ||
+						p.Y.Equals(Double.PositiveInfinity) ||
+						p.Y.Equals(Double.NegativeInfinity) ||
+						p.Y >= 1e5 ||
+						p.Y <= -1e5)
+					{
+						if (l.Points.Count > 0)
+						{
+							Children.Add(l);
+							l = new Polyline
+							{
+								Stroke = Brushes.DarkMagenta,
+								StrokeThickness = 1
+							};
+						}
+					}
+					else
+					{
+						l.Points.Add(p);
+					}
 				}
 				Children.Add(l);
 			}
 		}
-		
+
 		public Point CellsStep { get; set; }
 
 		public Interval CellsIntervalX { get; set; }
@@ -95,8 +115,8 @@ namespace MyExpression.Wpf
 					StrokeThickness = 0.5,
 					X1 = i * Scale.X,
 					X2 = i * Scale.X,
-					Y1 = -ActualHeight / 2,
-					Y2 = ActualHeight / 2,
+					Y1 = -ActualHeight * 2,
+					Y2 = ActualHeight * 2,
 				};
 				Children.Add(l);
 			}
@@ -108,8 +128,8 @@ namespace MyExpression.Wpf
 					StrokeThickness = 0.5,
 					X1 = i * Scale.X,
 					X2 = i * Scale.X,
-					Y1 = -ActualHeight / 2,
-					Y2 = ActualHeight / 2,
+					Y1 = -ActualHeight * 2,
+					Y2 = ActualHeight * 2,
 				};
 				Children.Add(l);
 			}
@@ -119,8 +139,8 @@ namespace MyExpression.Wpf
 				{
 					Stroke = Brushes.LightGray,
 					StrokeThickness = 0.5,
-					X1 = -ActualWidth / 2,
-					X2 = ActualWidth / 2,
+					X1 = -ActualWidth * 2,
+					X2 = ActualWidth * 2,
 					Y1 = i * Scale.Y,
 					Y2 = i * Scale.Y,
 				};
@@ -132,8 +152,8 @@ namespace MyExpression.Wpf
 				{
 					Stroke = Brushes.LightGray,
 					StrokeThickness = 0.5,
-					X1 = -ActualWidth / 2,
-					X2 = ActualWidth / 2,
+					X1 = -ActualWidth * 2,
+					X2 = ActualWidth * 2,
 					Y1 = i * Scale.Y,
 					Y2 = i * Scale.Y,
 				};

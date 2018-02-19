@@ -20,8 +20,8 @@
 		<Rectangle Fill="White"  Height="40" VerticalAlignment="Top" Margin="0,0,0,0"/>
 		<Rectangle Fill="White"  Height="40" VerticalAlignment="Bottom" Margin="0,0,0,0"/>
 		<Rectangle Fill="White" HorizontalAlignment="Right" Width="40"/>
-		<Button x:Name="ResetButton" Content="Reset" HorizontalAlignment="Left" Margin="115,11,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-		<Button x:Name="DrawButton" Content="Draw" HorizontalAlignment="Left" Margin="115,36,0,0" VerticalAlignment="Top" Width="75" Click="Button1_Click"/>
+		<Button x:Name="ResetButton" Content="Reset" HorizontalAlignment="Left" Margin="115,11,0,0" VerticalAlignment="Top" Width="75" Click="ResetButton_Click"/>
+		<Button x:Name="DrawButton" Content="Draw" HorizontalAlignment="Left" Margin="115,36,0,0" VerticalAlignment="Top" Width="75" Click="DrawButton_Click"/>
 		<TextBox x:Name="OffsetX" HorizontalAlignment="Left" Height="23" Margin="115,61,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="60"/>
 		<TextBox x:Name="OffsetY" HorizontalAlignment="Left" Height="23" Margin="180,61,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="60"/>
 		<Label Content="Offset" HorizontalAlignment="Left" Margin="66,61,0,0" VerticalAlignment="Top" Height="28" Width="49"/>
@@ -40,7 +40,7 @@
 		<Label Content="CellsIntervalY" HorizontalAlignment="Left" Margin="29,173,0,0" VerticalAlignment="Top" Height="28"/>
 		<TextBox x:Name="CellsIntervalYLeft" HorizontalAlignment="Left" Height="23" Margin="115,173,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Width="60"/>
 		<TextBox x:Name="CellsIntervalYRight" HorizontalAlignment="Left" Height="23" Margin="180,173,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="60"/>
-		<Label Content="Polynomial" HorizontalAlignment="Left" Margin="42,229,0,0" VerticalAlignment="Top" Height="28"/>
+		<Label Content="Polynomial/Function" HorizontalAlignment="Left" Margin="-3,229,0,0" VerticalAlignment="Top" Height="28" Width="118"/>
 		<TextBox x:Name="Polynomial" HorizontalAlignment="Left" Height="23" Margin="115,229,0,0" TextWrapping="Wrap" Text="x^3-2x^2-x+3" VerticalAlignment="Top" Width="125"/>
 		<Label Content="DefinitionArea" HorizontalAlignment="Left" Margin="24,257,0,0" VerticalAlignment="Top" Height="28" Width="91"/>
 		<TextBox x:Name="DefinitionAreaLeft" HorizontalAlignment="Left" Height="23" Margin="115,257,0,0" TextWrapping="Wrap" Text="-20" VerticalAlignment="Top" Width="60"/>
