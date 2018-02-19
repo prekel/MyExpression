@@ -12,13 +12,20 @@ namespace MyExpression.Console
 	{
 		private static void Main(string[] args)
 		{
-			System.Console.Write("Equation: ");
+			//System.Console.Write("Equation: ");
+			//var s = System.Console.ReadLine();
+			//var p = Polynomial.Parse(s);
+			//var e = new PolynomialEquation(p, 1e-8);
+			//e.Solve();
+			////System.Console.WriteLine(String.Join(" ", e.AllRoots));
+			//System.Console.WriteLine("   Roots: " + String.Join(" ", e.Roots));
+
 			var s = System.Console.ReadLine();
-			var p = Polynomial.Parse(s);
-			var e = new PolynomialEquation(p, 1e-8);
-			e.Solve();
-			//System.Console.WriteLine(String.Join(" ", e.AllRoots));
-			System.Console.WriteLine("   Roots: " + String.Join(" ", e.Roots));
+			var evaluator = new FunctionCompiler(s.Replace("x", "args1[0]"));
+			//FunctionCompiler evaluator = new FunctionCompiler("args[0] * 4 - Math.Sin(args[1])");
+			var args1 = new double[] { Double.Parse(System.Console.ReadLine()) };
+			double? result = evaluator.Eval(new object[] { args1 });
+			System.Console.WriteLine(result);
 		}
 	}
 }

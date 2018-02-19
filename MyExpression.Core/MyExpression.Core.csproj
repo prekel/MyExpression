@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Equation.cs" />
+    <Compile Include="FunctionCompiler.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="LinearEquation.cs" />
     <Compile Include="Monomial.cs" />
