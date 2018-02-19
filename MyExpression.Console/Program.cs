@@ -21,11 +21,14 @@ namespace MyExpression.Console
 			//System.Console.WriteLine("   Roots: " + String.Join(" ", e.Roots));
 
 			var s = System.Console.ReadLine();
-			var evaluator = new CodeDomEval(s.Replace("x", "args[0]"));
-			//FunctionCompiler evaluator = new FunctionCompiler("args[0] * 4 - Math.Sin(args[1])");
-			var args1 = new double[] { Double.Parse(System.Console.ReadLine()) };
-			double? result = evaluator.Eval(new object[] { args1 });
-			System.Console.WriteLine(result);
+			var evaluator = new CodeDomEval(s);
+			while (true)
+			{
+				if (!Double.TryParse(System.Console.ReadLine(), out double x)) break;
+				var result = evaluator.Eval(x);
+				System.Console.WriteLine(result);
+			}
+			System.Console.ReadKey();
 		}
 	}
 }

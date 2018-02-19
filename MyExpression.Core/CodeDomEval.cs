@@ -12,24 +12,26 @@ namespace MyExpression.Core
 {
 	public class CodeDomEval
 	{
-		CompilerResults compilerResults;
+		public CompilerResults CompilerResults { get; private set; }
+
+		public bool IsSuccessfulBuild { get; set; }
 
 		/// <summary>
 		/// Исходник, который будем компилировать
 		/// </summary>
-		string SourceFormat = @"
+		private const string SourceFormat = @"
 using System;
 
 namespace Evaluation
-{{
-public class Evaluator
-{{
-public double Evaluate(double[] args)
-{{
-  return {0};
-}}
-}}
-}}";
+{
+	public class Evaluator
+	{
+		public double Evaluate(double x)
+		{
+			return [|<expression>|];
+		}
+	}
+}";
 		/// <summary>
 		/// Конструктор
 		/// </summary>
@@ -43,30 +45,34 @@ public double Evaluate(double[] args)
 
 			// Компиляция сборки с вычисляющим классом
 			var compilerParams = CreateCompilerParameters();
-			var src = String.Format(SourceFormat, expression);
-			compilerResults = provider.CompileAssemblyFromSource(compilerParams, src);
+			//var src = String.Format(SourceFormat, expression);
+			var src = SourceFormat.Replace("[|<expression>|]", expression);
+			CompilerResults = provider.CompileAssemblyFromSource(compilerParams, src);
 
-			var sb = new StringBuilder();
-			// Сбор ошибок компиляции
-			foreach (CompilerError error in compilerResults.Errors)
+			if (CompilerResults.Errors.Count == 0)
 			{
-				sb.Append(error.ErrorText + "\n");
+				IsSuccessfulBuild = true;
 			}
-			if (compilerResults.Errors.Count > 0)
+			else
 			{
-				throw new Exception(sb.ToString());
+				var sb = new StringBuilder();
+				// Сбор ошибок компиляции
+				foreach (CompilerError error in CompilerResults.Errors)
+				{
+					sb.Append(error.ErrorText + "\n");
+				}
+				throw new Exception("Ошибка сборки\n" + sb);
 			}
 		}
 
 		/// <summary>
 		/// Метод для проведения вычисления
 		/// </summary>
-		public double? Eval(object[] args)
+		public double Eval(double x)
 		{
-			//if (compilerResults != null && !compilerResults.Errors.HasErrors && compilerResults.CompiledAssembly != null)
-			//{
+			if (!IsSuccessfulBuild) throw new Exception("Ошибка сборки");
 			// загружаем сборку
-			var assembly = compilerResults.CompiledAssembly;
+			var assembly = CompilerResults.CompiledAssembly;
 			var type = assembly.GetType("Evaluation.Evaluator");
 
 			// создаем экземпляр сгенерированного класса
@@ -74,12 +80,10 @@ public double Evaluate(double[] args)
 
 			// вызываем метод для вычисления нашей функции с заданными параметрами
 			var method = type.GetMethod("Evaluate");
-			var result = (double)method.Invoke(instance, args);
+			var result = (double)method.Invoke(instance, new object[] { x });
 
 			// PROFIT
 			return result;
-			//}
-			//return null;
 		}
 
 		/// <summary>
