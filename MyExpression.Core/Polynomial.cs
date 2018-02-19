@@ -14,8 +14,6 @@ namespace MyExpression.Core
 
 		public double Degree => Data.Last().Value.Degree;
 
-		public double Calculate(double x) => Data.Values.Sum(m => m.Calculate(x));
-
 		public Monomial this[double degree]
 		{
 			get
@@ -51,8 +49,57 @@ namespace MyExpression.Core
 			}
 		}
 
+		public Polynomial(CalculateMode mode) : this()
+		{
+			Mode = mode;
+		}
+
+		public Polynomial(Polynomial a, CalculateMode mode) : this(a)
+		{
+			Mode = mode;
+		}
+
+		public Polynomial(CalculateMode mode, params double[] v) : this(v)
+		{
+			Mode = mode;
+		}
+
+		public enum CalculateMode
+		{
+			Manual, Compile
+		}
+
+		public CalculateMode Mode { get; set; } = CalculateMode.Manual;
+
+		public double ManualCalculate(double x) => Data.Values.Sum(m => m.Calculate(x));
+
+		private CodeDomEval Evaluator { get; set; }
+
+		public bool IsCompiled { get; set; }
+
+		public void Compile()
+		{
+			var s = String.Join(" + ", from i in Data.Values select $"({i.Coefficient.ToString(System.Globalization.CultureInfo.InvariantCulture)}*Math.Pow(x, {i.Degree.ToString(System.Globalization.CultureInfo.InvariantCulture)}))");
+			Evaluator = new CodeDomEval(s);
+			IsCompiled = true;
+		}
+
+		public double Evaluate(double x) => Evaluator.Eval(x);
+
+		public double Calculate(double x)
+		{
+			if (Mode == CalculateMode.Compile)
+			{
+				if (!IsCompiled) Compile();
+				return Evaluator.Eval(x);
+			}
+			return ManualCalculate(x);
+		}
+
 		public void DeleteZeros()
 		{
+			IsCompiled = false;
+
 			//var zk = new List<double>();
 			//foreach (var i in Data)
 			//{
@@ -74,6 +121,7 @@ namespace MyExpression.Core
 
 		public void Add(Monomial a)
 		{
+			IsCompiled = false;
 			if (Data.ContainsKey(a.Degree))
 			{
 				if (Data[a.Degree].Coefficient + a.Coefficient == 0)
@@ -93,6 +141,7 @@ namespace MyExpression.Core
 
 		public void Sub(Monomial a)
 		{
+			IsCompiled = false;
 			if (Data.ContainsKey(a.Degree))
 			{
 				if (Data[a.Degree].Coefficient - a.Coefficient == 0)
