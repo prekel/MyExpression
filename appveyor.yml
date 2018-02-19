@@ -15,7 +15,7 @@ install:
 
     if ($env:appveyor_repo_tag_name -eq $True) { $env:prodver = $env:appveyor_repo_tag_name }
 
-    else { $env:prodver = $env:assembly_version'-'$env:appveyor_repo_branch'-'$env:appveyor_repo_commit }
+    else { $env:prodver = $env:assembly_version-$env:appveyor_repo_branch-$env:appveyor_repo_commit }
     
     Write-Host -Backgroundcolor Green -Foregroundcolor White 'Assembly Version: '$env:assembly_version
 
