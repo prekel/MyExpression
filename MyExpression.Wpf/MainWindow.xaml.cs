@@ -35,13 +35,10 @@ namespace MyExpression.Wpf
 				var p = Core.Polynomial.Parse(Polynomial.Text);
 				f = p.Calculate;
 			}
-			catch
+			finally
 			{
 				var ev = new CodeDomEval(Polynomial.Text);
 				f = ev.Eval;
-			}
-			finally
-			{
 				if (Graph.Functions.Count == 0)
 				{
 					Graph.Functions.Add(f);
