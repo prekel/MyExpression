@@ -69,7 +69,7 @@ namespace MyExpression.Core
 			Manual, Compile
 		}
 
-		public CalculateMode Mode { get; set; } = CalculateMode.Compile;
+		public CalculateMode Mode { get; set; } = CalculateMode.Manual;
 
 		public double ManualCalculate(double x) => Data.Values.Sum(m => m.Calculate(x));
 
