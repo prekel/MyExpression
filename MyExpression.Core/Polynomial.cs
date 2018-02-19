@@ -57,7 +57,7 @@ namespace MyExpression.Core
 
 		public void Compile()
 		{
-			var s = String.Join(" + ", from i in Data.Values select $"({i.Coefficient}*Math.Pow(x, {i.Degree}))");
+			var s = String.Join(" + ", from i in Data.Values select $"({i.Coefficient.ToString(System.Globalization.CultureInfo.InvariantCulture)}*Math.Pow(x, {i.Degree.ToString(System.Globalization.CultureInfo.InvariantCulture)}))");
 			Evaluator = new CodeDomEval(s);
 			IsCompiled = true;
 		}
