@@ -35,18 +35,18 @@ namespace MyExpression.Wpf
 				var p = Core.Polynomial.Parse(Polynomial.Text);
 				f = p.Calculate;
 			}
-			finally
+			catch
 			{
 				var ev = new CodeDomEval(Polynomial.Text);
 				f = ev.Eval;
-				if (Graph.Functions.Count == 0)
-				{
-					Graph.Functions.Add(f);
-				}
-				else
-				{
-					Graph.Functions[0] = f;
-				}
+			}
+			if (Graph.Functions.Count == 0)
+			{
+				Graph.Functions.Add(f);
+			}
+			else
+			{
+				Graph.Functions[0] = f;
 			}
 
 			Graph.DefinitionArea = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
