@@ -95,8 +95,8 @@ namespace MyExpression.Wpf
 					StrokeThickness = 0.5,
 					X1 = i * Scale.X,
 					X2 = i * Scale.X,
-					Y1 = -ActualHeight / 2,
-					Y2 = ActualHeight / 2,
+					Y1 = -ActualHeight * 2,
+					Y2 = ActualHeight * 2,
 				};
 				Children.Add(l);
 			}
@@ -108,8 +108,8 @@ namespace MyExpression.Wpf
 					StrokeThickness = 0.5,
 					X1 = i * Scale.X,
 					X2 = i * Scale.X,
-					Y1 = -ActualHeight / 2,
-					Y2 = ActualHeight / 2,
+					Y1 = -ActualHeight * 2,
+					Y2 = ActualHeight * 2,
 				};
 				Children.Add(l);
 			}
@@ -119,8 +119,8 @@ namespace MyExpression.Wpf
 				{
 					Stroke = Brushes.LightGray,
 					StrokeThickness = 0.5,
-					X1 = -ActualWidth / 2,
-					X2 = ActualWidth / 2,
+					X1 = -ActualWidth * 2,
+					X2 = ActualWidth * 2,
 					Y1 = i * Scale.Y,
 					Y2 = i * Scale.Y,
 				};
@@ -132,8 +132,8 @@ namespace MyExpression.Wpf
 				{
 					Stroke = Brushes.LightGray,
 					StrokeThickness = 0.5,
-					X1 = -ActualWidth / 2,
-					X2 = ActualWidth / 2,
+					X1 = -ActualWidth * 2,
+					X2 = ActualWidth * 2,
 					Y1 = i * Scale.Y,
 					Y2 = i * Scale.Y,
 				};
