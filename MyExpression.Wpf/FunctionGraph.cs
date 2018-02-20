@@ -35,6 +35,7 @@ namespace MyExpression.Wpf
 			public Func<double, double> Function { get; set; }
 			public SolidColorBrush Brush { get; set; } = Brushes.DarkMagenta;
 			public Interval DefinitionArea { get; set; }
+			public bool IsDrawed { get; set; }
 			public DrawableFunction(Func<double, double> f, Interval defarea, SolidColorBrush brush = null)
 			{
 				Function = f;
@@ -91,6 +92,8 @@ namespace MyExpression.Wpf
 		{
 			foreach (var f in Functions)
 			{
+				if (f.IsDrawed) continue;
+				f.IsDrawed = true;
 				var l = new Polyline
 				{
 					Stroke = Brushes.DarkMagenta,
@@ -185,7 +188,19 @@ namespace MyExpression.Wpf
 			}
 		}
 
-		public void Clear() => Children.Clear();
+		public void ClearAll()
+		{
+			Functions.Clear();
+			Children.Clear();
+		}
+
+		public void Clear()
+		{
+			for (var i = 0; i < Children.Count; i++)
+			{
+				if (Children[i] is Polyline) Children.RemoveAt(i);
+			}
+		}
 
 		public IEnumerator<DrawableFunction> GetEnumerator() => Functions.GetEnumerator();
 

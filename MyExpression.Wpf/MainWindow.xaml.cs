@@ -31,6 +31,40 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				Graph.Scale = new Point(Double.Parse(ScaleX.Text), Double.Parse(ScaleY.Text));
+				Graph.Step = Double.Parse(Step.Text);
+				Graph.Offset = new Point(Double.Parse(OffsetX.Text), Double.Parse(OffsetY.Text));
+				Graph.CellsIntervalX = new Interval(Double.Parse(CellsIntervalXLeft.Text), Double.Parse(CellsIntervalXRight.Text));
+				Graph.CellsIntervalY = new Interval(Double.Parse(CellsIntervalYLeft.Text), Double.Parse(CellsIntervalYRight.Text));
+				Graph.CellsStep = new Point(Double.Parse(CellsStepX.Text), Double.Parse(CellsStepY.Text));
+
+				Graph.ClearAll();
+				Graph.ResetTranslateTransform();
+				Graph.DrawCells();
+				Graph.DrawAxis();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.StackTrace, ex.Message);
+			}
+		}
+
+		private void DrawButton_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				Graph.DrawFunction();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.StackTrace, ex.Message);
+			}
+		}
+
+		private void AddButton_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
 				Func<double, double> f;
 				try
@@ -43,43 +77,24 @@ namespace MyExpression.Wpf
 					var ev = new CodeDomEval(Polynomial.Text);
 					f = ev.Eval;
 				}
-				if (Graph.Count == 0)
-				{
-					Graph.Add(f, da);
-				}
-				else
-				{
-					Graph[0].Function = f;
-					Graph[0].DefinitionArea = da;
-				}
-				
-				Graph.Scale = new Point(Double.Parse(ScaleX.Text), Double.Parse(ScaleY.Text));
-				Graph.Step = Double.Parse(Step.Text);
-				Graph.Offset = new Point(Double.Parse(OffsetX.Text), Double.Parse(OffsetY.Text));
-				Graph.CellsIntervalX = new Interval(Double.Parse(CellsIntervalXLeft.Text), Double.Parse(CellsIntervalXRight.Text));
-				Graph.CellsIntervalY = new Interval(Double.Parse(CellsIntervalYLeft.Text), Double.Parse(CellsIntervalYRight.Text));
-				Graph.CellsStep = new Point(Double.Parse(CellsStepX.Text), Double.Parse(CellsStepY.Text));
-
-				Graph.Clear();
-				Graph.ResetTranslateTransform();
-				Graph.DrawCells();
-				Graph.DrawAxis();
+				Graph.Add(f, da);
+				CountLabel.Content = Graph.Count;
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+				MessageBox.Show(ex.StackTrace, ex.Message);
 			}
 		}
 
-		private void DrawButton_Click(object sender, RoutedEventArgs e)
+		private void ClearButton_Click(object sender, RoutedEventArgs e)
 		{
 			try
 			{
-				Graph.DrawFunction();
+				Graph.Clear();
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+				MessageBox.Show(ex.StackTrace, ex.Message);
 			}
 		}
 	}
