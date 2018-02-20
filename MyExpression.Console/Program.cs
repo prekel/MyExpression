@@ -12,13 +12,13 @@ namespace MyExpression.Console
 	{
 		private static void Main(string[] args)
 		{
-			//System.Console.Write("Equation: ");
-			//var s = System.Console.ReadLine();
-			//var p = Polynomial.Parse(s);
-			//var e = new PolynomialEquation(p, 1e-8);
-			//e.Solve();
-			////System.Console.WriteLine(String.Join(" ", e.AllRoots));
-			//System.Console.WriteLine("   Roots: " + String.Join(" ", e.Roots));
+			System.Console.Write("Equation: ");
+			var s = System.Console.ReadLine();
+			var p = Polynomial.Parse(s);
+			var e = new PolynomialEquation(p, 1e-8);
+			e.Solve();
+			//System.Console.WriteLine(String.Join(" ", e.AllRoots));
+			System.Console.WriteLine("   Roots: " + String.Join(" ", e.Roots));
 
 			//var s = System.Console.ReadLine();
 			//var evaluator = new CodeDomEval(s);
@@ -42,12 +42,12 @@ namespace MyExpression.Console
 			//	System.Console.WriteLine(result);
 			//}
 
-			var s = "3x^3-2x^2+x-1";
-			var p = Polynomial.Parse(s);
-			var e = new PolynomialEquation(p, 1e-8);
-			e.Solve();
-			//System.Console.WriteLine(String.Join(" ", e.AllRoots));
-			System.Console.WriteLine("   Roots: " + String.Join(" ", e.Roots));
+			//var s = "3x^3-2x^2+x-1";
+			//var p = Polynomial.Parse(s);
+			//var e = new PolynomialEquation(p, 1e-8);
+			//e.Solve();
+			////System.Console.WriteLine(String.Join(" ", e.AllRoots));
+			//System.Console.WriteLine("   Roots: " + String.Join(" ", e.Roots));
 		}
 	}
 }

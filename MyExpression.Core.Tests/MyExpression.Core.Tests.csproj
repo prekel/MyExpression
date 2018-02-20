@@ -48,11 +48,13 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IntervalTests.cs" />
+    <Compile Include="OpenCloseIntervalTests.cs" />
     <Compile Include="MyRandom.cs" />
     <Compile Include="LinearEquationTests.cs" />
     <Compile Include="MonomialTests.cs" />
     <Compile Include="PolynomialEquationTests.cs" />
     <Compile Include="PolynomialTests.cs" />
+    <Compile Include="RecursiveBinarySearchTests.cs" />
     <Compile Include="SquareEquationTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -42,13 +42,6 @@ artifacts:
   name: MyExpression.Wpf
 - path: TestResult.xml
   name: TestResult
-notifications:
-- provider: Email
-  to:
-  - 79232809414@ya.ru
-  on_build_success: false
-  on_build_failure: false
-  on_build_status_changed: true
 after_build:
 - ps: >-
     Remove-Item packages -Recurse
