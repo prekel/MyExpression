@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2018 Vladislav Prekel
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ using MyExpression.Core;
 
 namespace MyExpression.Wpf
 {
-	public class FunctionGraph : Canvas
+	public class FunctionGraph : Canvas, IEnumerable<FunctionGraph.DrawableFunction>
 	{
 		public Point Offset { get; set; }
 
@@ -50,10 +51,9 @@ namespace MyExpression.Wpf
 			set => Functions[index] = value;
 		}
 
-		public void Add(Func<double, double> f, Interval defarea, SolidColorBrush brush = null)
-		{
-			Functions.Add(new DrawableFunction(f, defarea, brush));
-		}
+		public void Add(DrawableFunction drawableFunction) => Functions.Add(drawableFunction);
+
+		public void Add(Func<double, double> f, Interval defarea, SolidColorBrush brush = null) => Functions.Add(new DrawableFunction(f, defarea, brush));
 
 		public void ResetTranslateTransform()
 		{
@@ -185,9 +185,10 @@ namespace MyExpression.Wpf
 			}
 		}
 
-		public void Clear()
-		{
-			Children.Clear();
-		}
+		public void Clear() => Children.Clear();
+
+		public IEnumerator<DrawableFunction> GetEnumerator() => Functions.GetEnumerator();
+
+		IEnumerator IEnumerable.GetEnumerator() => Functions.GetEnumerator();
 	}
 }
