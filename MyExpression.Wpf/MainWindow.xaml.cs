@@ -31,6 +31,7 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
 				Func<double, double> f;
 				try
 				{
@@ -42,16 +43,16 @@ namespace MyExpression.Wpf
 					var ev = new CodeDomEval(Polynomial.Text);
 					f = ev.Eval;
 				}
-				if (Graph.Functions.Count == 0)
+				if (Graph.Count == 0)
 				{
-					Graph.Functions.Add(f);
+					Graph.Add(f, da);
 				}
 				else
 				{
-					Graph.Functions[0] = f;
+					Graph[0].Function = f;
+					Graph[0].DefinitionArea = da;
 				}
-
-				Graph.DefinitionArea = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
+				
 				Graph.Scale = new Point(Double.Parse(ScaleX.Text), Double.Parse(ScaleY.Text));
 				Graph.Step = Double.Parse(Step.Text);
 				Graph.Offset = new Point(Double.Parse(OffsetX.Text), Double.Parse(OffsetY.Text));

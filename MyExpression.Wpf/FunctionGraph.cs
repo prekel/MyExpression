@@ -21,15 +21,39 @@ namespace MyExpression.Wpf
 {
 	public class FunctionGraph : Canvas
 	{
-		public Interval DefinitionArea { get; set; }
-
 		public Point Offset { get; set; }
 
 		public double Step { get; set; }
 
 		public Point Scale { get; set; }
 
-		public IList<Func<double, double>> Functions { get; set; } = new List<Func<double, double>>(1);
+		private IList<DrawableFunction> Functions { get; set; } = new List<DrawableFunction>(1);
+
+		public class DrawableFunction
+		{
+			public Func<double, double> Function { get; set; }
+			public SolidColorBrush Brush { get; set; } = Brushes.DarkMagenta;
+			public Interval DefinitionArea { get; set; }
+			public DrawableFunction(Func<double, double> f, Interval defarea, SolidColorBrush brush = null)
+			{
+				Function = f;
+				DefinitionArea = new Interval(defarea.Left, defarea.Right);
+				if (brush != null) Brush = brush;
+			}
+		}
+
+		public int Count => Functions.Count;
+
+		public DrawableFunction this[int index]
+		{
+			get => Functions[index];
+			set => Functions[index] = value;
+		}
+
+		public void Add(Func<double, double> f, Interval defarea, SolidColorBrush brush = null)
+		{
+			Functions.Add(new DrawableFunction(f, defarea, brush));
+		}
 
 		public void ResetTranslateTransform()
 		{
@@ -72,9 +96,9 @@ namespace MyExpression.Wpf
 					Stroke = Brushes.DarkMagenta,
 					StrokeThickness = 1
 				};
-				for (var i = DefinitionArea.Left; i <= DefinitionArea.Right; i += Step)
+				for (var i = f.DefinitionArea.Left; i <= f.DefinitionArea.Right; i += Step)
 				{
-					var p = new Point(i * Scale.X, f(i) * Scale.Y);
+					var p = new Point(i * Scale.X, f.Function(i) * Scale.Y);
 					if (p.Y.Equals(Double.NaN) ||
 						p.Y.Equals(Double.PositiveInfinity) ||
 						p.Y.Equals(Double.NegativeInfinity) ||
