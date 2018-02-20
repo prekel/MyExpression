@@ -17,6 +17,19 @@ namespace MyExpression.Core
 		public Func<double, double> Function { get; private set; }
 		public double EqualValue { get; private set; }
 
+		public double EndsDifference
+		{
+			get
+			{
+				if (Interval.Left == Double.NegativeInfinity && Interval.Right == Double.PositiveInfinity) return Function(1) - Function(-1);
+				if (Interval.Left == Double.NegativeInfinity) return Function(Interval.Right) - Function(Median);
+				if (Interval.Right == Double.PositiveInfinity) return Function(Median) - Function(Interval.Left);
+				return Function(Interval.Right) - Function(Interval.Left);
+			}
+		}
+		public bool IsPositive => EndsDifference > 0;
+		public bool IsNegative => EndsDifference < 0;
+
 		private double Median
 		{
 			get
@@ -28,8 +41,6 @@ namespace MyExpression.Core
 			}
 		}
 		private double MedianValue => Function(Median);
-		private bool IsPositive => MedianValue > 0;
-		private bool IsNegative => MedianValue < 0;
 		private double Left { get => Interval.Left; set => Interval.Left = value; }
 		private double Right { get => Interval.Right; set => Interval.Right = value; }
 
