@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace MyExpression.Core.Tests
 {
 	[TestFixture]
-	public class IntervalTests
+	public class OpenCloseIntervalTests
 	{
 		[Test]
 		public void Ctor1()
@@ -22,9 +22,11 @@ namespace MyExpression.Core.Tests
 			var l = Math.Min(a, b);
 			var r = Math.Min(a, b);
 
-			var iw = new Interval(l, r);
+			var iw = new OpenCloseInterval(l, r);
 			Assert.AreEqual(l, iw.Left);
 			Assert.AreEqual(r, iw.Right);
+			Assert.IsFalse(iw.IsLeftOpen);
+			Assert.IsFalse(iw.IsRightOpen);
 		}
 
 		[Test]
@@ -35,10 +37,14 @@ namespace MyExpression.Core.Tests
 			var b = ra.NextDouble() * ra.Next() * ra.NextSign();
 			var l = Math.Min(a, b);
 			var r = Math.Min(a, b);
+			var lo = ra.NextBool();
+			var ro = ra.NextBool();
 
-			var iw = new Interval(l, r);
+			var iw = new OpenCloseInterval(l, lo, r, ro);
 			Assert.AreEqual(l, iw.Left);
 			Assert.AreEqual(r, iw.Right);
+			Assert.AreEqual(lo, iw.IsLeftOpen);
+			Assert.AreEqual(ro, iw.IsRightOpen);
 		}
 	}
 }
