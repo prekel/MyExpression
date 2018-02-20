@@ -25,5 +25,10 @@ namespace MyExpression.Core
 		{
 			
 		}
+
+		public override string ToString()
+		{
+			return base.ToString() + " " + P;
+		}
 	}
 }

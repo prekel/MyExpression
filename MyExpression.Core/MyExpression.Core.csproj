@@ -50,6 +50,7 @@
     <Compile Include="Monomial.cs" />
     <Compile Include="MonotonyInterval.cs" />
     <Compile Include="MySortedList.cs" />
+    <Compile Include="OpenCloseInterval.cs" />
     <Compile Include="Polynomial.cs" />
     <Compile Include="PolynomialEquation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
