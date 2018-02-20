@@ -20,7 +20,7 @@ namespace MyExpression.Core.Tests
 			var a = ra.NextDouble() * ra.Next() * ra.NextSign();
 			var b = ra.NextDouble() * ra.Next() * ra.NextSign();
 			var l = Math.Min(a, b);
-			var r = Math.Min(a, b);
+			var r = Math.Max(a, b);
 
 			var iw = new Interval(l, r);
 			Assert.AreEqual(l, iw.Left);

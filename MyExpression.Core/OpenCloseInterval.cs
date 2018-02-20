@@ -8,10 +8,7 @@ namespace MyExpression.Core
 {
 	public class OpenCloseInterval : Interval
 	{
-		public new double Left { get; set; }
 		public bool IsLeftOpen { get; set; }
-
-		public new double Right { get; set; }
 		public bool IsRightOpen { get; set; }
 		
 		public OpenCloseInterval(double l, double r) : base(l, r)
@@ -20,7 +17,7 @@ namespace MyExpression.Core
 			if (Right == Double.PositiveInfinity) IsRightOpen = true;
 		}
 
-		public OpenCloseInterval(double l, bool lo, double r, bool ro) : base(l, r)
+		public OpenCloseInterval(double l, bool lo, double r, bool ro) : this(l, r)
 		{
 			IsLeftOpen = lo;
 			IsRightOpen = ro;
