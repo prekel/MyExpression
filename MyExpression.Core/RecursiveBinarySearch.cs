@@ -48,13 +48,24 @@ namespace MyExpression.Core
 		private static Func<double, double, int> GreaterComparer = (x, y) => -x.CompareTo(y);
 		private Func<double, double, int> Comparer => IsPositive ? LessComparer : GreaterComparer;
 
-		public RecursiveBinarySearch(Func<double, double> f, Interval lr, double eq, double eps)
+		private void Init(Interval lr, double eq, double eps)
 		{
-			Function = x => f(x) - eq;
 			StartInterval = new Interval(lr.Left, lr.Right);
 			Interval = new MonotonyInterval(lr.Left, lr.Right);
 			EqualValue = eq;
 			Epsilon = eps;
+		}
+
+		public RecursiveBinarySearch(Func<double, double> f, Interval lr, double eq, double eps)
+		{
+			Init(lr, eq, eps);
+			Function = x => f(x) - eq;
+		}
+
+		public RecursiveBinarySearch(Func<double, double> f, Interval lr, double eps)
+		{
+			Init(lr, 0, eps);
+			Function = f;
 		}
 
 		public double Solve()
