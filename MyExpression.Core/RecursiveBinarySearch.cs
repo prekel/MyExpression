@@ -72,7 +72,7 @@ namespace MyExpression.Core
 		public double Solve()
 		{
 			InitBinarySearch();
-			if (!IsSolved) return Answer;
+			if (IsSolved) return Answer;
 			BinarySearch();
 			return Answer;
 		}

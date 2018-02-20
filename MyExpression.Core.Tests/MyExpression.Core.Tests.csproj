@@ -53,6 +53,7 @@
     <Compile Include="MonomialTests.cs" />
     <Compile Include="PolynomialEquationTests.cs" />
     <Compile Include="PolynomialTests.cs" />
+    <Compile Include="RecursiveBinarySearchTests.cs" />
     <Compile Include="SquareEquationTests.cs" />
   </ItemGroup>
   <ItemGroup>
