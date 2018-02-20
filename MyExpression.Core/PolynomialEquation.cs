@@ -150,43 +150,27 @@ namespace MyExpression.Core
 			}
 		}
 
-		public class Interval : Core.Interval
-		{
-			public double P { get; set; }
-			public bool IsPositive => P > 0;
-			public bool IsNegative => P < 0;
-
-			public Interval(double l, double r) : base(l, r)
-			{
-			}
-
-			public Interval(double l, double r, double p) : base(l, r)
-			{
-				P = p;
-			}
-		}
-
-		public class Intervals : List<Interval>
+		public class Intervals : List<MonotonyInterval>
 		{
 			public Intervals(IList<double> r, Polynomial p)
 			{
 				if (r.Count == 0)
 				{
-					Add(new Interval(Double.NegativeInfinity, Double.PositiveInfinity, p.Calculate(0)));
+					Add(new MonotonyInterval(Double.NegativeInfinity, Double.PositiveInfinity, p.Calculate(0)));
 				}
 				else if (r.Count == 1)
 				{
-					Add(new Interval(Double.NegativeInfinity, r[0], p.Calculate(r[0] - 1)));
-					Add(new Interval(r[0], Double.PositiveInfinity, p.Calculate(r[0] + 1)));
+					Add(new MonotonyInterval(Double.NegativeInfinity, r[0], p.Calculate(r[0] - 1)));
+					Add(new MonotonyInterval(r[0], Double.PositiveInfinity, p.Calculate(r[0] + 1)));
 				}
 				else
 				{
-					Add(new Interval(Double.NegativeInfinity, r[0], p.Calculate(r[0] - 1)));
+					Add(new MonotonyInterval(Double.NegativeInfinity, r[0], p.Calculate(r[0] - 1)));
 					for (var i = 0; i < r.Count - 1; i++)
 					{
-						Add(new Interval(r[i], r[i + 1], p.Calculate((r[i] + r[i + 1]) / 2)));
+						Add(new MonotonyInterval(r[i], r[i + 1], p.Calculate((r[i] + r[i + 1]) / 2)));
 					}
-					Add(new Interval(r[r.Count - 1], Double.PositiveInfinity, p.Calculate(r[r.Count - 1] + 1)));
+					Add(new MonotonyInterval(r[r.Count - 1], Double.PositiveInfinity, p.Calculate(r[r.Count - 1] + 1)));
 				}
 			}
 		}

@@ -48,6 +48,7 @@
     <Compile Include="Interval.cs" />
     <Compile Include="LinearEquation.cs" />
     <Compile Include="Monomial.cs" />
+    <Compile Include="MonotonyInterval.cs" />
     <Compile Include="MySortedList.cs" />
     <Compile Include="Polynomial.cs" />
     <Compile Include="PolynomialEquation.cs" />

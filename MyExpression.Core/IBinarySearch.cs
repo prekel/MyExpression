@@ -10,12 +10,11 @@ namespace MyExpression.Core
 {
 	interface IBinarySearch
 	{
-		double StartLeft { get; }
-		double StartRight { get; }
-		double Left { get; }
-		double Right { get; }
+		Interval StartInterval { get; }
+		Interval Interval { get; }
 		double Epsilon { get; }
 		double Answer { get; }
+		Func<double, double> Function { get; }
 		double Solve();
 	}
 }
