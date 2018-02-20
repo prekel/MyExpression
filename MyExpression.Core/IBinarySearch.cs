@@ -11,7 +11,6 @@ namespace MyExpression.Core
 	interface IBinarySearch
 	{
 		Interval StartInterval { get; }
-		Interval Interval { get; }
 		double Epsilon { get; }
 		double Answer { get; }
 		Func<double, double> Function { get; }

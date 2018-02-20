@@ -11,14 +11,16 @@ namespace MyExpression.Core
 	public class RecursiveBinarySearch : IBinarySearch
 	{
 		public Interval StartInterval { get; private set; }
-		public Interval Interval { get; private set; }
 		public double Epsilon { get; private set; }
 		public double Answer { get; private set; }
 		public Func<double, double> Function { get; private set; }
 		public double EqualValue { get; private set; }
 		public bool IsSolved { get; private set; }
 
-		public double EndsDifference
+		public bool IsPositive => EndsDifference > 0;
+		public bool IsNegative => EndsDifference < 0;
+
+		private double EndsDifference
 		{
 			get
 			{
@@ -28,9 +30,7 @@ namespace MyExpression.Core
 				return Function(Interval.Right) - Function(Interval.Left);
 			}
 		}
-		public bool IsPositive => EndsDifference > 0;
-		public bool IsNegative => EndsDifference < 0;
-
+		private Interval Interval { get; set; }
 		private double Median
 		{
 			get
@@ -74,6 +74,7 @@ namespace MyExpression.Core
 			InitBinarySearch();
 			if (IsSolved) return Answer;
 			BinarySearch();
+			IsSolved = true;
 			return Answer = Median;
 		}
 
