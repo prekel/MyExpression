@@ -31,27 +31,6 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
-				Func<double, double> f;
-				try
-				{
-					var p = Core.Polynomial.Parse(Polynomial.Text);
-					f = p.Calculate;
-				}
-				catch
-				{
-					var ev = new CodeDomEval(Polynomial.Text);
-					f = ev.Eval;
-				}
-				if (Graph.Functions.Count == 0)
-				{
-					Graph.Functions.Add(f);
-				}
-				else
-				{
-					Graph.Functions[0] = f;
-				}
-
-				Graph.DefinitionArea = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
 				Graph.Scale = new Point(Double.Parse(ScaleX.Text), Double.Parse(ScaleY.Text));
 				Graph.Step = Double.Parse(Step.Text);
 				Graph.Offset = new Point(Double.Parse(OffsetX.Text), Double.Parse(OffsetY.Text));
@@ -59,14 +38,14 @@ namespace MyExpression.Wpf
 				Graph.CellsIntervalY = new Interval(Double.Parse(CellsIntervalYLeft.Text), Double.Parse(CellsIntervalYRight.Text));
 				Graph.CellsStep = new Point(Double.Parse(CellsStepX.Text), Double.Parse(CellsStepY.Text));
 
-				Graph.Clear();
+				Graph.ClearAll();
 				Graph.ResetTranslateTransform();
 				Graph.DrawCells();
 				Graph.DrawAxis();
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+				MessageBox.Show(ex.StackTrace, ex.Message);
 			}
 		}
 
@@ -78,7 +57,44 @@ namespace MyExpression.Wpf
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+				MessageBox.Show(ex.StackTrace, ex.Message);
+			}
+		}
+
+		private void AddButton_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
+				Func<double, double> f;
+				try
+				{
+					var p = Core.Polynomial.Parse(Polynomial.Text);
+					f = p.Calculate;
+				}
+				catch
+				{
+					var ev = new CodeDomEval(Polynomial.Text);
+					f = ev.Eval;
+				}
+				Graph.Add(f, da);
+				CountLabel.Content = Graph.Count;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.StackTrace, ex.Message);
+			}
+		}
+
+		private void ClearButton_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				Graph.Clear();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.StackTrace, ex.Message);
 			}
 		}
 	}

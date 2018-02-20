@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2018 Vladislav Prekel
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,17 +20,41 @@ using MyExpression.Core;
 
 namespace MyExpression.Wpf
 {
-	public class FunctionGraph : Canvas
+	public class FunctionGraph : Canvas, IEnumerable<FunctionGraph.DrawableFunction>
 	{
-		public Interval DefinitionArea { get; set; }
-
 		public Point Offset { get; set; }
 
 		public double Step { get; set; }
 
 		public Point Scale { get; set; }
 
-		public IList<Func<double, double>> Functions { get; set; } = new List<Func<double, double>>(1);
+		private IList<DrawableFunction> Functions { get; set; } = new List<DrawableFunction>(1);
+
+		public class DrawableFunction
+		{
+			public Func<double, double> Function { get; set; }
+			public SolidColorBrush Brush { get; set; } = Brushes.DarkMagenta;
+			public Interval DefinitionArea { get; set; }
+			public bool IsDrawed { get; set; }
+			public DrawableFunction(Func<double, double> f, Interval defarea, SolidColorBrush brush = null)
+			{
+				Function = f;
+				DefinitionArea = new Interval(defarea.Left, defarea.Right);
+				if (brush != null) Brush = brush;
+			}
+		}
+
+		public int Count => Functions.Count;
+
+		public DrawableFunction this[int index]
+		{
+			get => Functions[index];
+			set => Functions[index] = value;
+		}
+
+		public void Add(DrawableFunction drawableFunction) => Functions.Add(drawableFunction);
+
+		public void Add(Func<double, double> f, Interval defarea, SolidColorBrush brush = null) => Functions.Add(new DrawableFunction(f, defarea, brush));
 
 		public void ResetTranslateTransform()
 		{
@@ -67,14 +92,16 @@ namespace MyExpression.Wpf
 		{
 			foreach (var f in Functions)
 			{
+				if (f.IsDrawed) continue;
+				f.IsDrawed = true;
 				var l = new Polyline
 				{
 					Stroke = Brushes.DarkMagenta,
 					StrokeThickness = 1
 				};
-				for (var i = DefinitionArea.Left; i <= DefinitionArea.Right; i += Step)
+				for (var i = f.DefinitionArea.Left; i <= f.DefinitionArea.Right; i += Step)
 				{
-					var p = new Point(i * Scale.X, f(i) * Scale.Y);
+					var p = new Point(i * Scale.X, f.Function(i) * Scale.Y);
 					if (p.Y.Equals(Double.NaN) ||
 						p.Y.Equals(Double.PositiveInfinity) ||
 						p.Y.Equals(Double.NegativeInfinity) ||
@@ -161,9 +188,22 @@ namespace MyExpression.Wpf
 			}
 		}
 
-		public void Clear()
+		public void ClearAll()
 		{
+			Functions.Clear();
 			Children.Clear();
 		}
+
+		public void Clear()
+		{
+			for (var i = 0; i < Children.Count; i++)
+			{
+				if (Children[i] is Polyline) Children.RemoveAt(i);
+			}
+		}
+
+		public IEnumerator<DrawableFunction> GetEnumerator() => Functions.GetEnumerator();
+
+		IEnumerator IEnumerable.GetEnumerator() => Functions.GetEnumerator();
 	}
 }
