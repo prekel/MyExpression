@@ -74,7 +74,7 @@ namespace MyExpression.Core
 			InitBinarySearch();
 			if (IsSolved) return Answer;
 			BinarySearch();
-			return Answer;
+			return Answer = Median;
 		}
 
 		private void InitBinarySearch()
