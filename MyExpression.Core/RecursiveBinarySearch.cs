@@ -16,6 +16,7 @@ namespace MyExpression.Core
 		public double Answer { get; private set; }
 		public Func<double, double> Function { get; private set; }
 		public double EqualValue { get; private set; }
+		public bool IsSolved { get; private set; }
 
 		public double EndsDifference
 		{
@@ -51,7 +52,7 @@ namespace MyExpression.Core
 		private void Init(Interval lr, double eq, double eps)
 		{
 			StartInterval = new Interval(lr.Left, lr.Right);
-			Interval = new MonotonyInterval(lr.Left, lr.Right);
+			Interval = new Interval(lr.Left, lr.Right);
 			EqualValue = eq;
 			Epsilon = eps;
 		}
@@ -70,10 +71,13 @@ namespace MyExpression.Core
 
 		public double Solve()
 		{
-			throw new NotImplementedException();
+			InitBinarySearch();
+			if (!IsSolved) return Answer;
+			BinarySearch();
+			return Answer;
 		}
 
-		private double BinarySearch()
+		private void InitBinarySearch()
 		{
 			if (Left == Double.NegativeInfinity && Right == Double.PositiveInfinity)
 			{
@@ -84,13 +88,11 @@ namespace MyExpression.Core
 					{
 						Left = Increaser(-1, 0, u => u < 0);
 						Right = 0;
-						//Comparer = (x, y) => x.CompareTo(y);
 					}
 					if (IsNegative)
 					{
 						Left = 0;
 						Right = Increaser(1, 0, u => u < 0);
-						//Comparer = (x, y) => -x.CompareTo(y);
 					}
 				}
 				if (z < 0)
@@ -99,13 +101,11 @@ namespace MyExpression.Core
 					{
 						Left = 0;
 						Right = Increaser(1, 0, u => u > 0);
-						//Comparer = (x, y) => x.CompareTo(y);
 					}
 					if (IsNegative)
 					{
 						Left = Increaser(-1, 0, u => u > 0);
 						Right = 0;
-						//Comparer = (x, y) => -x.CompareTo(y);
 					}
 				}
 			}
@@ -113,32 +113,28 @@ namespace MyExpression.Core
 			var l = Function(Left);
 			var r = Function(Right);
 
-			if (Math.Abs(l) < Epsilon) return Left;
-			if (Math.Abs(r) < Epsilon) return Right;
+			if (Math.Abs(l) < Epsilon) { Answer = Left; IsSolved = true; return; }
+			if (Math.Abs(r) < Epsilon) { Answer = Right; IsSolved = true; return; }
 
 			if (Left == Double.NegativeInfinity && IsPositive)
 			{
 				Left = Increaser(-1, Right, u => u < 0);
 				Right = Right;
-				//Comparer = (x, y) => x.CompareTo(y);
 			}
 			if (Left == Double.NegativeInfinity && IsNegative)
 			{
 				Left = Increaser(-1, Right, u => u > 0);
 				Right = Right;
-				//Comparer = (x, y) => -x.CompareTo(y);
 			}
 			if (Right == Double.PositiveInfinity && IsPositive)
 			{
 				Left = Left;
 				Right = Increaser(1, Left, u => u > 0);
-				//Comparer = (x, y) => x.CompareTo(y);
 			}
 			if (Right == Double.PositiveInfinity && IsNegative)
 			{
 				Left = Left;
 				Right = Increaser(1, Left, u => u < 0);
-				//Comparer = (x, y) => -x.CompareTo(y);
 			}
 
 			double Increaser(int k, double rl, Func<double, bool> cnd)
@@ -154,29 +150,21 @@ namespace MyExpression.Core
 					k *= 2;
 				}
 			}
-
-			if (l < r)
-			{
-				return BinarySearch((x, y) => x.CompareTo(y));
-			}
-
-			return BinarySearch((x, y) => -x.CompareTo(y));
 		}
 
-		public double BinarySearch(Func<double, double, int> comp)
+		private void BinarySearch()
 		{
-			var m = a.Left / 2 + a.Right / 2;
-			if (Math.Abs(a.Left - a.Right) < Epsilon) return m;
-			var p = Function(m);
-			if (comp(p, 0) == 1)
+			if (Math.Abs(Left - Right) < Epsilon) return;
+			if (Comparer(MedianValue, 0) > 0)
 			{
-				return BinarySearch(new Interval(a.Left, m), comp);
+				Right = Median;
+				BinarySearch();
 			}
-			if (comp(p, 0) == -1)
+			else
 			{
-				return BinarySearch(new Interval(m, a.Right), comp);
+				Left = Median;
+				BinarySearch();
 			}
-			return m;
 		}
 	}
 }
