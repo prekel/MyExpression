@@ -82,31 +82,25 @@ namespace MyExpression.Core
 			if (Left == Double.NegativeInfinity && Right == Double.PositiveInfinity)
 			{
 				var z = Function(0);
-				if (z >= 0)
+				if (z >= 0 && IsPositive)
 				{
-					if (IsPositive)
-					{
-						Left = Increaser(-1, 0, u => u < 0);
-						Right = 0;
-					}
-					if (IsNegative)
-					{
-						Left = 0;
-						Right = Increaser(1, 0, u => u < 0);
-					}
+					Left = Increaser(-1, 0, u => u < 0);
+					Right = 0;
 				}
-				if (z < 0)
+				if (z >= 0 && IsNegative)
 				{
-					if (IsPositive)
-					{
-						Left = 0;
-						Right = Increaser(1, 0, u => u > 0);
-					}
-					if (IsNegative)
-					{
-						Left = Increaser(-1, 0, u => u > 0);
-						Right = 0;
-					}
+					Left = 0;
+					Right = Increaser(1, 0, u => u < 0);
+				}
+				if (z < 0 && IsPositive)
+				{
+					Left = 0;
+					Right = Increaser(1, 0, u => u > 0);
+				}
+				if (z < 0 && IsNegative)
+				{
+					Left = Increaser(-1, 0, u => u > 0);
+					Right = 0;
 				}
 			}
 
@@ -116,26 +110,10 @@ namespace MyExpression.Core
 			if (Math.Abs(l) < Epsilon) { Answer = Left; IsSolved = true; return; }
 			if (Math.Abs(r) < Epsilon) { Answer = Right; IsSolved = true; return; }
 
-			if (Left == Double.NegativeInfinity && IsPositive)
-			{
-				Left = Increaser(-1, Right, u => u < 0);
-				Right = Right;
-			}
-			if (Left == Double.NegativeInfinity && IsNegative)
-			{
-				Left = Increaser(-1, Right, u => u > 0);
-				Right = Right;
-			}
-			if (Right == Double.PositiveInfinity && IsPositive)
-			{
-				Left = Left;
-				Right = Increaser(1, Left, u => u > 0);
-			}
-			if (Right == Double.PositiveInfinity && IsNegative)
-			{
-				Left = Left;
-				Right = Increaser(1, Left, u => u < 0);
-			}
+			if (Left == Double.NegativeInfinity && IsPositive) Left = Increaser(-1, Right, u => u < 0);
+			if (Left == Double.NegativeInfinity && IsNegative) Left = Increaser(-1, Right, u => u > 0);
+			if (Right == Double.PositiveInfinity && IsPositive) Right = Increaser(1, Left, u => u > 0);
+			if (Right == Double.PositiveInfinity && IsNegative) Right = Increaser(1, Left, u => u < 0);
 
 			double Increaser(int k, double rl, Func<double, bool> cnd)
 			{
