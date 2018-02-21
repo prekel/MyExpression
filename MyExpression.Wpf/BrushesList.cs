@@ -33,6 +33,8 @@ namespace MyExpression.Wpf
 			}
 		}
 
+		public SolidColorBrush SelectedBrush => ((SolidColorBrush)((Rectangle)(((Grid)SelectedItem).Children[0])).Fill);
+
 		public BrushesList() : base()
 		{
 			foreach (var i in Brushes)
