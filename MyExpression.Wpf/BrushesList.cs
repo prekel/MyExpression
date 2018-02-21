@@ -67,11 +67,12 @@ namespace MyExpression.Wpf
 				g.Children.Add(l);
 
 				Items.Add(g);
-				c++;
+
 				if (i.Item2.Equals(System.Windows.Media.Brushes.DarkMagenta))
 				{
 					dm = c;
 				}
+				c++;
 			}
 			SelectedIndex = dm;
 		}

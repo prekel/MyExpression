@@ -44,6 +44,8 @@ namespace MyExpression.Wpf
 				Graph.ResetTranslateTransform();
 				Graph.DrawCells();
 				Graph.DrawAxis();
+
+				CountLabel.Content = Graph.Count;
 			}
 			catch (Exception ex)
 			{
@@ -79,7 +81,7 @@ namespace MyExpression.Wpf
 					var ev = new CodeDomEval(Polynomial.Text);
 					f = ev.Eval;
 				}
-				Graph.Add(f, da);
+				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
 				CountLabel.Content = Graph.Count;
 			}
 			catch (Exception ex)
@@ -93,6 +95,7 @@ namespace MyExpression.Wpf
 			try
 			{
 				Graph.Clear();
+				CountLabel.Content = Graph.Count;
 			}
 			catch (Exception ex)
 			{
