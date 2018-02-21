@@ -49,5 +49,6 @@
 		<Button x:Name="ClearButton" Content="Clear" HorizontalAlignment="Left" Margin="180,232,0,0" VerticalAlignment="Top" Width="60" Click="ClearButton_Click"/>
 		<Label Content="Count" HorizontalAlignment="Left" Margin="66,33,0,0" VerticalAlignment="Top" Height="28" Width="49"/>
 		<Label x:Name="CountLabel" Content="0" HorizontalAlignment="Left" Margin="115,33,0,0" VerticalAlignment="Top" Width="45"/>
+		<local:BrushesList x:Name="GraphBrushComboBox" Margin="115,335,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="125"/>
 	</Grid>
 </Window>

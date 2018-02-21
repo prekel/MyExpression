@@ -96,7 +96,7 @@ namespace MyExpression.Wpf
 				f.IsDrawed = true;
 				var l = new Polyline
 				{
-					Stroke = Brushes.DarkMagenta,
+					Stroke = f.Brush,
 					StrokeThickness = 1
 				};
 				for (var i = f.DefinitionArea.Left; i <= f.DefinitionArea.Right; i += Step)
@@ -113,7 +113,7 @@ namespace MyExpression.Wpf
 							Children.Add(l);
 							l = new Polyline
 							{
-								Stroke = Brushes.DarkMagenta,
+								Stroke = f.Brush,
 								StrokeThickness = 1
 							};
 						}
@@ -196,6 +196,7 @@ namespace MyExpression.Wpf
 
 		public void Clear()
 		{
+			Functions.Clear();
 			for (var i = 0; i < Children.Count; i++)
 			{
 				if (Children[i] is Polyline) Children.RemoveAt(i);
