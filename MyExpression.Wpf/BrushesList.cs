@@ -37,6 +37,8 @@ namespace MyExpression.Wpf
 
 		public BrushesList() : base()
 		{
+			var c = 0;
+			var dm = 0;
 			foreach (var i in Brushes)
 			{
 				var r = new Rectangle
@@ -65,7 +67,13 @@ namespace MyExpression.Wpf
 				g.Children.Add(l);
 
 				Items.Add(g);
+				c++;
+				if (i.Item2.Equals(System.Windows.Media.Brushes.DarkMagenta))
+				{
+					dm = c;
+				}
 			}
+			SelectedIndex = dm;
 		}
 	}
 }
