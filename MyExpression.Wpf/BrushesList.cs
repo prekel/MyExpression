@@ -39,8 +39,8 @@ namespace MyExpression.Wpf
 			{
 				var r = new Rectangle
 				{
-					Width = 30,
-					Margin = new Thickness(5, 5, 0, 5),
+					Width = 29,
+					Margin = new Thickness(1, 1, 0, 1),
 					HorizontalAlignment = HorizontalAlignment.Left,
 					Fill = i.Item2,
 					Stroke = System.Windows.Media.Brushes.Black
@@ -48,15 +48,16 @@ namespace MyExpression.Wpf
 
 				var l = new Label
 				{
+					Width = Width - 30,
 					Content = i.Item1,
-					Margin = new Thickness(40, 0, 0, 0),
+					Margin = new Thickness(30, -2, 0, 0),
 					HorizontalAlignment = HorizontalAlignment.Left
 				};
 
 				var g = new Grid
 				{
 					Width = Width,
-					Height = 30
+					Height = 25
 				};
 				g.Children.Add(r);
 				g.Children.Add(l);
