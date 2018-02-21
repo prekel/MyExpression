@@ -32,8 +32,37 @@ namespace MyExpression.Wpf
 				Brushes.Add((i.Name, (SolidColorBrush)i.GetValue(null)));
 			}
 		}
+
 		public BrushesList() : base()
 		{
+			foreach (var i in Brushes)
+			{
+				var r = new Rectangle
+				{
+					Width = 30,
+					Margin = new Thickness(5, 5, 0, 5),
+					HorizontalAlignment = HorizontalAlignment.Left,
+					Fill = i.Item2,
+					Stroke = System.Windows.Media.Brushes.Black
+				};
+
+				var l = new Label
+				{
+					Content = i.Item1,
+					Margin = new Thickness(40, 0, 0, 0),
+					HorizontalAlignment = HorizontalAlignment.Left
+				};
+
+				var g = new Grid
+				{
+					Width = Width,
+					Height = 30
+				};
+				g.Children.Add(r);
+				g.Children.Add(l);
+
+				Items.Add(g);
+			}
 		}
 	}
 }
