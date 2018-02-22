@@ -32,15 +32,25 @@ namespace MyExpression.Wpf
 
 		public class DrawableFunction
 		{
-			public Func<double, double> Function { get; set; }
-			public SolidColorBrush Brush { get; set; } = Brushes.DarkMagenta;
-			public Interval DefinitionArea { get; set; }
-			public bool IsDrawed { get; set; }
-			public DrawableFunction(Func<double, double> f, Interval defarea, SolidColorBrush brush = null)
+			public Func<double, double> Function { get; private set; }
+
+			public SolidColorBrush LineBrush { get; private set; } = Brushes.DarkMagenta;
+
+			public Interval DefinitionArea { get; private set; }
+
+			public bool IsDrawed { get; private set; }
+
+			public SolidColorBrush RootsBrush { get; private set; } = Brushes.Indigo;
+
+			public IList<double> Roots { get; set; }
+
+			public DrawableFunction(Func<double, double> f, Interval defarea, SolidColorBrush brush = null, SolidColorBrush rootbrush = null, IList<double> roots = null)
 			{
 				Function = f;
 				DefinitionArea = new Interval(defarea.Left, defarea.Right);
-				if (brush != null) Brush = brush;
+				if (brush != null) LineBrush = brush;
+				if (rootbrush != null) RootsBrush = rootbrush;
+				if (roots != null) Roots = new List<double>(roots);
 			}
 		}
 
@@ -96,7 +106,7 @@ namespace MyExpression.Wpf
 				f.IsDrawed = true;
 				var l = new Polyline
 				{
-					Stroke = f.Brush,
+					Stroke = f.LineBrush,
 					StrokeThickness = 1
 				};
 				for (var i = f.DefinitionArea.Left; i <= f.DefinitionArea.Right; i += Step)
@@ -113,7 +123,7 @@ namespace MyExpression.Wpf
 							Children.Add(l);
 							l = new Polyline
 							{
-								Stroke = f.Brush,
+								Stroke = f.LineBrush,
 								StrokeThickness = 1
 							};
 						}
@@ -197,10 +207,12 @@ namespace MyExpression.Wpf
 		public void Clear()
 		{
 			Functions.Clear();
-			for (var i = 0; i < Children.Count; i++)
-			{
-				if (Children[i] is Polyline) Children.RemoveAt(i);
-			}
+			Children.Clear();
+			DrawAxis();
+			//for (var i = 0; i < Children.Count; i++)
+			//{
+			//	if (Children[i] is Polyline) Children.RemoveAt(i);
+			//}
 		}
 
 		public IEnumerator<DrawableFunction> GetEnumerator() => Functions.GetEnumerator();

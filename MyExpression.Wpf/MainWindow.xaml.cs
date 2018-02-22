@@ -102,5 +102,17 @@ namespace MyExpression.Wpf
 				MessageBox.Show(ex.StackTrace, ex.Message);
 			}
 		}
+
+		private void SolveButton_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.StackTrace, ex.Message);
+			}
+		}
 	}
 }
