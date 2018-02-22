@@ -145,16 +145,17 @@ namespace MyExpression.Wpf
 				if (f.Roots is null) continue;
 				foreach (var i in f.Roots)
 				{
+					var wh = 5;
 					var p = new Ellipse
 					{
-						Width = 3,
-						Height = 3,
+						Width = wh,
+						Height = wh,
 						Fill = f.RootsBrush,
-						Stroke = Brushes.Black,
-						StrokeThickness = 1
+						Stroke = Brushes.IndianRed,
+						StrokeThickness = 0.5
 					};
-					SetLeft(p, i);
-					SetTop(p, f.Function(i));
+					SetLeft(p, i * Scale.X - wh / 2.0);
+					SetTop(p, f.Function(i) * Scale.Y - wh / 2.0);
 					Children.Add(p);
 				}
 			}
