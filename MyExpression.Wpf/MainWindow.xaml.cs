@@ -107,7 +107,11 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
-
+				var p = Core.Polynomial.Parse(Polynomial.Text);
+				var pe = new PolynomialEquation(p);
+				pe.Solve();
+				Graph.Functions.Last().Roots = new List<double>(pe.Roots);
+				Graph.DrawRoots();
 			}
 			catch (Exception ex)
 			{

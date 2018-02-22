@@ -28,7 +28,7 @@ namespace MyExpression.Wpf
 
 		public Point Scale { get; set; }
 
-		private IList<DrawableFunction> Functions { get; set; } = new List<DrawableFunction>(1);
+		public IList<DrawableFunction> Functions { get; set; } = new List<DrawableFunction>(1);
 
 		public class DrawableFunction
 		{
@@ -38,7 +38,8 @@ namespace MyExpression.Wpf
 
 			public Interval DefinitionArea { get; private set; }
 
-			public bool IsDrawed { get; private set; }
+			// TODO: разобраться с сеттером
+			public bool IsDrawed { get; set; }
 
 			public SolidColorBrush RootsBrush { get; private set; } = Brushes.Indigo;
 
@@ -134,6 +135,28 @@ namespace MyExpression.Wpf
 					}
 				}
 				Children.Add(l);
+			}
+		}
+
+		public void DrawRoots()
+		{
+			foreach (var f in Functions)
+			{
+				if (f.Roots is null) continue;
+				foreach (var i in f.Roots)
+				{
+					var p = new Ellipse
+					{
+						Width = 3,
+						Height = 3,
+						Fill = f.RootsBrush,
+						Stroke = Brushes.Black,
+						StrokeThickness = 1
+					};
+					SetLeft(p, i);
+					SetTop(p, f.Function(i));
+					Children.Add(p);
+				}
 			}
 		}
 
