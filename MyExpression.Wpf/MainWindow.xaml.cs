@@ -102,5 +102,21 @@ namespace MyExpression.Wpf
 				MessageBox.Show(ex.StackTrace, ex.Message);
 			}
 		}
+
+		private void SolveButton_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				var p = Core.Polynomial.Parse(Polynomial.Text);
+				var pe = new PolynomialEquation(p);
+				pe.Solve();
+				Graph.Functions.Last().Roots = new List<double>(pe.Roots);
+				Graph.DrawRoots();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.StackTrace, ex.Message);
+			}
+		}
 	}
 }

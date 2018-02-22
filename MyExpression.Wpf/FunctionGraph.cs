@@ -28,19 +28,30 @@ namespace MyExpression.Wpf
 
 		public Point Scale { get; set; }
 
-		private IList<DrawableFunction> Functions { get; set; } = new List<DrawableFunction>(1);
+		public IList<DrawableFunction> Functions { get; set; } = new List<DrawableFunction>(1);
 
 		public class DrawableFunction
 		{
-			public Func<double, double> Function { get; set; }
-			public SolidColorBrush Brush { get; set; } = Brushes.DarkMagenta;
-			public Interval DefinitionArea { get; set; }
+			public Func<double, double> Function { get; private set; }
+
+			public SolidColorBrush LineBrush { get; private set; } = Brushes.DarkMagenta;
+
+			public Interval DefinitionArea { get; private set; }
+
+			// TODO: разобраться с сеттером
 			public bool IsDrawed { get; set; }
-			public DrawableFunction(Func<double, double> f, Interval defarea, SolidColorBrush brush = null)
+
+			public SolidColorBrush RootsBrush { get; private set; } = Brushes.Indigo;
+
+			public IList<double> Roots { get; set; }
+
+			public DrawableFunction(Func<double, double> f, Interval defarea, SolidColorBrush brush = null, SolidColorBrush rootbrush = null, IList<double> roots = null)
 			{
 				Function = f;
 				DefinitionArea = new Interval(defarea.Left, defarea.Right);
-				if (brush != null) Brush = brush;
+				if (brush != null) LineBrush = brush;
+				if (rootbrush != null) RootsBrush = rootbrush;
+				if (roots != null) Roots = new List<double>(roots);
 			}
 		}
 
@@ -96,7 +107,7 @@ namespace MyExpression.Wpf
 				f.IsDrawed = true;
 				var l = new Polyline
 				{
-					Stroke = f.Brush,
+					Stroke = f.LineBrush,
 					StrokeThickness = 1
 				};
 				for (var i = f.DefinitionArea.Left; i <= f.DefinitionArea.Right; i += Step)
@@ -113,7 +124,7 @@ namespace MyExpression.Wpf
 							Children.Add(l);
 							l = new Polyline
 							{
-								Stroke = f.Brush,
+								Stroke = f.LineBrush,
 								StrokeThickness = 1
 							};
 						}
@@ -124,6 +135,29 @@ namespace MyExpression.Wpf
 					}
 				}
 				Children.Add(l);
+			}
+		}
+
+		public void DrawRoots()
+		{
+			foreach (var f in Functions)
+			{
+				if (f.Roots is null) continue;
+				foreach (var i in f.Roots)
+				{
+					var wh = 5;
+					var p = new Ellipse
+					{
+						Width = wh,
+						Height = wh,
+						Fill = f.RootsBrush,
+						Stroke = Brushes.IndianRed,
+						StrokeThickness = 0.5
+					};
+					SetLeft(p, i * Scale.X - wh / 2.0);
+					SetTop(p, f.Function(i) * Scale.Y - wh / 2.0);
+					Children.Add(p);
+				}
 			}
 		}
 
@@ -197,10 +231,12 @@ namespace MyExpression.Wpf
 		public void Clear()
 		{
 			Functions.Clear();
-			for (var i = 0; i < Children.Count; i++)
-			{
-				if (Children[i] is Polyline) Children.RemoveAt(i);
-			}
+			Children.Clear();
+			DrawAxis();
+			//for (var i = 0; i < Children.Count; i++)
+			//{
+			//	if (Children[i] is Polyline) Children.RemoveAt(i);
+			//}
 		}
 
 		public IEnumerator<DrawableFunction> GetEnumerator() => Functions.GetEnumerator();
