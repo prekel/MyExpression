@@ -24,6 +24,8 @@ namespace MyExpression.Wpf
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		public IList<IFunctionX> Functions { get; set; } = new List<IFunctionX>();
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -70,17 +72,18 @@ namespace MyExpression.Wpf
 			try
 			{
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
+				IFunctionX fp;
 				Func<double, double> f;
 				try
 				{
-					var p = Core.Polynomial.Parse(Polynomial.Text);
-					f = p.Calculate;
+					fp = Core.Polynomial.Parse(Polynomial.Text);
 				}
 				catch
 				{
-					var ev = new CodeDomEval(Polynomial.Text);
-					f = ev.Calculate;
+					fp = new CodeDomEval(Polynomial.Text);
 				}
+				f = fp.Calculate;
+				Functions.Add(fp);
 				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
 				CountLabel.Content = Graph.Count;
 			}
