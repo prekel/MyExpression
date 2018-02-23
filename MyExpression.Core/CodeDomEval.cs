@@ -65,6 +65,8 @@ namespace Evaluation
 			}
 		}
 
+		public MethodInfo Method { get; private set; }
+
 		/// <summary>
 		/// Метод для проведения вычисления
 		/// </summary>
