@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) 2018 Vladislav Prekel
+// Copyright http://megadarja.blogspot.fr/2010/03/eval-net.html
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,8 +66,20 @@ namespace Evaluation
 				}
 				throw new Exception("Ошибка сборки\n" + sb);
 			}
+
+			if (!IsSuccessfulBuild) throw new Exception("Ошибка сборки");
+			// загружаем сборку
+			var assembly = CompilerResults.CompiledAssembly;
+			var type = assembly.GetType("Evaluation.Evaluator");
+
+			// создаем экземпляр сгенерированного класса
+			Instance = assembly.CreateInstance("Evaluation.Evaluator");
+
+			// вызываем метод для вычисления нашей функции с заданными параметрами
+			Method = type.GetMethod("Evaluate");
 		}
 
+		public object Instance { get; private set; }
 		public MethodInfo Method { get; private set; }
 
 		/// <summary>
@@ -72,20 +87,7 @@ namespace Evaluation
 		/// </summary>
 		public double Eval(double x)
 		{
-			if (!IsSuccessfulBuild) throw new Exception("Ошибка сборки");
-			// загружаем сборку
-			var assembly = CompilerResults.CompiledAssembly;
-			var type = assembly.GetType("Evaluation.Evaluator");
-
-			// создаем экземпляр сгенерированного класса
-			object instance = assembly.CreateInstance("Evaluation.Evaluator");
-
-			// вызываем метод для вычисления нашей функции с заданными параметрами
-			var method = type.GetMethod("Evaluate");
-			var result = (double)method.Invoke(instance, new object[] { x });
-
-			// PROFIT
-			return result;
+			return (double)Method.Invoke(Instance, new object[] { x });
 		}
 
 		/// <summary>
