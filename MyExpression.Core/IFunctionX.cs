@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyExpression.Core
 {
-	interface IFunctionX
+	public interface IFunctionX
 	{
 		double Calculate(double x);
 	}
