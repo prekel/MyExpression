@@ -13,7 +13,7 @@ using System.Reflection;
 
 namespace MyExpression.Core
 {
-	public class CodeDomEval
+	public class CodeDomEval : IFunctionX
 	{
 		public CompilerResults CompilerResults { get; private set; }
 
@@ -79,13 +79,14 @@ namespace Evaluation
 			Method = type.GetMethod("Evaluate");
 		}
 
+		// TODO: возможно надо сделать приватными
 		public object Instance { get; private set; }
 		public MethodInfo Method { get; private set; }
 
 		/// <summary>
 		/// Метод для проведения вычисления
 		/// </summary>
-		public double Eval(double x)
+		public double Calculate(double x)
 		{
 			return (double)Method.Invoke(Instance, new object[] { x });
 		}

@@ -79,7 +79,7 @@ namespace MyExpression.Wpf
 				catch
 				{
 					var ev = new CodeDomEval(Polynomial.Text);
-					f = ev.Eval;
+					f = ev.Calculate;
 				}
 				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
 				CountLabel.Content = Graph.Count;

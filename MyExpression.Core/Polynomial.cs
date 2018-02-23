@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace MyExpression.Core
 {
-	public class Polynomial : IEnumerable<Monomial>
+	public class Polynomial : IFunctionX, IEnumerable<Monomial>
 	{
 		private SortedDictionary<double, Monomial> Data { get; set; } = new SortedDictionary<double, Monomial>();
 
@@ -84,14 +84,14 @@ namespace MyExpression.Core
 			IsCompiled = true;
 		}
 
-		public double Evaluate(double x) => Evaluator.Eval(x);
+		public double Evaluate(double x) => Evaluator.Calculate(x);
 
 		public double Calculate(double x)
 		{
 			if (Mode == CalculateMode.Compile)
 			{
 				if (!IsCompiled) Compile();
-				return Evaluator.Eval(x);
+				return Evaluator.Calculate(x);
 			}
 			return ManualCalculate(x);
 		}
