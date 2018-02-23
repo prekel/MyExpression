@@ -32,10 +32,10 @@ namespace MyExpression.Core.Tests
 			Func<double, double> f1 = new CodeDomEval("Math.Sin(x)*1/x*4383+2143/1414+141-1.2*23*x*Math.Abs(x*Math.Sin(x))").Eval;
 			double f(double x) => Math.Sin(x) * 1 / x * 4383 + 2143 / 1414 + 141 - 1.2 * 23 * x * Math.Abs(x * Math.Sin(x));
 			var r = new MyRandom();
-			for (var i = 0; i < 10000; i++)
+			for (var i = 0; i < 1000; i++)
 			{
 				var x = r.Next(100) * r.NextDouble();
-				Assert.AreEqual(f(x), f1(x));
+				Assert.AreEqual(f(x), f1(x), 1e-8);
 			}
 		}
 	}
