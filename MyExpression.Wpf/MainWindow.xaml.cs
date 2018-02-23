@@ -92,7 +92,7 @@ namespace MyExpression.Wpf
 				MessageBox.Show(ex.StackTrace, ex.Message);
 			}
 		}
-
+		 
 		private void ClearButton_Click(object sender, RoutedEventArgs e)
 		{
 			try
@@ -107,7 +107,7 @@ namespace MyExpression.Wpf
 		}
 
 		private void SolveButton_Click(object sender, RoutedEventArgs e)
-		{
+		{ 
 			try
 			{
 				var p = Core.Polynomial.Parse(Polynomial.Text);
