@@ -24,7 +24,19 @@ namespace MyExpression.Wpf
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public IList<IFunctionX> Functions { get; set; } = new List<IFunctionX>();
+		public IList<GraphableFunction> Functions { get; set; } = new List<GraphableFunction>();
+
+		public class GraphableFunction
+		{
+			public IFunctionX Function { get; set; }
+			public FunctionGraph.DrawableFunction GraphFunction { get; set; }
+
+			public GraphableFunction(IFunctionX f, FunctionGraph.DrawableFunction gf)
+			{
+				Function = f;
+				GraphFunction = gf;
+			}
+		}
 
 		public MainWindow()
 		{
@@ -42,10 +54,7 @@ namespace MyExpression.Wpf
 				Graph.CellsIntervalY = new Interval(Double.Parse(CellsIntervalYLeft.Text), Double.Parse(CellsIntervalYRight.Text));
 				Graph.CellsStep = new Point(Double.Parse(CellsStepX.Text), Double.Parse(CellsStepY.Text));
 
-				Graph.ClearAll();
-				Graph.ResetTranslateTransform();
-				Graph.DrawCells();
-				Graph.DrawAxis();
+				Graph.Resize();
 
 				CountLabel.Content = Graph.Count;
 			}
@@ -73,7 +82,6 @@ namespace MyExpression.Wpf
 			{
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
 				IFunctionX fp;
-				Func<double, double> f;
 				try
 				{
 					fp = Core.Polynomial.Parse(Polynomial.Text);
@@ -82,9 +90,12 @@ namespace MyExpression.Wpf
 				{
 					fp = new CodeDomEval(Polynomial.Text);
 				}
-				f = fp.Calculate;
-				Functions.Add(fp);
+
+				Func<double, double> f = fp.Calculate;
 				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
+				var df = Graph.Functions.Last();
+				Functions.Add(new GraphableFunction(fp, df));
+
 				CountLabel.Content = Graph.Count;
 			}
 			catch (Exception ex)
@@ -97,8 +108,9 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				Functions.Clear();
 				Graph.Clear();
-				CountLabel.Content = Graph.Count;
+				CountLabel.Content = Functions.Count;
 			}
 			catch (Exception ex)
 			{
@@ -110,10 +122,11 @@ namespace MyExpression.Wpf
 		{ 
 			try
 			{
-				var p = Core.Polynomial.Parse(Polynomial.Text);
+				var last = Functions.Last();
+				var p = (Polynomial)last.Function;
 				var pe = new PolynomialEquation(p);
 				pe.Solve();
-				Graph.Functions.Last().Roots = new List<double>(pe.Roots);
+				last.GraphFunction.Roots = new List<double>(pe.Roots);
 				Graph.DrawRoots();
 			}
 			catch (Exception ex)
