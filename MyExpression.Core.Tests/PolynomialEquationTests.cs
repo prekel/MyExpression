@@ -23,6 +23,21 @@ namespace MyExpression.Core.Tests
 			return c1 + c2 + c3 + c4 + c5;
 		}
 
+		public static double CubicVietaB(double a, params double[] x)
+		{
+			return -(x[0] + x[1] + x[2]) * a;
+		}
+
+		public static double CubicVietaC(double a, params double[] x)
+		{
+			return (x[0] * x[1] + x[1] * x[2] + x[0] * x[2]) * a;
+		}
+
+		public static double CubicVietaD(double a, params double[] x)
+		{
+			return -x[0] * x[1] * x[2] * a;
+		}
+
 		[Test]
 		public void Cubic_Vieta_Dgt0_Random()
 		{
@@ -150,7 +165,7 @@ namespace MyExpression.Core.Tests
 
 			Assert.AreEqual(1, pe.AllRoots.Count);
 			Assert.AreEqual(1, pe.Roots.Count);
-			
+
 			Assert.AreEqual(0, p.Calculate(pe.Roots[0]), 1e-6);
 		}
 
@@ -217,5 +232,34 @@ namespace MyExpression.Core.Tests
 		//		Assert.AreEqual(0, p.Calculate(i), 1e-5);
 		//	}
 		//}
+
+		[Test]
+		public void Cubic_Vieta_RootsToCoef_Random()
+		{
+			var r = new MyRandom();
+			var x = new double[3];
+			while (true)
+			{
+				x[0] = r.Next(0, 50) * r.NextDouble() * r.NextSign();
+				x[1] = r.Next(0, 50) * r.NextDouble() * r.NextSign();
+				x[2] = r.Next(0, 50) * r.NextDouble() * r.NextSign();
+				if (!(x[0] == x[1] || x[1] == x[2] || x[2] == x[0])) break;
+			}
+			Array.Sort(x);
+			double a, b, c, d;
+
+			a = r.Next(1, 3) * r.NextSign();
+			b = CubicVietaB(a, x);
+			c = CubicVietaC(a, x);
+			d = CubicVietaD(a, x);
+			Assert.Greater(CubicDiscriminant(a, b, c, d), 0);
+			var pe1 = new PolynomialEquation(new Polynomial(a, b, c, d), 1e-6);
+			pe1.Solve();
+			Assert.AreEqual(3, pe1.AllRoots.Count);
+			Assert.AreEqual(3, pe1.Roots.Count);
+			Assert.AreEqual(x[0], pe1.AllRoots[0], 1e-5);
+			Assert.AreEqual(x[1], pe1.AllRoots[1], 1e-5);
+			Assert.AreEqual(x[2], pe1.AllRoots[2], 1e-5);
+		}
 	}
 }

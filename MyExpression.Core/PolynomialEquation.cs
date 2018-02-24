@@ -22,7 +22,7 @@ namespace MyExpression.Core
 			{
 				if (polynomialEquation == null)
 				{
-					polynomialEquation = new PolynomialEquation(Derivative);
+					polynomialEquation = new PolynomialEquation(Derivative, Epsilon);
 				}
 				return polynomialEquation;
 			}
