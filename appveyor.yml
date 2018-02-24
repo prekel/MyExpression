@@ -15,12 +15,12 @@ install:
     Write-Host -Backgroundcolor Green -Foregroundcolor White "Assembly Version: $env:assembly_version1"
 
     Write-Host -Backgroundcolor Green -Foregroundcolor White " Product Version: $env:product_version1"
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '$(assembly_version1)'
-  assembly_file_version: '$(product_version1)'
-  assembly_informational_version: '$(product_version1)'
+
+    $items = Get-ChildItem -Recurse -Include AssemblyInfo.*
+    
+    foreach ($i in $items) { (Get-Content $i) -replace "111.111.111.111", $env:assembly_version1 | Set-Content $i }
+
+    foreach ($i in $items) { (Get-Content $i) -replace "222.222.222.222", $env:product_version1 | Set-Content $i }
 before_build:
 - ps: nuget restore MyExpression.sln
 build:
