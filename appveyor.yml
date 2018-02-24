@@ -5,8 +5,8 @@ platform: Any CPU
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
-  assembly_version: '$(product_version)'
-  assembly_file_version: '$(assembly_version)'
+  assembly_version: '$(assembly_version)'
+  assembly_file_version: '$(product_version)'
   assembly_informational_version: '$(product_version)'
 install:
 - ps: >-
