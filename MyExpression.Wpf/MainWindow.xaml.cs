@@ -43,6 +43,20 @@ namespace MyExpression.Wpf
 			InitializeComponent();
 		}
 
+		private void Graph_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			try
+			{
+				Graph.ReDrawBackground();
+				Graph.DrawFunctions();
+				Graph.DrawRoots();
+			}
+			catch
+			{
+
+			}
+		}
+
 		private void ResetButton_Click(object sender, RoutedEventArgs e)
 		{
 			try
@@ -54,7 +68,7 @@ namespace MyExpression.Wpf
 				Graph.CellsIntervalY = new Interval(Double.Parse(CellsIntervalYLeft.Text), Double.Parse(CellsIntervalYRight.Text));
 				Graph.CellsStep = new Point(Double.Parse(CellsStepX.Text), Double.Parse(CellsStepY.Text));
 
-				Graph.Resize();
+				Graph.ReDrawBackground();
 
 				CountLabel.Content = Graph.Count;
 			}
@@ -68,7 +82,7 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
-				Graph.DrawFunction();
+				Graph.DrawFunctions();
 			}
 			catch (Exception ex)
 			{
@@ -103,7 +117,7 @@ namespace MyExpression.Wpf
 				MessageBox.Show(ex.StackTrace, ex.Message);
 			}
 		}
-		 
+
 		private void ClearButton_Click(object sender, RoutedEventArgs e)
 		{
 			try
@@ -119,7 +133,7 @@ namespace MyExpression.Wpf
 		}
 
 		private void SolveButton_Click(object sender, RoutedEventArgs e)
-		{ 
+		{
 			try
 			{
 				var last = Functions.Last();

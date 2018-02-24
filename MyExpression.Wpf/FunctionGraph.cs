@@ -99,7 +99,7 @@ namespace MyExpression.Wpf
 			Children.Add(l2);
 		}
 
-		public void DrawFunction()
+		public void DrawFunctions()
 		{
 			foreach (var f in Functions)
 			{
@@ -222,7 +222,7 @@ namespace MyExpression.Wpf
 			}
 		}
 
-		public void Resize()
+		public void ReDrawBackground()
 		{
 			ClearCanvas();
 			ResetTranslateTransform();

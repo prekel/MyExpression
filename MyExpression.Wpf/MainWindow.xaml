@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyExpression.Wpf"
         mc:Ignorable="d"
-        Title="MyExpression.Wpf" Height="500" Width="675">
+        Title="MyExpression.Wpf" Height="500" Width="675"
+		MinHeight="425" MinWidth="425">
 	<Grid>
-		<local:FunctionGraph x:Name="Graph" Margin="300,40,40,40" RenderTransformOrigin="0.5,0.5">
+		<local:FunctionGraph x:Name="Graph" Margin="300,40,40,40" RenderTransformOrigin="0.5,0.5" SizeChanged="Graph_SizeChanged">
 			<local:FunctionGraph.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform ScaleY="-1" ScaleX="1"/>
