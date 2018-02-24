@@ -22,7 +22,7 @@ namespace MyExpression.Core
 			{
 				if (polynomialEquation == null)
 				{
-					polynomialEquation = new PolynomialEquation(Derivative);
+					polynomialEquation = new PolynomialEquation(Derivative, Epsilon);
 				}
 				return polynomialEquation;
 			}
@@ -53,9 +53,27 @@ namespace MyExpression.Core
 			var intr = DerivativeEquation.MonotonyIntervals;
 			foreach (var i in intr)
 			{
-				var a = Polynomial.Calculate(i.Left);
-				var b = Polynomial.Calculate(i.Right);
-				if (a * b > 0) continue;
+				double a, b;
+				if (i.Left == Double.NegativeInfinity)
+				{
+					a = Polynomial.Calculate(i.Right - 1);
+					b = Polynomial.Calculate(i.Right);
+					if (a > b && b > Epsilon) continue;
+					if (a < b && b < -Epsilon) continue;
+				}
+				else if (i.Right == Double.PositiveInfinity)
+				{
+					a = Polynomial.Calculate(i.Left);
+					b = Polynomial.Calculate(i.Left + 1);
+					if (a > b && a < -Epsilon) continue;
+					if (a < b && a > Epsilon) continue;
+				}
+				else
+				{
+					a = Polynomial.Calculate(i.Left);
+					b = Polynomial.Calculate(i.Right);
+					if (Math.Sign(a) * Math.Sign(b) > 0 && Math.Abs(a * b) >= Epsilon) continue;
+				}
 				var bs = new RecursiveBinarySearch(Polynomial.Calculate, i, Epsilon);
 				AllRoots.Add(bs.Solve());
 			}
