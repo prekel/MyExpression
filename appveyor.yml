@@ -8,19 +8,19 @@ install:
 
     $env:assembly_version1 = "$env:appveyor_build_version.$env:rev"
 
-    if ($env:appveyor_repo_tag -eq $True) { $env:product_version = ($env:appveyor_repo_tag_name).Substring(1) }
+    if ($env:appveyor_repo_tag -eq $True) { $env:product_version1 = ($env:appveyor_repo_tag_name).Substring(1) }
 
-    else { $env:product_version = "$env:appveyor_build_version.$env:rev-$env:appveyor_repo_branch-$env:appveyor_repo_commit" }
+    else { $env:product_version1 = "$env:appveyor_build_version.$env:rev-$env:appveyor_repo_branch-$env:appveyor_repo_commit" }
     
     Write-Host -Backgroundcolor Green -Foregroundcolor White "Assembly Version: $env:assembly_version1"
 
-    Write-Host -Backgroundcolor Green -Foregroundcolor White " Product Version: $env:product_version"
+    Write-Host -Backgroundcolor Green -Foregroundcolor White " Product Version: $env:product_version1"
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
-  assembly_version: '$(product_version)'
-  assembly_file_version: '$(assembly_version1)'
-  assembly_informational_version: '$(product_version)'
+  assembly_version: '$(product_version1)'
+  assembly_file_version: '$(product_version1)'
+  assembly_informational_version: '$(product_version1)'
 before_build:
 - ps: nuget restore MyExpression.sln
 build:
@@ -52,7 +52,7 @@ deploy:
 - provider: GitHub
   tag: $(appveyor_repo_tag_name)
   release: MyExpression $(appveyor_repo_tag_name)
-  description: $(appveyor_repo_tag_name) $(appveyor_build_version).$(rev)
+  description: $(appveyor_repo_tag_name) $(assembly_version1)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
   artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf
@@ -64,7 +64,7 @@ deploy:
 - provider: GitHub
   tag: $(appveyor_repo_tag_name)
   release: MyExpression $(appveyor_repo_tag_name)
-  description: $(appveyor_repo_tag_name) $(appveyor_build_version).$(rev)
+  description: $(appveyor_repo_tag_name) $(assembly_version1)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
   artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf
