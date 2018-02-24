@@ -158,13 +158,13 @@ namespace MyExpression.Core.Tests
 				new Monomial(c, 1),
 				new Monomial(d, 0),
 			};
-			var pe = new PolynomialEquation(p, 1e-8);
+			var pe = new PolynomialEquation(p, 1e-9);
 			pe.Solve();
 
 			Assert.AreEqual(1, pe.AllRoots.Count);
 			Assert.AreEqual(1, pe.Roots.Count);
 
-			Assert.AreEqual(0, p.Calculate(pe.Roots[0]), 1e-6);
+			Assert.AreEqual(0, p.Calculate(pe.Roots[0]), 1e-4);
 		}
 
 		[Test]
