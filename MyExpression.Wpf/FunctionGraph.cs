@@ -99,7 +99,7 @@ namespace MyExpression.Wpf
 			Children.Add(l2);
 		}
 
-		public void DrawFunction()
+		public void DrawFunctions()
 		{
 			foreach (var f in Functions)
 			{
@@ -222,21 +222,35 @@ namespace MyExpression.Wpf
 			}
 		}
 
+		public void ReDrawBackground()
+		{
+			ClearCanvas();
+			ResetTranslateTransform();
+			DrawCells();
+			DrawAxis();
+		}
+
 		public void ClearAll()
 		{
 			Functions.Clear();
 			Children.Clear();
 		}
 
+		public void ClearCanvas()
+		{
+			Children.Clear();
+			foreach (var i in Functions)
+			{
+				i.IsDrawed = false;
+			}
+		}
+
 		public void Clear()
 		{
 			Functions.Clear();
 			Children.Clear();
+			DrawCells();
 			DrawAxis();
-			//for (var i = 0; i < Children.Count; i++)
-			//{
-			//	if (Children[i] is Polyline) Children.RemoveAt(i);
-			//}
 		}
 
 		public IEnumerator<DrawableFunction> GetEnumerator() => Functions.GetEnumerator();

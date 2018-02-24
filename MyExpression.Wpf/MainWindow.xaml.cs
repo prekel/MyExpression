@@ -24,9 +24,37 @@ namespace MyExpression.Wpf
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		public IList<GraphableFunction> Functions { get; set; } = new List<GraphableFunction>();
+
+		public class GraphableFunction
+		{
+			public IFunctionX Function { get; set; }
+			public FunctionGraph.DrawableFunction GraphFunction { get; set; }
+
+			public GraphableFunction(IFunctionX f, FunctionGraph.DrawableFunction gf)
+			{
+				Function = f;
+				GraphFunction = gf;
+			}
+		}
+
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void Graph_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			try
+			{
+				Graph.ReDrawBackground();
+				Graph.DrawFunctions();
+				Graph.DrawRoots();
+			}
+			catch
+			{
+
+			}
 		}
 
 		private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -40,10 +68,7 @@ namespace MyExpression.Wpf
 				Graph.CellsIntervalY = new Interval(Double.Parse(CellsIntervalYLeft.Text), Double.Parse(CellsIntervalYRight.Text));
 				Graph.CellsStep = new Point(Double.Parse(CellsStepX.Text), Double.Parse(CellsStepY.Text));
 
-				Graph.ClearAll();
-				Graph.ResetTranslateTransform();
-				Graph.DrawCells();
-				Graph.DrawAxis();
+				Graph.ReDrawBackground();
 
 				CountLabel.Content = Graph.Count;
 			}
@@ -57,7 +82,7 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
-				Graph.DrawFunction();
+				Graph.DrawFunctions();
 			}
 			catch (Exception ex)
 			{
@@ -70,18 +95,21 @@ namespace MyExpression.Wpf
 			try
 			{
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
-				Func<double, double> f;
+				IFunctionX fp;
 				try
 				{
-					var p = Core.Polynomial.Parse(Polynomial.Text);
-					f = p.Calculate;
+					fp = Core.Polynomial.Parse(Polynomial.Text);
 				}
 				catch
 				{
-					var ev = new CodeDomEval(Polynomial.Text);
-					f = ev.Eval;
+					fp = new CodeDomEval(Polynomial.Text);
 				}
+
+				Func<double, double> f = fp.Calculate;
 				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
+				var df = Graph.Functions.Last();
+				Functions.Add(new GraphableFunction(fp, df));
+
 				CountLabel.Content = Graph.Count;
 			}
 			catch (Exception ex)
@@ -94,8 +122,9 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				Functions.Clear();
 				Graph.Clear();
-				CountLabel.Content = Graph.Count;
+				CountLabel.Content = Functions.Count;
 			}
 			catch (Exception ex)
 			{
@@ -107,10 +136,11 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
-				var p = Core.Polynomial.Parse(Polynomial.Text);
+				var last = Functions.Last();
+				var p = (Polynomial)last.Function;
 				var pe = new PolynomialEquation(p);
 				pe.Solve();
-				Graph.Functions.Last().Roots = new List<double>(pe.Roots);
+				last.GraphFunction.Roots = new List<double>(pe.Roots);
 				Graph.DrawRoots();
 			}
 			catch (Exception ex)

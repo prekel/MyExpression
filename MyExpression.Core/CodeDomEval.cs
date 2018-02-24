@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) 2018 Vladislav Prekel
+// Copyright http://megadarja.blogspot.fr/2010/03/eval-net.html
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +13,7 @@ using System.Reflection;
 
 namespace MyExpression.Core
 {
-	public class CodeDomEval
+	public class CodeDomEval : IFunctionX
 	{
 		public CompilerResults CompilerResults { get; private set; }
 
@@ -63,27 +66,29 @@ namespace Evaluation
 				}
 				throw new Exception("Ошибка сборки\n" + sb);
 			}
-		}
 
-		/// <summary>
-		/// Метод для проведения вычисления
-		/// </summary>
-		public double Eval(double x)
-		{
 			if (!IsSuccessfulBuild) throw new Exception("Ошибка сборки");
 			// загружаем сборку
 			var assembly = CompilerResults.CompiledAssembly;
 			var type = assembly.GetType("Evaluation.Evaluator");
 
 			// создаем экземпляр сгенерированного класса
-			object instance = assembly.CreateInstance("Evaluation.Evaluator");
+			Instance = assembly.CreateInstance("Evaluation.Evaluator");
 
 			// вызываем метод для вычисления нашей функции с заданными параметрами
-			var method = type.GetMethod("Evaluate");
-			var result = (double)method.Invoke(instance, new object[] { x });
+			Method = type.GetMethod("Evaluate");
+		}
 
-			// PROFIT
-			return result;
+		// TODO: возможно надо сделать приватными
+		public object Instance { get; private set; }
+		public MethodInfo Method { get; private set; }
+
+		/// <summary>
+		/// Метод для проведения вычисления
+		/// </summary>
+		public double Calculate(double x)
+		{
+			return (double)Method.Invoke(Instance, new object[] { x });
 		}
 
 		/// <summary>
