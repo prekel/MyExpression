@@ -24,7 +24,7 @@ namespace MyExpression.Core.Tests
 		}
 
 		[Test]
-		public void CubicEquation_Wieth_Random()
+		public void Cubic_Vieta_Dgt0_Random()
 		{
 			var r = new MyRandom();
 			double a, b, c, d;
@@ -63,7 +63,7 @@ namespace MyExpression.Core.Tests
 		}
 
 		[Test]
-		public void CubicEquation_Manual()
+		public void Cubic_Manual()
 		{
 			var e = new List<double[]>();
 			var a = new List<double[]>();
@@ -88,6 +88,39 @@ namespace MyExpression.Core.Tests
 				{
 					Assert.AreEqual(a[i][j], pe.Roots[j], 1e-5);
 				}
+			}
+		}
+
+		[Test]
+		public void Cubic_Int_Deq0_Random()
+		{
+			var r = new MyRandom();
+			double a, b, c, d;
+			while (true)
+			{
+				a = r.Next(1, 10) * r.NextSign();
+				b = r.Next(0, 10) * r.NextSign();
+				c = r.Next(0, 10) * r.NextSign();
+				d = r.Next(0, 10) * r.NextSign();
+				if (CubicDiscriminant(a, b, c, d) == 0) break;
+			}
+
+			var p = new Polynomial
+			{
+				new Monomial(a, 3),
+				new Monomial(b, 2),
+				new Monomial(c, 1),
+				new Monomial(d, 0),
+			};
+			var pe = new PolynomialEquation(p, 1e-8);
+			pe.Solve();
+
+			Assert.AreEqual(3, pe.AllRoots.Count);
+			Assert.IsTrue(new Interval(1, 2).IsInInterval(pe.Roots.Count), pe.Roots.Count.ToString());
+
+			foreach (var i in pe.AllRoots)
+			{
+				Assert.AreEqual(0, p.Calculate(i), 1e-6);
 			}
 		}
 	}

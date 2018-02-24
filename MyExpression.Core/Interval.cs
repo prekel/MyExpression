@@ -20,6 +20,11 @@ namespace MyExpression.Core
 			Right = r;
 		}
 
+		public bool IsInInterval(double x)
+		{
+			return x >= Left && x <= Right;
+		}
+
 		public override string ToString()
 		{
 			return $"[{Left}; {Right}]";

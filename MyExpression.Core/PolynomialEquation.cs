@@ -58,21 +58,21 @@ namespace MyExpression.Core
 				{
 					a = Polynomial.Calculate(i.Right - 1);
 					b = Polynomial.Calculate(i.Right);
-					if (a > b && b > 0) continue;
-					if (a < b && b < 0) continue;
+					if (a > b && b > Epsilon) continue;
+					if (a < b && b < -Epsilon) continue;
 				}
 				else if (i.Right == Double.PositiveInfinity)
 				{
 					a = Polynomial.Calculate(i.Left);
 					b = Polynomial.Calculate(i.Left + 1);
-					if (a > b && a < 0) continue;
-					if (a < b && a > 0) continue;
+					if (a > b && a < -Epsilon) continue;
+					if (a < b && a > Epsilon) continue;
 				}
 				else
 				{
 					a = Polynomial.Calculate(i.Left);
 					b = Polynomial.Calculate(i.Right);
-					if (a * b > 0) continue;
+					if (Math.Sign(a) * Math.Sign(b) > 0 && Math.Abs(a * b) >= Epsilon) continue;
 				}
 				var bs = new RecursiveBinarySearch(Polynomial.Calculate, i, Epsilon);
 				AllRoots.Add(bs.Solve());
