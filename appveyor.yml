@@ -18,9 +18,9 @@ install:
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
-  assembly_version: $env:assembly_version1
-  assembly_file_version: $env:product_version1
-  assembly_informational_version: $env:product_version1
+  assembly_version: '$(env:assembly_version1)'
+  assembly_file_version: '$(env:product_version1)'
+  assembly_informational_version: '$(env:product_version1)'
 before_build:
 - ps: nuget restore MyExpression.sln
 build:
