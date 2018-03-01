@@ -20,13 +20,20 @@ before_build:
 build:
   project: MyExpression.sln
   verbosity: minimal
+after_build:
+- ps: >-
+    Remove-Item packages -Recurse
+
+    Remove-Item (Get-ChildItem -Recurse -Include nunit.framework.xml)
+
+    scripts\binaries.ps1
 artifacts:
 - path: MyExpression.Core\bin\Release\MyExpression.Core.dll
   name: MyExpression.Core.dll
 - path: MyExpression.Console\bin\Release\MyExpression.Console.exe
   name: MyExpression.Console.exe
 - path: \
-  name: MyExpression 
+  name: MyExpression_All_Files
 - path: MyExpression.Core\bin\Release\
   name: MyExpression.Core
 - path: MyExpression.Core.Tests\bin\Release\
@@ -35,13 +42,10 @@ artifacts:
   name: MyExpression.Console
 - path: MyExpression.Wpf\bin\Release\
   name: MyExpression.Wpf
+- path: bin
+  name: MyExpression
 - path: TestResult.xml
   name: TestResult
-after_build:
-- ps: >-
-    Remove-Item packages -Recurse
-
-    Remove-Item (Get-ChildItem -Recurse -Include nunit.framework.xml)
 deploy:
 - provider: GitHub
   tag: $(appveyor_repo_tag_name)
@@ -49,7 +53,7 @@ deploy:
   description: $(appveyor_repo_tag_name) $(assembly_version)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf
+  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf; MyExpression_All_Files
   draft: false
   prerelease: true
   on:
@@ -61,7 +65,7 @@ deploy:
   description: $(appveyor_repo_tag_name) $(assembly_version)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf
+  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf; MyExpression_All_Files
   draft: false
   prerelease: false
   on:
