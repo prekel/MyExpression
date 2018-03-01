@@ -1,58 +1,49 @@
-version: 0.1.{build}
+version: 0.2.{build}
 image: Visual Studio 2017
 configuration: Release
 platform: Any CPU
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '{version}.$(rev)'
-  assembly_file_version: '{version}.$(rev)'
-  assembly_informational_version: '{version}.$(rev)'
 install:
 - ps: >-
-    $env:rev = git rev-list HEAD --count
+    scripts\version.ps1
 
-    Write-Host -Backgroundcolor Green -Foregroundcolor White Version:' '$env:appveyor_build_version.$env:rev
+    scripts\patching.ps1
 before_build:
 - ps: nuget restore MyExpression.sln
 build:
   project: MyExpression.sln
   verbosity: minimal
+after_build:
+- ps: >-
+    scripts\removemeta.ps1
+
+    scripts\binaries.ps1
 artifacts:
 - path: MyExpression.Core\bin\Release\MyExpression.Core.dll
   name: MyExpression.Core.dll
 - path: MyExpression.Console\bin\Release\MyExpression.Console.exe
   name: MyExpression.Console.exe
 - path: \
-  name: MyExpression 
+  name: MyExpression_All_Files
 - path: MyExpression.Core\bin\Release\
   name: MyExpression.Core
 - path: MyExpression.Core.Tests\bin\Release\
   name: MyExpression.Core.Tests
 - path: MyExpression.Console\bin\Release\
   name: MyExpression.Console
+- path: MyExpression.Wpf\bin\Release\
+  name: MyExpression.Wpf
+- path: bin
+  name: MyExpression
 - path: TestResult.xml
   name: TestResult
-notifications:
-- provider: Email
-  to:
-  - 79232809414@ya.ru
-  on_build_success: false
-  on_build_failure: false
-  on_build_status_changed: true
-after_build:
-- ps: >-
-    Remove-Item packages -Recurse
-
-    Remove-Item (Get-ChildItem -Recurse -Include nunit.framework.xml)
 deploy:
 - provider: GitHub
   tag: $(appveyor_repo_tag_name)
   release: MyExpression $(appveyor_repo_tag_name)
-  description: $(appveyor_repo_tag_name) $(appveyor_build_version).$(rev)
+  description: $(appveyor_repo_tag_name) $(assembly_version)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe
+  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf; MyExpression_All_Files
   draft: false
   prerelease: true
   on:
@@ -61,10 +52,10 @@ deploy:
 - provider: GitHub
   tag: $(appveyor_repo_tag_name)
   release: MyExpression $(appveyor_repo_tag_name)
-  description: $(appveyor_repo_tag_name) $(appveyor_build_version).$(rev)
+  description: $(appveyor_repo_tag_name) $(assembly_version)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe
+  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf; MyExpression_All_Files
   draft: false
   prerelease: false
   on:
