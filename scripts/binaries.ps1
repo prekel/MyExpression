@@ -1,4 +1,4 @@
-﻿New-Item -Path 'bin' -ItemType "directory" 
+﻿New-Item -Path 'bin' -ItemType "directory" -Force | Out-Null
 $bins = "MyExpression.Core.dll", "MyExpression.Console.exe", "MyExpression.Wpf.exe"
 foreach ($i in $bins)
 {
