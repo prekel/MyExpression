@@ -74,7 +74,7 @@ namespace MyExpression.Wpf
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -82,11 +82,15 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				if (Graph.Children.Count == 0)
+				{
+					throw new ApplicationException("Непроинициализировано");
+				}
 				Graph.DrawFunctions();
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -114,7 +118,7 @@ namespace MyExpression.Wpf
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -128,7 +132,7 @@ namespace MyExpression.Wpf
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -145,7 +149,7 @@ namespace MyExpression.Wpf
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 	}
