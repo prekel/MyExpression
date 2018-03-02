@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 using MyExpression.Core;
 
@@ -24,7 +25,8 @@ namespace MyExpression.Wpf
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public IList<GraphableFunction> Functions { get; set; } = new List<GraphableFunction>();
+		public IList<GraphableFunction> Functions { get; private set; } = new List<GraphableFunction>();
+		public GraphableFunction LastFunction { get; private set; }
 
 		public class GraphableFunction
 		{
@@ -74,7 +76,7 @@ namespace MyExpression.Wpf
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -82,11 +84,15 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				if (Graph.Children.Count == 0)
+				{
+					throw new ApplicationException("Непроинициализировано");
+				}
 				Graph.DrawFunctions();
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -94,27 +100,48 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				Cursor = Cursors.Wait;
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
-				IFunctionX fp;
 				try
 				{
-					fp = Core.Polynomial.Parse(Polynomial.Text);
+					var fp = Core.Polynomial.Parse(Polynomial.Text);
+					Func<double, double> f = fp.Calculate;
+					Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
+					var df = Graph.Functions.Last();
+					Functions.Add(LastFunction = new GraphableFunction(fp, df));
+					CountLabel.Content = Graph.Count;
+					Cursor = null;
 				}
 				catch
 				{
-					fp = new CodeDomEval(Polynomial.Text);
+					var tpl = (Polynomial.Text, GraphBrushComboBox.SelectedBrush, da);
+					var t = new Task((par) =>
+					{
+						try
+						{
+							var tp = (Tuple<string, SolidColorBrush, Interval>)par;
+							var fp = new CodeDomEval(tp.Item1);
+							Func<double, double> f = fp.Calculate;
+							Graph.Add(f, tp.Item3, tp.Item2);
+							var df = Graph.Functions.Last();
+							Functions.Add(LastFunction = new GraphableFunction(fp, df));
+							Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+						}
+						finally
+						{
+							Dispatcher.Invoke(() => Cursor = null);
+						}
+					}, tpl.ToTuple());
+					t.Start();
 				}
-
-				Func<double, double> f = fp.Calculate;
-				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
-				var df = Graph.Functions.Last();
-				Functions.Add(new GraphableFunction(fp, df));
-
-				CountLabel.Content = Graph.Count;
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -123,12 +150,13 @@ namespace MyExpression.Wpf
 			try
 			{
 				Functions.Clear();
+				LastFunction = null;
 				Graph.Clear();
 				CountLabel.Content = Functions.Count;
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -142,6 +170,47 @@ namespace MyExpression.Wpf
 				pe.Solve();
 				last.GraphFunction.Roots = new List<double>(pe.Roots);
 				Graph.DrawRoots();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+			}
+		}
+
+		private void TangentAddButton_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
+
+				double k, m;
+				if (LastFunction.Function is Polynomial p)
+				{
+					var d = p.Derivative;
+					var x0 = Double.Parse(TangentX.Text);
+					k = d.Calculate(x0);
+					m = p.Calculate(x0) - d.Calculate(x0) * x0;
+				}
+				else
+				{
+					var fn = LastFunction.Function;
+					var x0 = Double.Parse(TangentX.Text);
+					var x1 = x0 + Double.Parse(TangentLim.Text);
+					var y0 = fn.Calculate(x0);
+					var y1 = fn.Calculate(x1);
+
+					k = (y1 - y0) / (x1 - x0);
+					m = y0 - k * x0;
+				}
+
+				var fp = new Polynomial(k, m);
+
+				Func<double, double> f = fp.Calculate;
+				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
+				var df = Graph.Functions.Last();
+				Functions.Add(new GraphableFunction(fp, df));
+
+				CountLabel.Content = Graph.Count;
 			}
 			catch (Exception ex)
 			{

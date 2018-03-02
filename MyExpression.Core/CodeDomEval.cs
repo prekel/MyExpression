@@ -62,9 +62,9 @@ namespace Evaluation
 				// Сбор ошибок компиляции
 				foreach (CompilerError error in CompilerResults.Errors)
 				{
-					sb.Append(error.ErrorText + "\n");
+					sb.Append(error + "\n");
 				}
-				throw new Exception("Ошибка сборки\n" + sb);
+				throw new ApplicationException("Ошибка сборки\n" + sb);
 			}
 
 			if (!IsSuccessfulBuild) throw new Exception("Ошибка сборки");
