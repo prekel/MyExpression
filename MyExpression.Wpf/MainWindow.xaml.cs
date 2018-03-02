@@ -148,5 +148,46 @@ namespace MyExpression.Wpf
 				MessageBox.Show(ex.StackTrace, ex.Message);
 			}
 		}
+
+		private void TangentAddButton_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
+
+				double k, m;
+				if (Functions.Last().Function is Polynomial p)
+				{
+					var d = p.Derivative;
+					var x0 = Double.Parse(TangentX.Text);
+					k = d.Calculate(x0);
+					m = p.Calculate(x0) - d.Calculate(x0) * x0;
+				}
+				else
+				{
+					var fn = Functions.Last().Function;
+					var x0 = Double.Parse(TangentX.Text);
+					var x1 = x0 + Double.Parse(TangentLim.Text);
+					var y0 = fn.Calculate(x0);
+					var y1 = fn.Calculate(x1);
+
+					k = (y1 - y0) / (x1 - x0);
+					m = y0 - k * x0;
+				}
+
+				var fp = new Polynomial(k, m);
+
+				Func<double, double> f = fp.Calculate;
+				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
+				var df = Graph.Functions.Last();
+				Functions.Add(new GraphableFunction(fp, df));
+
+				CountLabel.Content = Graph.Count;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.StackTrace, ex.Message);
+			}
+		}
 	}
 }
