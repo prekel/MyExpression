@@ -108,7 +108,7 @@ namespace MyExpression.Wpf
 					Func<double, double> f = fp.Calculate;
 					Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
 					var df = Graph.Functions.Last();
-					Functions.Add(new GraphableFunction(fp, df));
+					Functions.Add(LastFunction = new GraphableFunction(fp, df));
 					CountLabel.Content = Graph.Count;
 					Cursor = null;
 				}
@@ -124,7 +124,7 @@ namespace MyExpression.Wpf
 							Func<double, double> f = fp.Calculate;
 							Graph.Add(f, tp.Item3, tp.Item2);
 							var df = Graph.Functions.Last();
-							Functions.Add(new GraphableFunction(fp, df));
+							Functions.Add(LastFunction = new GraphableFunction(fp, df));
 							Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
 						}
 						catch (Exception ex)
@@ -150,6 +150,7 @@ namespace MyExpression.Wpf
 			try
 			{
 				Functions.Clear();
+				LastFunction = null;
 				Graph.Clear();
 				CountLabel.Content = Functions.Count;
 			}
@@ -183,7 +184,7 @@ namespace MyExpression.Wpf
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
 
 				double k, m;
-				if (Functions.Last().Function is Polynomial p)
+				if (LastFunction.Function is Polynomial p)
 				{
 					var d = p.Derivative;
 					var x0 = Double.Parse(TangentX.Text);
@@ -192,7 +193,7 @@ namespace MyExpression.Wpf
 				}
 				else
 				{
-					var fn = Functions.Last().Function;
+					var fn = LastFunction.Function;
 					var x0 = Double.Parse(TangentX.Text);
 					var x1 = x0 + Double.Parse(TangentLim.Text);
 					var y0 = fn.Calculate(x0);
