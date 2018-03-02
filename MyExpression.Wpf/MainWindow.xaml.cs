@@ -100,28 +100,30 @@ namespace MyExpression.Wpf
 			try
 			{
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
-				var tpl = (Polynomial.Text, GraphBrushComboBox.SelectedBrush, da);
-				var t = new Task(par =>
+				try
 				{
-					var tp = (Tuple<string, SolidColorBrush, Interval>)par;
-					//var tp = (Tuple<string, SolidColorBrush, Interval>)par;
-					IFunctionX fp;
-					try
-					{
-						fp = Core.Polynomial.Parse(tp.Item1);
-					}
-					catch
-					{
-						fp = new CodeDomEval(tp.Item1);
-					}
+					var fp = Core.Polynomial.Parse(Polynomial.Text);
 					Func<double, double> f = fp.Calculate;
-					Graph.Add(f, tp.Item3, tp.Item2);
+					Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
 					var df = Graph.Functions.Last();
 					Functions.Add(new GraphableFunction(fp, df));
-
-					Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
-				}, tpl.ToTuple());
-				t.Start();
+					CountLabel.Content = Graph.Count;
+				}
+				catch
+				{
+					var tpl = (Polynomial.Text, GraphBrushComboBox.SelectedBrush, da);
+					var t = new Task((par) =>
+					{
+						var tp = (Tuple<string, SolidColorBrush, Interval>)par;
+						var fp = new CodeDomEval(tp.Item1);
+						Func<double, double> f = fp.Calculate;
+						Graph.Add(f, tp.Item3, tp.Item2);
+						var df = Graph.Functions.Last();
+						Functions.Add(new GraphableFunction(fp, df));
+						Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
+					}, tpl.ToTuple());
+					t.Start();
+				}
 			}
 			catch (Exception ex)
 			{
