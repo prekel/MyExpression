@@ -24,7 +24,8 @@ namespace MyExpression.Wpf
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public IList<GraphableFunction> Functions { get; set; } = new List<GraphableFunction>();
+		public IList<GraphableFunction> Functions { get; private set; } = new List<GraphableFunction>();
+		public GraphableFunction LastFunction { get; private set; }
 
 		public class GraphableFunction
 		{
