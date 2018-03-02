@@ -99,9 +99,11 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
-				var t = new Thread(new ParameterizedThreadStart(par =>
+				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
+				var tpl = (Polynomial.Text, GraphBrushComboBox.SelectedBrush, da);
+				var t = new Task(par =>
 				{
-					var tp = (Tuple<string, SolidColorBrush, Interval, Label, int>)par;
+					var tp = (Tuple<string, SolidColorBrush, Interval>)par;
 					//var tp = (Tuple<string, SolidColorBrush, Interval>)par;
 					IFunctionX fp;
 					try
@@ -117,12 +119,9 @@ namespace MyExpression.Wpf
 					var df = Graph.Functions.Last();
 					Functions.Add(new GraphableFunction(fp, df));
 
-					//tp.Item4.Content = tp.Item5;
-				}));
-
-				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
-				t.Start((Polynomial.Text, GraphBrushComboBox.SelectedBrush, da, CountLabel, Graph.Count).ToTuple());
-				//t.Start((Polynomial.Text, GraphBrushComboBox.SelectedBrush, da).ToTuple());
+					Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
+				}, tpl.ToTuple());
+				t.Start();
 			}
 			catch (Exception ex)
 			{
