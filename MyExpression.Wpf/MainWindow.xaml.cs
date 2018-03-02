@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 using MyExpression.Core;
 
@@ -75,7 +76,7 @@ namespace MyExpression.Wpf
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -83,11 +84,15 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				if (Graph.Children.Count == 0)
+				{
+					throw new ApplicationException("Непроинициализировано");
+				}
 				Graph.DrawFunctions();
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -95,27 +100,48 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				Cursor = Cursors.Wait;
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
-				IFunctionX fp;
 				try
 				{
-					fp = Core.Polynomial.Parse(Polynomial.Text);
+					var fp = Core.Polynomial.Parse(Polynomial.Text);
+					Func<double, double> f = fp.Calculate;
+					Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
+					var df = Graph.Functions.Last();
+					Functions.Add(new GraphableFunction(fp, df));
+					CountLabel.Content = Graph.Count;
+					Cursor = null;
 				}
 				catch
 				{
-					fp = new CodeDomEval(Polynomial.Text);
+					var tpl = (Polynomial.Text, GraphBrushComboBox.SelectedBrush, da);
+					var t = new Task((par) =>
+					{
+						try
+						{
+							var tp = (Tuple<string, SolidColorBrush, Interval>)par;
+							var fp = new CodeDomEval(tp.Item1);
+							Func<double, double> f = fp.Calculate;
+							Graph.Add(f, tp.Item3, tp.Item2);
+							var df = Graph.Functions.Last();
+							Functions.Add(new GraphableFunction(fp, df));
+							Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+						}
+						finally
+						{
+							Dispatcher.Invoke(() => Cursor = null);
+						}
+					}, tpl.ToTuple());
+					t.Start();
 				}
-
-				Func<double, double> f = fp.Calculate;
-				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
-				var df = Graph.Functions.Last();
-				Functions.Add(new GraphableFunction(fp, df));
-
-				CountLabel.Content = Graph.Count;
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -129,7 +155,7 @@ namespace MyExpression.Wpf
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
@@ -146,7 +172,7 @@ namespace MyExpression.Wpf
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.StackTrace, ex.Message);
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 
