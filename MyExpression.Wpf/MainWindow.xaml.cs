@@ -99,6 +99,7 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				Cursor = Cursors.Wait;
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
 				try
 				{
@@ -108,6 +109,7 @@ namespace MyExpression.Wpf
 					var df = Graph.Functions.Last();
 					Functions.Add(new GraphableFunction(fp, df));
 					CountLabel.Content = Graph.Count;
+					Cursor = null;
 				}
 				catch
 				{
@@ -127,6 +129,10 @@ namespace MyExpression.Wpf
 						catch (Exception ex)
 						{
 							MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+						}
+						finally
+						{
+							Dispatcher.Invoke(() => Cursor = null);
 						}
 					}, tpl.ToTuple());
 					t.Start();
