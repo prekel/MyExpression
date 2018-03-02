@@ -114,13 +114,20 @@ namespace MyExpression.Wpf
 					var tpl = (Polynomial.Text, GraphBrushComboBox.SelectedBrush, da);
 					var t = new Task((par) =>
 					{
-						var tp = (Tuple<string, SolidColorBrush, Interval>)par;
-						var fp = new CodeDomEval(tp.Item1);
-						Func<double, double> f = fp.Calculate;
-						Graph.Add(f, tp.Item3, tp.Item2);
-						var df = Graph.Functions.Last();
-						Functions.Add(new GraphableFunction(fp, df));
-						Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
+						try
+						{
+							var tp = (Tuple<string, SolidColorBrush, Interval>)par;
+							var fp = new CodeDomEval(tp.Item1);
+							Func<double, double> f = fp.Calculate;
+							Graph.Add(f, tp.Item3, tp.Item2);
+							var df = Graph.Functions.Last();
+							Functions.Add(new GraphableFunction(fp, df));
+							Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+						}
 					}, tpl.ToTuple());
 					t.Start();
 				}
