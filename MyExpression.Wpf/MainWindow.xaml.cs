@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 using MyExpression.Core;
 
@@ -98,23 +99,30 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
+				var t = new Thread(new ParameterizedThreadStart(par =>
+				{
+					var tp = (Tuple<string, SolidColorBrush, Interval, Label, int>)par;
+					//var tp = (Tuple<string, SolidColorBrush, Interval>)par;
+					IFunctionX fp;
+					try
+					{
+						fp = Core.Polynomial.Parse(tp.Item1);
+					}
+					catch
+					{
+						fp = new CodeDomEval(tp.Item1);
+					}
+					Func<double, double> f = fp.Calculate;
+					Graph.Add(f, tp.Item3, tp.Item2);
+					var df = Graph.Functions.Last();
+					Functions.Add(new GraphableFunction(fp, df));
+
+					//tp.Item4.Content = tp.Item5;
+				}));
+
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
-				IFunctionX fp;
-				try
-				{
-					fp = Core.Polynomial.Parse(Polynomial.Text);
-				}
-				catch
-				{
-					fp = new CodeDomEval(Polynomial.Text);
-				}
-
-				Func<double, double> f = fp.Calculate;
-				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
-				var df = Graph.Functions.Last();
-				Functions.Add(new GraphableFunction(fp, df));
-
-				CountLabel.Content = Graph.Count;
+				t.Start((Polynomial.Text, GraphBrushComboBox.SelectedBrush, da, CountLabel, Graph.Count).ToTuple());
+				//t.Start((Polynomial.Text, GraphBrushComboBox.SelectedBrush, da).ToTuple());
 			}
 			catch (Exception ex)
 			{
