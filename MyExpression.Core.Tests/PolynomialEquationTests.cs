@@ -298,12 +298,12 @@ namespace MyExpression.Core.Tests
 			var p = Polynomial.Parse(s);
 			var e = new PolynomialEquation(p, eps);
 			e.Solve();
-			Assert.AreEqual(e.Roots[0], -1, 1e-8);
-			Assert.AreEqual(p.Calculate(e.Roots[0]), 0, 1e-8);
-			Assert.AreEqual(e.Roots[1], 1, 1e-8);
-			Assert.AreEqual(p.Calculate(e.Roots[1]), 0, 1e-8);
-			Assert.AreEqual(e.Roots[2], 2, 1e-8);
-			Assert.AreEqual(p.Calculate(e.Roots[2]), 0, 1e-8);
+			Assert.AreEqual(-1, e.Roots[0], 1e-7);
+			Assert.AreEqual(0, p.Calculate(e.Roots[0]), 1e-7);
+			Assert.AreEqual(1, e.Roots[1], 1e-7);
+			Assert.AreEqual(0, p.Calculate(e.Roots[1]), 1e-7);
+			Assert.AreEqual(2, e.Roots[2], 1e-7);
+			Assert.AreEqual(0, p.Calculate(e.Roots[2]), 1e-7);
 		}
 	}
 }
