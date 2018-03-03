@@ -289,5 +289,21 @@ namespace MyExpression.Core.Tests
 				Assert.AreEqual(z[2], pe.AllRoots[2], 1e-5);
 			}
 		}
+
+		[Test]
+		public void ReadmeTest()
+		{
+			var s = "x^3-2x^2-x+2";
+			var eps = 1e-8;
+			var p = Polynomial.Parse(s);
+			var e = new PolynomialEquation(p, eps);
+			e.Solve();
+			Assert.AreEqual(e.Roots[0], -1, 1e-8);
+			Assert.AreEqual(p.Calculate(e.Roots[0]), 0, 1e-8);
+			Assert.AreEqual(e.Roots[1], 1, 1e-8);
+			Assert.AreEqual(p.Calculate(e.Roots[1]), 0, 1e-8);
+			Assert.AreEqual(e.Roots[2], 2, 1e-8);
+			Assert.AreEqual(p.Calculate(e.Roots[2]), 0, 1e-8);
+		}
 	}
 }
