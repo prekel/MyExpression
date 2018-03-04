@@ -18,7 +18,6 @@ Assert.AreEqual(1, e.Roots[1], 1e-7);
 Assert.AreEqual(0, p.Calculate(e.Roots[1]), 1e-7);
 Assert.AreEqual(2, e.Roots[2], 1e-7);
 Assert.AreEqual(0, p.Calculate(e.Roots[2]), 1e-7);
-e.Solve();
 ```
 
 ## Создание функции из строки
