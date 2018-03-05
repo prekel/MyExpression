@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MyExpression.Wpf"
         mc:Ignorable="d"
         Title="MyExpression.Wpf" Height="500" Width="675"
-		MinHeight="425" MinWidth="425">
+		MinHeight="465" MinWidth="425">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="260*"/>
