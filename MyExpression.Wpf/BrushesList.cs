@@ -33,7 +33,58 @@ namespace MyExpression.Wpf
 			}
 		}
 
-		public SolidColorBrush SelectedBrush => ((SolidColorBrush)((Rectangle)(((Grid)SelectedItem).Children[0])).Fill);
+		//public SolidColorBrush SelectedBrush => ((SolidColorBrush)((Rectangle)(((Grid)SelectedItem).Children[0])).Fill);
+		public SolidColorBrush SelectedBrush
+		{
+			get => ((BrushGrid)SelectedItem).Brush;
+			set
+			{
+				var c = 0;
+				var dm = 0;
+				foreach (var i in Brushes)
+				{
+					if (i.Item2.Equals(value))
+					{
+						dm = c;
+					}
+					c++;
+				}
+				SelectedIndex = dm;
+			}
+		}
+
+		public class BrushGrid : Grid
+		{
+			public SolidColorBrush Brush { get; set; }
+			public Rectangle Rectangle { get; set; }
+			public Label Label { get; set; }
+
+			public BrushGrid(string colorName, SolidColorBrush brush) : base()
+			{
+				Brush = brush;
+				Rectangle = new Rectangle
+				{
+					Width = 29,
+					Margin = new Thickness(1, 1, 0, 1),
+					HorizontalAlignment = HorizontalAlignment.Left,
+					Fill = brush,
+					Stroke = System.Windows.Media.Brushes.Black
+				};
+
+				Label = new Label
+				{
+					Width = Width - 30,
+					Content = colorName,
+					Margin = new Thickness(30, -2, 0, 0),
+					HorizontalAlignment = HorizontalAlignment.Left
+				};
+
+				Width = Width;
+				Height = 25;
+				Children.Add(Rectangle);
+				Children.Add(Label);
+			}
+		}
 
 		public BrushesList() : base()
 		{
@@ -41,31 +92,7 @@ namespace MyExpression.Wpf
 			var dm = 0;
 			foreach (var i in Brushes)
 			{
-				var r = new Rectangle
-				{
-					Width = 29,
-					Margin = new Thickness(1, 1, 0, 1),
-					HorizontalAlignment = HorizontalAlignment.Left,
-					Fill = i.Item2,
-					Stroke = System.Windows.Media.Brushes.Black
-				};
-
-				var l = new Label
-				{
-					Width = Width - 30,
-					Content = i.Item1,
-					Margin = new Thickness(30, -2, 0, 0),
-					HorizontalAlignment = HorizontalAlignment.Left
-				};
-
-				var g = new Grid
-				{
-					Width = Width,
-					Height = 25
-				};
-				g.Children.Add(r);
-				g.Children.Add(l);
-
+				var g = new BrushGrid(i.Item1, i.Item2);
 				Items.Add(g);
 
 				if (i.Item2.Equals(System.Windows.Media.Brushes.DarkMagenta))
@@ -74,7 +101,7 @@ namespace MyExpression.Wpf
 				}
 				c++;
 			}
-			SelectedIndex = dm;
+			//SelectedIndex = dm;
 		}
 	}
 }

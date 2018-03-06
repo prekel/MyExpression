@@ -85,6 +85,7 @@ namespace MyExpression.Wpf
 		private void ResetButton_Click(object sender, RoutedEventArgs e)
 		{
 			InitGraph();
+			Graph.DrawFunctions();
 		}
 
 		//private void DrawButton_Click(object sender, RoutedEventArgs e)
@@ -179,6 +180,7 @@ namespace MyExpression.Wpf
 				var pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
 				pe.Solve();
 				last.GraphFunction.Roots = new List<double>(pe.Roots);
+				last.GraphFunction.RootsBrush = RootsBrushComboBox.SelectedBrush;
 				RootsTextBox.Text = String.Join("\n", MultipleRootsCheckBox.IsChecked.Value ? pe.AllRoots : pe.Roots);
 				Graph.DrawRoots();
 			}
