@@ -6,56 +6,154 @@
         xmlns:local="clr-namespace:MyExpression.Wpf"
         mc:Ignorable="d"
         Title="MyExpression.Wpf" Height="500" Width="675"
-		MinHeight="425" MinWidth="425">
+		MinHeight="465" MinWidth="425">
 	<Grid>
-		<local:FunctionGraph x:Name="Graph" Margin="300,40,40,40" RenderTransformOrigin="0.5,0.5" SizeChanged="Graph_SizeChanged">
-			<local:FunctionGraph.RenderTransform>
-				<TransformGroup>
-					<ScaleTransform ScaleY="-1" ScaleX="1"/>
-					<SkewTransform AngleY="0" AngleX="0"/>
-					<RotateTransform Angle="0"/>
-				</TransformGroup>
-			</local:FunctionGraph.RenderTransform>
-		</local:FunctionGraph>
-		<Rectangle Fill="White" HorizontalAlignment="Left" Width="300"/>
-		<Rectangle Fill="White"  Height="40" VerticalAlignment="Top" Margin="0,0,0,0"/>
-		<Rectangle Fill="White"  Height="40" VerticalAlignment="Bottom" Margin="0,0,0,0"/>
-		<Rectangle Fill="White" HorizontalAlignment="Right" Width="40"/>
-		<Button x:Name="ResetButton" Content="Reset" HorizontalAlignment="Left" Margin="165,11,0,0" VerticalAlignment="Top" Width="75" Click="ResetButton_Click"/>
-		<Button x:Name="DrawButton" Content="Draw" HorizontalAlignment="Left" Margin="165,36,0,0" VerticalAlignment="Top" Width="75" Click="DrawButton_Click"/>
-		<TextBox x:Name="OffsetX" HorizontalAlignment="Left" Height="23" Margin="115,61,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="60"/>
-		<TextBox x:Name="OffsetY" HorizontalAlignment="Left" Height="23" Margin="180,61,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="60"/>
-		<Label Content="Offset" HorizontalAlignment="Left" Margin="66,61,0,0" VerticalAlignment="Top" Height="28" Width="49"/>
-		<TextBox x:Name="ScaleX" HorizontalAlignment="Left" Height="23" Margin="115,89,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Width="60"/>
-		<TextBox x:Name="ScaleY" HorizontalAlignment="Left" Height="23" Margin="180,89,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Width="60"/>
-		<Label Content="Scale" HorizontalAlignment="Left" Margin="66,89,0,0" VerticalAlignment="Top" Height="28" Width="49"/>
-		<TextBox x:Name="Step" HorizontalAlignment="Left" Height="23" Margin="115,117,0,0" TextWrapping="Wrap" Text="1e-2" VerticalAlignment="Top" Width="125"/>
-		<Label Content="Step" HorizontalAlignment="Left" Margin="76,117,0,0" VerticalAlignment="Top" Height="28" Width="39"/>
-		<TextBox x:Name="CellsStepX" HorizontalAlignment="Left" Height="23" Margin="115,201,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="60"/>
-		<Label Content="CellsStep" HorizontalAlignment="Left" Margin="51,201,0,0" VerticalAlignment="Top" Height="28" Width="64"/>
-		<TextBox x:Name="CellsStepY" HorizontalAlignment="Left" Height="23" Margin="180,201,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="60"/>
+		<Grid.RowDefinitions>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="310*" MinWidth="260"/>
+			<ColumnDefinition Width="auto"/>
+			<ColumnDefinition Width="360*" MinWidth="80"/>
+		</Grid.ColumnDefinitions>
 
-		<Label Content="CellsIntervalX" HorizontalAlignment="Left" Margin="29,145,0,0" VerticalAlignment="Top" Height="28"/>
-		<TextBox x:Name="CellsIntervalXLeft" HorizontalAlignment="Left" Height="23" Margin="115,145,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Width="60"/>
-		<TextBox x:Name="CellsIntervalXRight" HorizontalAlignment="Left" Height="23" Margin="180,145,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="60"/>
-		<Label Content="CellsIntervalY" HorizontalAlignment="Left" Margin="29,173,0,0" VerticalAlignment="Top" Height="28"/>
-		<TextBox x:Name="CellsIntervalYLeft" HorizontalAlignment="Left" Height="23" Margin="115,173,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Width="60"/>
-		<TextBox x:Name="CellsIntervalYRight" HorizontalAlignment="Left" Height="23" Margin="180,173,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="60"/>
-		<Label Content="Polynomial/Function" HorizontalAlignment="Left" Margin="-3,229,0,0" VerticalAlignment="Top" Height="28" Width="118"/>
-		<TextBox x:Name="Polynomial" HorizontalAlignment="Left" Height="45" Margin="10,257,0,0" TextWrapping="Wrap" Text="x^3-2x^2-x+2" VerticalAlignment="Top" Width="230"/>
-		<Label Content="DefinitionArea" HorizontalAlignment="Left" Margin="24,307,0,0" VerticalAlignment="Top" Height="28" Width="91"/>
-		<TextBox x:Name="DefinitionAreaLeft" HorizontalAlignment="Left" Height="23" Margin="115,307,0,0" TextWrapping="Wrap" Text="-20" VerticalAlignment="Top" Width="60"/>
-		<TextBox x:Name="DefinitionAreaRight" HorizontalAlignment="Left" Height="23" Margin="180,307,0,0" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="60"/>
-		<Button x:Name="AddButton" Content="Add" HorizontalAlignment="Left" Margin="115,232,0,0" VerticalAlignment="Top" Width="60" Click="AddButton_Click"/>
-		<Button x:Name="ClearButton" Content="Clear" HorizontalAlignment="Left" Margin="180,232,0,0" VerticalAlignment="Top" Width="60" Click="ClearButton_Click"/>
-		<Label Content="Count" HorizontalAlignment="Left" Margin="66,33,0,0" VerticalAlignment="Top" Height="28" Width="49"/>
-		<Label x:Name="CountLabel" Content="0" HorizontalAlignment="Left" Margin="115,33,0,0" VerticalAlignment="Top" Width="45"/>
-		<local:BrushesList x:Name="GraphBrushComboBox" Margin="10,335,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150"/>
-		<Button x:Name="SolveButton" Content="Solve" HorizontalAlignment="Left" Margin="165,335,0,0" VerticalAlignment="Top" Width="75" Click="SolveButton_Click"/>
-		<TextBox x:Name="TangentX" HorizontalAlignment="Left" Height="23" Margin="10,398,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="74"/>
-		<Label Content="TangentX" HorizontalAlignment="Left" Margin="10,370,0,0" VerticalAlignment="Top" Height="28" Width="74"/>
-		<Label Content="TangentLim" HorizontalAlignment="Left" Margin="89,370,0,0" VerticalAlignment="Top" Height="28" Width="71"/>
-		<Button x:Name="TangentAddButton" Content="Add Tangent" HorizontalAlignment="Left" Margin="165,373,0,0" VerticalAlignment="Top" Width="75" Click="TangentAddButton_Click"/>
-		<TextBox x:Name="TangentLim" HorizontalAlignment="Left" Height="23" Margin="89,398,0,0" TextWrapping="Wrap" Text="1e-4" VerticalAlignment="Top" Width="71"/>
+
+		<Grid Grid.Column="2" Grid.RowSpan="2" >
+			<local:FunctionGraph x:Name="Graph" RenderTransformOrigin="0.5,0.5" SizeChanged="Graph_SizeChanged">
+				<local:FunctionGraph.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform ScaleY="-1" ScaleX="1"/>
+						<SkewTransform AngleY="0" AngleX="0"/>
+						<RotateTransform Angle="0"/>
+					</TransformGroup>
+				</local:FunctionGraph.RenderTransform>
+			</local:FunctionGraph>
+
+		</Grid>
+		<Grid>
+			<Grid.RowDefinitions>
+				<!--<RowDefinition Height="300"/>-->
+				<RowDefinition Height="1*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+			</Grid.ColumnDefinitions>
+			<TabControl>
+				<TabItem Header="Плоскость">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="15"/>
+							<ColumnDefinition Width="35*"/>
+							<ColumnDefinition Width="18*"/>
+							<ColumnDefinition Width="5"/>
+							<ColumnDefinition Width="18*"/>
+							<ColumnDefinition Width="15"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="15"/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+
+						<Button x:Name="ClearButton" Content="Clear" VerticalAlignment="Top" Click="ClearButton_Click" Height="20" Grid.Row="1" Grid.Column="4"/>
+
+						<Label Content="Count" Margin="0,193,5,0" VerticalAlignment="Top" Height="28" FlowDirection="RightToLeft" HorizontalAlignment="Right" Width="104" Grid.Row="1" Grid.Column="1" />
+						<Label x:Name="CountLabel" Content="0" Margin="0,193,1,0" VerticalAlignment="Top" Height="26" Grid.Row="1" Grid.Column="2" />
+
+						<Button x:Name="ResetButton" Content="Reset" VerticalAlignment="Top" Click="ResetButton_Click" Height="20" Grid.Column="2" Grid.Row="1"/>
+						<!--<Button x:Name="DrawButton" Content="Draw" Click="DrawButton_Click" Grid.Row="1" Margin="0,193,0,0" Height="20" VerticalAlignment="Top" Grid.Column="4"/>-->
+						<TextBox x:Name="OffsetX" Height="23" Margin="0,25,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"/>
+						<TextBox x:Name="OffsetY" Height="23" Margin="0,25,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Grid.Column="4" Grid.Row="1"/>
+						<Label Content="Offset" HorizontalAlignment="Right" Margin="0,25,5,0" VerticalAlignment="Top" Height="28" Width="104" FlowDirection="RightToLeft" Grid.Row="1" Grid.Column="1"/>
+						<TextBox x:Name="ScaleX" Height="23" Margin="0,53,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"/>
+						<TextBox x:Name="ScaleY" Height="23" Margin="0,53,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Grid.Column="4" Grid.Row="1"/>
+						<Label Content="Scale" HorizontalAlignment="Right" Margin="0,53,5,0" VerticalAlignment="Top" Height="28" Width="104" FlowDirection="RightToLeft" Grid.Row="1" Grid.Column="1"/>
+						<TextBox x:Name="Step" Height="23" Margin="0,81,0,0" TextWrapping="Wrap" Text="1e-2" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="1"/>
+						<Label Content="Step" HorizontalAlignment="Right" Margin="0,81,5,0" VerticalAlignment="Top" Height="28" Width="104" FlowDirection="RightToLeft" Grid.Row="1" Grid.Column="1"/>
+						<TextBox x:Name="CellsStepX" Height="23" Margin="0,165,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"/>
+						<Label Content="CellsStep" HorizontalAlignment="Right" Margin="0,165,5,0" VerticalAlignment="Top" Height="28" Width="104" FlowDirection="RightToLeft" Grid.Row="1" Grid.Column="1"/>
+						<TextBox x:Name="CellsStepY" Height="23" Margin="0,165,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Grid.Column="4" Grid.Row="1"/>
+
+						<Label Content="CellsIntervalX" HorizontalAlignment="Right" Margin="0,109,5,0" VerticalAlignment="Top" Height="28" Width="104" FlowDirection="RightToLeft" Grid.Row="1" Grid.Column="1"/>
+						<TextBox x:Name="CellsIntervalXLeft" Height="23" Margin="0,109,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"/>
+						<TextBox x:Name="CellsIntervalXRight" Height="23" Margin="0,109,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Grid.Column="4" Grid.Row="1"/>
+						<Label Content="CellsIntervalY" HorizontalAlignment="Right" Margin="0,137,5,0" VerticalAlignment="Top" Height="28" Width="104" FlowDirection="RightToLeft" Grid.Row="1" Grid.Column="1"/>
+						<TextBox x:Name="CellsIntervalYLeft" Height="23" Margin="0,137,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"/>
+						<TextBox x:Name="CellsIntervalYRight" Height="23" Margin="0,137,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Grid.Column="4" Grid.Row="1"/>
+					</Grid>
+				</TabItem>
+				<TabItem Header="Добавление">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="15"/>
+							<ColumnDefinition Width="35*"/>
+							<ColumnDefinition Width="18*"/>
+							<ColumnDefinition Width="5"/>
+							<ColumnDefinition Width="18*"/>
+							<ColumnDefinition Width="15"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="15"/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+						<Label Content="Polynomial/Function" VerticalAlignment="Top" Height="28" FlowDirection="LeftToRight" Margin="0,0,0,0" Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="1"/>
+						<TextBox x:Name="Polynomial" Height="38" TextWrapping="Wrap" Text="x^3-2x^2-x+2" VerticalAlignment="Top" Margin="0,28,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"/>
+						<TextBox x:Name="DefinitionAreaLeft" Height="23" TextWrapping="Wrap" Text="-20" VerticalAlignment="Top" Margin="0,71,0,0" Grid.Row="1" Grid.Column="2"/>
+						<TextBox x:Name="DefinitionAreaRight" Height="23" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Margin="0,71,0,0" Grid.Row="1" Grid.Column="4"/>
+						<Button x:Name="AddButton" Content="Add" VerticalAlignment="Top" Click="AddButton_Click" Height="20" Margin="0,99,1,0" Grid.Row="1" Grid.Column="4"/>
+						<local:BrushesList x:Name="GraphBrushComboBox" Margin="0,99,0,0" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" Height="30" VerticalAlignment="Top" Width="160"/>
+						<Label Content="DefinitionArea" HorizontalAlignment="Right" Margin="0,71,5,0" VerticalAlignment="Top" Height="28" Width="100" Grid.Row="1" Grid.Column="1" FlowDirection="RightToLeft"/>
+					</Grid>
+				</TabItem>
+				<TabItem Header="Касательная">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="15"/>
+							<ColumnDefinition Width="106*"/>
+							<ColumnDefinition Width="54*"/>
+							<ColumnDefinition Width="5"/>
+							<ColumnDefinition Width="55*"/>
+							<ColumnDefinition Width="15"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="15"/>
+							<RowDefinition Height="190"/>
+						</Grid.RowDefinitions>
+
+						<Button x:Name="TangentAddButton" Content="Add" Margin="0,56,0,0" VerticalAlignment="Top" Click="TangentAddButton_Click" Height="20" Grid.Row="1" Grid.Column="4" />
+
+						<Label Content="TangentLim" Margin="0,28,0,0" VerticalAlignment="Top" Height="28" HorizontalAlignment="Right" Width="105" Grid.Row="1"  FlowDirection="RightToLeft" Grid.Column="1"/>
+						<TextBox x:Name="TangentLim" Height="23" Margin="0,28,0,0" TextWrapping="Wrap" Text="1e-8" VerticalAlignment="Top" Grid.Row="1" Grid.Column="2"/>
+
+						<Label Content="TangentX" Margin="0,0,0,0" VerticalAlignment="Top" Height="28" HorizontalAlignment="Right" Width="105" Grid.Row="1" FlowDirection="RightToLeft" Grid.Column="1" />
+						<TextBox x:Name="TangentX" Height="23" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Grid.Row="1" Grid.Column="2"/>
+
+						<local:BrushesList x:Name="TangentBrushComboBox" Margin="0,0,0,105" Height="30" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Right" Width="160"/>
+					</Grid>
+				</TabItem>
+				<TabItem Header="Решение">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="15"/>
+							<ColumnDefinition Width="35*"/>
+							<ColumnDefinition Width="18*"/>
+							<ColumnDefinition Width="5"/>
+							<ColumnDefinition Width="18*"/>
+							<ColumnDefinition Width="15"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="15"/>
+							<RowDefinition Height="70"/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+						<Button x:Name="SolveButton" Content="Solve" Margin="0,50,0,0" VerticalAlignment="Top" Click="SolveButton_Click" Height="20" Grid.Row="1" Grid.Column="2" />
+						<CheckBox x:Name="MultipleRootsCheckBox" Content="Multiple roots" Margin="0,30,-15,0" Grid.Row="1" VerticalAlignment="Top" FlowDirection="RightToLeft" Grid.Column="1" IsChecked="True" Height="15"/>
+						<TextBox x:Name="SolveEpsilon" Height="23" Grid.Row="1" TextWrapping="Wrap" Text="1e-15" VerticalAlignment="Top" Grid.Column="2"/>
+						<Label Content="Epsilon" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Top" Width="105" FlowDirection="RightToLeft" Grid.Column="1" Height="26"/>
+						<TextBox x:Name="RootsTextBox" TextWrapping="Wrap" Grid.ColumnSpan="4" Margin="0,10,0,10" Grid.Row="2" Grid.Column="1" />
+					</Grid>
+				</TabItem>
+			</TabControl>
+		</Grid>
+
+		<GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5" Grid.RowSpan="2"/>
+
 	</Grid>
 </Window>

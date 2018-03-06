@@ -43,6 +43,7 @@ namespace MyExpression.Wpf
 		public MainWindow()
 		{
 			InitializeComponent();
+			InitGraph();
 		}
 
 		private void Graph_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -59,8 +60,9 @@ namespace MyExpression.Wpf
 			}
 		}
 
-		private void ResetButton_Click(object sender, RoutedEventArgs e)
+		private void InitGraph()
 		{
+			
 			try
 			{
 				Graph.Scale = new Point(Double.Parse(ScaleX.Text), Double.Parse(ScaleY.Text));
@@ -80,21 +82,26 @@ namespace MyExpression.Wpf
 			}
 		}
 
-		private void DrawButton_Click(object sender, RoutedEventArgs e)
+		private void ResetButton_Click(object sender, RoutedEventArgs e)
 		{
-			try
-			{
-				if (Graph.Children.Count == 0)
-				{
-					throw new ApplicationException("Непроинициализировано");
-				}
-				Graph.DrawFunctions();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
-			}
+			InitGraph();
 		}
+
+		//private void DrawButton_Click(object sender, RoutedEventArgs e)
+		//{
+		//	try
+		//	{
+		//		if (Graph.Children.Count == 0)
+		//		{
+		//			throw new ApplicationException("Непроинициализировано");
+		//		}
+		//		Graph.DrawFunctions();
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+		//	}
+		//}
 
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -111,6 +118,7 @@ namespace MyExpression.Wpf
 					Functions.Add(LastFunction = new GraphableFunction(fp, df));
 					CountLabel.Content = Graph.Count;
 					Cursor = null;
+					Graph.DrawFunctions();
 				}
 				catch
 				{
@@ -134,6 +142,7 @@ namespace MyExpression.Wpf
 						finally
 						{
 							Dispatcher.Invoke(() => Cursor = null);
+							Dispatcher.Invoke(() => Graph.DrawFunctions());
 						}
 					}, tpl.ToTuple());
 					t.Start();
@@ -164,11 +173,13 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
-				var last = Functions.Last();
+				//var last = Functions.Last();
+				var last = LastFunction;
 				var p = (Polynomial)last.Function;
-				var pe = new PolynomialEquation(p);
+				var pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
 				pe.Solve();
 				last.GraphFunction.Roots = new List<double>(pe.Roots);
+				RootsTextBox.Text = String.Join("\n", MultipleRootsCheckBox.IsChecked.Value ? pe.AllRoots : pe.Roots);
 				Graph.DrawRoots();
 			}
 			catch (Exception ex)
@@ -206,11 +217,14 @@ namespace MyExpression.Wpf
 				var fp = new Polynomial(k, m);
 
 				Func<double, double> f = fp.Calculate;
-				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
+				Graph.Add(f, da, TangentBrushComboBox.SelectedBrush);
 				var df = Graph.Functions.Last();
 				Functions.Add(new GraphableFunction(fp, df));
 
+				Graph.DrawFunctions();
+
 				CountLabel.Content = Graph.Count;
+
 			}
 			catch (Exception ex)
 			{
