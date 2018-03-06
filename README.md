@@ -22,7 +22,7 @@ Assert.AreEqual(0, p.Calculate(e.Roots[2]), 1e-7);
 
 ## Создание функции из строки
 ```c#
-var s = "Math.Sin(x)";
+var s = "sin(x)";
 var c = new CodeDomEval(s);
 Func<double, double> f = c.Calculate;
 Assert.AreEqual(0, f(0), 1e-7);

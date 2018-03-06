@@ -53,7 +53,7 @@ namespace MyExpression.Core.Tests
 			}
 
 			var p = new Polynomial(a, b, c, d);
-			var pe = new PolynomialEquation(p, 1e-9);
+			var pe = new PolynomialEquation(p, 1e-11);
 			pe.Solve();
 
 			Assert.AreEqual(3, pe.AllRoots.Count);
@@ -95,7 +95,7 @@ namespace MyExpression.Core.Tests
 
 			for (var i = 0; i < e.Count; i++)
 			{
-				var pe = new PolynomialEquation(new Polynomial(e[i]), 1e-9);
+				var pe = new PolynomialEquation(new Polynomial(e[i]), 1e-10);
 				pe.Solve();
 				for (var j = 0; j < pe.Roots.Count; j++)
 				{
@@ -125,7 +125,7 @@ namespace MyExpression.Core.Tests
 				new Monomial(c, 1),
 				new Monomial(d, 0),
 			};
-			var pe = new PolynomialEquation(p, 1e-10);
+			var pe = new PolynomialEquation(p, 1e-11);
 			pe.Solve();
 
 			Assert.AreEqual(3, pe.AllRoots.Count);
@@ -158,7 +158,7 @@ namespace MyExpression.Core.Tests
 				new Monomial(c, 1),
 				new Monomial(d, 0),
 			};
-			var pe = new PolynomialEquation(p, 1e-9);
+			var pe = new PolynomialEquation(p, 1e-10);
 			pe.Solve();
 
 			Assert.AreEqual(1, pe.AllRoots.Count);
@@ -188,7 +188,7 @@ namespace MyExpression.Core.Tests
 				new Monomial(c, 1),
 				new Monomial(d, 0),
 			};
-			var pe = new PolynomialEquation(p, 1e-8);
+			var pe = new PolynomialEquation(p, 1e-9);
 			pe.Solve();
 
 			Assert.AreEqual(1, pe.AllRoots.Count);
@@ -196,40 +196,6 @@ namespace MyExpression.Core.Tests
 
 			Assert.AreEqual(0, p.Calculate(pe.Roots[0]), 1e-6);
 		}
-
-		//[Test]
-		//public void Cubic_Deq0_Random()
-		//{
-		//	var r = new MyRandom();
-		//	double a, b, c, d;
-		//	while (true)
-		//	{
-		//		//a = 2 * r.NextDouble() * r.NextSign();
-		//		a = 5 * r.NextDouble() * r.NextSign();
-		//		b = 5 * r.NextDouble() * r.NextSign();
-		//		c = 5 * r.NextDouble() * r.NextSign();
-		//		d = 5 * r.NextDouble() * r.NextSign();
-		//		if (Math.Abs(CubicDiscriminant(a, b, c, d)) < 1e-7 && Math.Abs(a) >= 1e-2) break;
-		//	}
-
-		//	var p = new Polynomial
-		//	{
-		//		new Monomial(a, 3),
-		//		new Monomial(b, 2),
-		//		new Monomial(c, 1),
-		//		new Monomial(d, 0),
-		//	};
-		//	var pe = new PolynomialEquation(p, 1e-9);
-		//	pe.Solve();
-
-		//	Assert.AreEqual(3, pe.AllRoots.Count);
-		//	Assert.IsTrue(new Interval(1, 2).IsInInterval(pe.Roots.Count), pe.Roots.Count.ToString());
-
-		//	foreach (var i in pe.AllRoots)
-		//	{
-		//		Assert.AreEqual(0, p.Calculate(i), 1e-5);
-		//	}
-		//}
 
 		[Test]
 		public void Cubic_Vieta_RootsToCoef_Random()
@@ -252,7 +218,7 @@ namespace MyExpression.Core.Tests
 			c = CubicVietaC(a, x);
 			d = CubicVietaD(a, x);
 			Assert.Greater(CubicDiscriminant(a, b, c, d), 0);
-			pe = new PolynomialEquation(new Polynomial(a, b, c, d), 1e-7);
+			pe = new PolynomialEquation(new Polynomial(a, b, c, d), 1e-9);
 			pe.Solve();
 			Assert.AreEqual(3, pe.AllRoots.Count);
 			Assert.AreEqual(3, pe.Roots.Count);
@@ -280,7 +246,7 @@ namespace MyExpression.Core.Tests
 				c = CubicVietaC(a, z);
 				d = CubicVietaD(a, z);
 				Assert.AreEqual(0, CubicDiscriminant(a, b, c, d));
-				pe = new PolynomialEquation(new Polynomial(a, b, c, d), 1e-6);
+				pe = new PolynomialEquation(new Polynomial(a, b, c, d), 1e-8);
 				pe.Solve();
 				Assert.AreEqual(3, pe.AllRoots.Count);
 				Assert.IsTrue(new Interval(1, 2).IsInInterval(pe.Roots.Count), pe.Roots.Count.ToString());
