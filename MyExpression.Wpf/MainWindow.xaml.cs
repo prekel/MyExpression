@@ -43,6 +43,7 @@ namespace MyExpression.Wpf
 		public MainWindow()
 		{
 			InitializeComponent();
+			InitGraph();
 		}
 
 		private void Graph_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -59,8 +60,9 @@ namespace MyExpression.Wpf
 			}
 		}
 
-		private void ResetButton_Click(object sender, RoutedEventArgs e)
+		private void InitGraph()
 		{
+			
 			try
 			{
 				Graph.Scale = new Point(Double.Parse(ScaleX.Text), Double.Parse(ScaleY.Text));
@@ -78,6 +80,11 @@ namespace MyExpression.Wpf
 			{
 				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
+		}
+
+		private void ResetButton_Click(object sender, RoutedEventArgs e)
+		{
+			InitGraph();
 		}
 
 		//private void DrawButton_Click(object sender, RoutedEventArgs e)
