@@ -166,9 +166,10 @@ namespace MyExpression.Wpf
 			{
 				var last = Functions.Last();
 				var p = (Polynomial)last.Function;
-				var pe = new PolynomialEquation(p);
+				var pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
 				pe.Solve();
 				last.GraphFunction.Roots = new List<double>(pe.Roots);
+				RootsTextBox.Text = String.Join("\n", MultipleRootsCheckBox.IsChecked.Value ? pe.AllRoots : pe.Roots);
 				Graph.DrawRoots();
 			}
 			catch (Exception ex)
@@ -206,7 +207,7 @@ namespace MyExpression.Wpf
 				var fp = new Polynomial(k, m);
 
 				Func<double, double> f = fp.Calculate;
-				Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
+				Graph.Add(f, da, TangentBrushComboBox.SelectedBrush);
 				var df = Graph.Functions.Last();
 				Functions.Add(new GraphableFunction(fp, df));
 
