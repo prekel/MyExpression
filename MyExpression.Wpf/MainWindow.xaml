@@ -91,16 +91,44 @@
 				</TabItem>
 				<TabItem Header="Касательная">
 					<Grid>
-						<TextBox x:Name="TangentX" Height="23" Margin="0,142,155,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="74" />
-						<Label Content="TangentX" Margin="0,109,155,0" VerticalAlignment="Top" Height="28" HorizontalAlignment="Right" Width="74" />
-						<Label Content="TangentLim" Margin="0,109,79,0" VerticalAlignment="Top" Height="28" HorizontalAlignment="Right" Width="71" />
-						<Button x:Name="TangentAddButton" Content="Add Tangent" Margin="22,253,21,0" VerticalAlignment="Top" Click="TangentAddButton_Click" Height="20" />
-						<TextBox x:Name="TangentLim" Height="23" Margin="0,142,68,0" TextWrapping="Wrap" Text="1e-4" VerticalAlignment="Top" HorizontalAlignment="Right" Width="71" />
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="40*"/>
+							<ColumnDefinition Width="18*"/>
+							<ColumnDefinition Width="5"/>
+							<ColumnDefinition Width="18*"/>
+							<ColumnDefinition Width="15"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="15"/>
+							<RowDefinition Height="190"/>
+						</Grid.RowDefinitions>
+
+						<Button x:Name="TangentAddButton" Content="Add Tangent" Margin="0,56,0,0" VerticalAlignment="Top" Click="TangentAddButton_Click" Height="20" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="1" />
+
+						<Label Content="TangentLim" Margin="0,28,0,0" VerticalAlignment="Top" Height="28" HorizontalAlignment="Right" Width="105" Grid.Row="1"  FlowDirection="RightToLeft"/>
+						<TextBox x:Name="TangentLim" Height="23" Margin="0,28,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1"/>
+
+						<Label Content="TangentX" Margin="0,0,0,0" VerticalAlignment="Top" Height="28" HorizontalAlignment="Right" Width="105" Grid.Row="1" FlowDirection="RightToLeft" />
+						<TextBox x:Name="TangentX" Height="23" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1"/>
 					</Grid>
 				</TabItem>
 				<TabItem Header="Решение">
 					<Grid>
-						<Button x:Name="SolveButton" Content="Solve" Margin="54,113,45,0" VerticalAlignment="Top" Click="SolveButton_Click" Height="20" />
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="40*"/>
+							<ColumnDefinition Width="18*"/>
+							<ColumnDefinition Width="5"/>
+							<ColumnDefinition Width="18*"/>
+							<ColumnDefinition Width="15"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="15"/>
+							<RowDefinition Height="190"/>
+						</Grid.RowDefinitions>
+						<Button x:Name="SolveButton" Content="Solve" Margin="43,111,25,0" VerticalAlignment="Top" Click="SolveButton_Click" Height="20" Grid.Row="1" />
+						<CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="43,42,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+						<TextBox Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="23" Margin="88,163,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+						<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="22,100,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Grid.ColumnSpan="3" Height="43" Width="64"/>
 					</Grid>
 				</TabItem>
 			</TabControl>
