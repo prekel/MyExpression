@@ -80,21 +80,21 @@ namespace MyExpression.Wpf
 			}
 		}
 
-		private void DrawButton_Click(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				if (Graph.Children.Count == 0)
-				{
-					throw new ApplicationException("Непроинициализировано");
-				}
-				Graph.DrawFunctions();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
-			}
-		}
+		//private void DrawButton_Click(object sender, RoutedEventArgs e)
+		//{
+		//	try
+		//	{
+		//		if (Graph.Children.Count == 0)
+		//		{
+		//			throw new ApplicationException("Непроинициализировано");
+		//		}
+		//		Graph.DrawFunctions();
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+		//	}
+		//}
 
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -111,6 +111,7 @@ namespace MyExpression.Wpf
 					Functions.Add(LastFunction = new GraphableFunction(fp, df));
 					CountLabel.Content = Graph.Count;
 					Cursor = null;
+					Graph.DrawFunctions();
 				}
 				catch
 				{
@@ -134,6 +135,7 @@ namespace MyExpression.Wpf
 						finally
 						{
 							Dispatcher.Invoke(() => Cursor = null);
+							Dispatcher.Invoke(() => Graph.DrawFunctions());
 						}
 					}, tpl.ToTuple());
 					t.Start();
@@ -164,7 +166,8 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
-				var last = Functions.Last();
+				//var last = Functions.Last();
+				var last = LastFunction;
 				var p = (Polynomial)last.Function;
 				var pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
 				pe.Solve();
@@ -211,7 +214,10 @@ namespace MyExpression.Wpf
 				var df = Graph.Functions.Last();
 				Functions.Add(new GraphableFunction(fp, df));
 
+				Graph.DrawFunctions();
+
 				CountLabel.Content = Graph.Count;
+
 			}
 			catch (Exception ex)
 			{
