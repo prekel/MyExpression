@@ -11,11 +11,10 @@
 		<Grid.RowDefinitions>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="310*" MinWidth="260"/>
+			<ColumnDefinition Width="260*" MinWidth="255"/>
 			<ColumnDefinition Width="auto"/>
-			<ColumnDefinition Width="360*" MinWidth="80"/>
+			<ColumnDefinition Width="410*" MinWidth="80"/>
 		</Grid.ColumnDefinitions>
-
 
 		<Grid Grid.Column="2" Grid.RowSpan="2" >
 			<local:FunctionGraph x:Name="Graph" RenderTransformOrigin="0.5,0.5" SizeChanged="Graph_SizeChanged">
