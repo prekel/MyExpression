@@ -69,8 +69,21 @@ namespace MyExpression.Wpf
 
 		public void ResetTranslateTransform()
 		{
+			var dx = 0.5d;
+			var dy = 0.5d;
+			if (Parent is Panel p)
+			{
+				dx += p.ActualWidth % 1;
+				dy += p.ActualHeight % 1;
+			}
 			var tg1 = (TransformGroup)RenderTransform;
-			var tt = new TranslateTransform((int)(ActualWidth / 2 + Offset.X * Scale.X) + 0.5, -(int)(ActualHeight / 2 + Offset.Y * Scale.Y) + 0.5);
+
+			var x = ActualWidth / 2 + Offset.X * Scale.X;
+			var intx = Math.Round(x) + dx;
+			var y = ActualHeight / 2 + Offset.Y * Scale.Y;
+			var inty = -Math.Round(y) - dy;
+
+			var tt = new TranslateTransform(intx, inty);
 			if (tg1.Children.Count == 3) tg1.Children.Add(tt);
 			else tg1.Children[3] = tt;
 		}
@@ -81,15 +94,19 @@ namespace MyExpression.Wpf
 			{
 				X1 = 0,
 				X2 = 0,
-				Y1 = -ActualHeight / 2,
-				Y2 = ActualHeight / 2,
+				Y1 = -((int)(ActualHeight / 2)),
+				Y2 = (int)(ActualHeight / 2),
+				//Y1 = -((int)(ActualHeight / 2) + 0.5),
+				//Y2 = (int)(ActualHeight / 2) + 0.5,
 				Stroke = Brushes.Black,
 				StrokeThickness = 1
 			};
 			var l2 = new Line
 			{
-				X1 = -ActualWidth / 2,
-				X2 = ActualWidth / 2,
+				X1 = -((int)(ActualWidth / 2)),
+				X2 = (int)(ActualWidth / 2),
+				//X1 = -((int)(ActualWidth / 2) + 0.5),
+				//X2 = (int)(ActualWidth / 2) + 0.5,
 				Y1 = 0,
 				Y2 = 0,
 				Stroke = Brushes.Black,
@@ -117,7 +134,7 @@ namespace MyExpression.Wpf
 						p.Y.Equals(Double.PositiveInfinity) ||
 						p.Y.Equals(Double.NegativeInfinity) ||
 						p.Y >= 1e5 ||
-						p.Y <= -1e5)
+						p.Y <= -1e5) // TODO: поменять 1e5
 					{
 						if (l.Points.Count > 0)
 						{

@@ -14,11 +14,14 @@ namespace MyExpression.Console
 		{
 			System.Console.Write("Equation: ");
 			var s = System.Console.ReadLine();
+			System.Console.Write(" Epsilon: ");
+			var eps = System.Console.ReadLine();
 			var p = Polynomial.Parse(s);
-			var e = new PolynomialEquation(p, 1e-8);
+			var e = new PolynomialEquation(p, Double.Parse(eps));
 			e.Solve();
 			//System.Console.WriteLine(String.Join(" ", e.AllRoots));
 			System.Console.WriteLine("   Roots: " + String.Join(" ", e.Roots));
+			System.Console.ReadKey();
 
 			//var s = System.Console.ReadLine();
 			//var evaluator = new CodeDomEval(s);
