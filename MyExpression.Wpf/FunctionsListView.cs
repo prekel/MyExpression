@@ -33,6 +33,8 @@ namespace MyExpression.Wpf
 			Loaded += FunctionsListView_Loaded;
 		}
 
+		public double MinFormulaColumnWidth { get; set; } = 100;
+
 		private void FunctionsListView_Loaded(object sender, RoutedEventArgs e)
 		{
 			var gv = (GridView)View;
@@ -40,13 +42,17 @@ namespace MyExpression.Wpf
 			var b = 95;
 			gv.Columns[0].Width = a;
 			gv.Columns[2].Width = b;
-			gv.Columns[1].Width = ActualWidth - a - b - 10;
+			gv.Columns[1].Width = Math.Max(ActualWidth - a - b - 10, MinFormulaColumnWidth);
 		}
 
 		private void FunctionsListView_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			var gv = (GridView)View;
-			gv.Columns[1].Width += e.NewSize.Width - e.PreviousSize.Width;
+			var inc = e.NewSize.Width - e.PreviousSize.Width;
+			if (gv.Columns[1].Width + inc >= MinFormulaColumnWidth || inc > 0)
+			{
+				gv.Columns[1].Width += inc;
+			}
 		}
 
 		public IEnumerator<IFunctionX> GetEnumerator()
