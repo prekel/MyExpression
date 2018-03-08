@@ -28,7 +28,7 @@ namespace MyExpression.Core
 			}
 		}
 
-		public PolynomialEquation(Polynomial p, double eps = 0.00001)
+		public PolynomialEquation(Polynomial p, double eps = 1e-15)
 		{
 			Polynomial = p;
 			Epsilon = eps;

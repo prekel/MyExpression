@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace MyExpression.Core
 {
-	public class Monomial : IFunctionX, IComparable
+	public class Monomial : IFunctionX, IDerivativable, IComparable
 	{
 		public double Coefficient { get; set; }
 		public double Degree { get; set; }
@@ -77,7 +77,7 @@ namespace MyExpression.Core
 			Degree = degree;
 		}
 
-		public Monomial Derivative
+		public IFunctionX Derivative
 		{
 			get
 			{

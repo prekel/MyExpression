@@ -166,7 +166,7 @@ namespace MyExpression.Core
 				var d = new Polynomial();
 				foreach (var i in Data.Values)
 				{
-					d.Add(i.Derivative);
+					d.Add((Monomial)i.Derivative);
 				}
 				return d;
 			}

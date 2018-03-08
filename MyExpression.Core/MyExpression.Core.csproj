@@ -42,12 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Equation.cs" />
+    <Compile Include="IEquation.cs" />
     <Compile Include="CodeDomEval.cs" />
     <Compile Include="IBinarySearch.cs" />
     <Compile Include="IDerivativable.cs" />
     <Compile Include="IFunctionX.cs" />
     <Compile Include="Interval.cs" />
+    <Compile Include="QuadraticParabola.cs" />
     <Compile Include="Straight.cs" />
     <Compile Include="LinearEquation.cs" />
     <Compile Include="Monomial.cs" />

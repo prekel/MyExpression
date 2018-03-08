@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace MyExpression.Core
 {
-	public class Straight : LinearEquation, IFunctionX
+	public class Straight : LinearEquation, IFunctionX, IDerivativable
 	{
-		public Straight() : base(0,0) { }
+		public IFunctionX Derivative => new Straight(0, A);
+
+		public Straight() : base(0, 0) { }
 
 		public Straight(double k, double m) : base(k, m) { }
 

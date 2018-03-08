@@ -85,7 +85,23 @@ namespace MyExpression.Core
 
 		public override string ToString()
 		{
-			return $"{A}x^2{(B >= 0 ? "+" + B : B.ToString())}{(C >= 0 ? "+" + C : C.ToString())} = 0";
+			var a = A.ToString();
+			var b = B.ToString();
+			var c = C.ToString();
+			if (A == 0) return new Straight(B, C).ToString();
+			var x2 = "x^2";
+			var x = "x";
+			if (A == 1) a = "";
+			if (A == -1) a = "-";
+			if (B == 0) b = x = "";
+			if (B == 1) b = "";
+			if (B > 0) b = "+" + b;
+			if (B == -1) b = "-";
+			if (B == 1) b = "";
+			if (B == -1) b = "-";
+			if (C == 0) c = "";
+			if (C > 0) c = "+" + c;
+			return $"{a}{x2}{b}{x}{c}";
 		}
 	}
 }

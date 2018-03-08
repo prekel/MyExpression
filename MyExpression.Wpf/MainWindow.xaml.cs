@@ -19,6 +19,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 using MyExpression.Core;
+using System.Globalization;
 
 namespace MyExpression.Wpf
 {
@@ -207,6 +208,45 @@ namespace MyExpression.Wpf
 		private void Graph_Loaded(object sender, RoutedEventArgs e)
 		{
 			InitGraph();
+		}
+
+		private void EraseButton_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				var last = FunctionsListView.SelectedFunction;
+				last.GraphFunction.Roots = null;
+				Graph.DrawRoots();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+			}
+		}
+
+		private void FunctionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (e.RemovedItems.Count == 1)
+			{
+				TangentLim.IsEnabled = true;
+				SolveButton.IsEnabled = false;
+				TangentAddButton.IsEnabled = false;
+			}
+			if (e.AddedItems.Count == 1)
+			{
+				TangentAddButton.IsEnabled = true;
+				var g = (GraphableFunction)e.AddedItems[0];
+				if (g.Function.GetType().Equals(typeof(Polynomial)))
+				{
+					TangentLim.IsEnabled = false;
+					SolveButton.IsEnabled = true;
+				}
+				if (g.Function.GetType().Equals(typeof(CodeDomEval)))
+				{
+					TangentLim.IsEnabled = true;
+					SolveButton.IsEnabled = false;
+				}
+			}
 		}
 	}
 }
