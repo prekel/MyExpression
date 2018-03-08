@@ -43,5 +43,30 @@ namespace MyExpression.Core.Tests
 			Assert.AreEqual(a, le.A);
 			Assert.AreEqual(b, le.B);
 		}
+
+		[Test]
+		public void ToStringTest()
+		{
+			var l = new LinearEquation(1, 1);
+			Assert.AreEqual("x+1", l.ToString());
+			l = new LinearEquation(0, 1);
+			Assert.AreEqual("1", l.ToString());
+			l = new LinearEquation(1, 0);
+			Assert.AreEqual("x", l.ToString());
+			l = new LinearEquation(-1, 0);
+			Assert.AreEqual("-x", l.ToString());
+			l = new LinearEquation(-1, -1);
+			Assert.AreEqual("-x-1", l.ToString());
+			l = new LinearEquation(2, 2);
+			Assert.AreEqual("2x+2", l.ToString());
+			l = new LinearEquation(0, 2);
+			Assert.AreEqual("2", l.ToString());
+			l = new LinearEquation(2, 0);
+			Assert.AreEqual("2x", l.ToString());
+			l = new LinearEquation(-2, 0);
+			Assert.AreEqual("-2x", l.ToString());
+			l = new LinearEquation(-2, -2);
+			Assert.AreEqual("-2x-2", l.ToString());
+		}
 	}
 }

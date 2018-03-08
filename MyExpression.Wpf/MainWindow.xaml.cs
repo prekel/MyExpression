@@ -19,6 +19,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 using MyExpression.Core;
+using System.Globalization;
 
 namespace MyExpression.Wpf
 {
@@ -93,49 +94,82 @@ namespace MyExpression.Wpf
 		//	}
 		//}
 
+		private void AddCodeDomEval()
+		{
+			Cursor = Cursors.Wait;
+			var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
+			var tpl = (Polynomial.Text, GraphBrushComboBox.SelectedBrush, da);
+			var t = new Task((par) =>
+			{
+				try
+				{
+					var tp = (Tuple<string, SolidColorBrush, Interval>)par;
+					var fp = new CodeDomEval(tp.Item1);
+					Func<double, double> f = fp.Calculate;
+					Graph.Add(f, tp.Item3, tp.Item2);
+					var df = Graph.Functions.Last();
+					Dispatcher.Invoke(() => Functions.Add(LastFunction = new GraphableFunction(fp, df, tp.Item1, Functions)));
+					Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+				}
+				finally
+				{
+					Dispatcher.Invoke(() => Graph.DrawFunctions());
+					Dispatcher.Invoke(() => Cursor = null);
+				}
+			}, tpl.ToTuple());
+			t.Start();
+		}
+
+		private void AddIFunctionX(IFunctionX fp, string formula)
+		{
+			Cursor = Cursors.Wait;
+			var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
+			Func<double, double> f = fp.Calculate;
+			Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
+			var df = Graph.Functions.Last();
+			Functions.Add(LastFunction = new GraphableFunction(fp, df, formula, Functions));
+			CountLabel.Content = Graph.Count;
+			Graph.DrawFunctions();
+			Cursor = null;
+		}
+
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
 			try
 			{
-				Cursor = Cursors.Wait;
-				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
-				try
+				var t = (string)((ComboBoxItem)TypeComboBox.SelectedValue).Content;
+				if (t == "Auto")
 				{
-					var fp = Core.Polynomial.Parse(Polynomial.Text);
-					Func<double, double> f = fp.Calculate;
-					Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
-					var df = Graph.Functions.Last();
-					Functions.Add(LastFunction = new GraphableFunction(fp, df, Polynomial.Text, Functions));
-					CountLabel.Content = Graph.Count;
-					Cursor = null;
-					Graph.DrawFunctions();
-				}
-				catch
-				{
-					var tpl = (Polynomial.Text, GraphBrushComboBox.SelectedBrush, da);
-					var t = new Task((par) =>
+					try
 					{
-						try
-						{
-							var tp = (Tuple<string, SolidColorBrush, Interval>)par;
-							var fp = new CodeDomEval(tp.Item1);
-							Func<double, double> f = fp.Calculate;
-							Graph.Add(f, tp.Item3, tp.Item2);
-							var df = Graph.Functions.Last();
-							Dispatcher.Invoke(() => Functions.Add(LastFunction = new GraphableFunction(fp, df, tp.Item1, Functions)));
-							Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
-						}
-						catch (Exception ex)
-						{
-							MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
-						}
-						finally
-						{
-							Dispatcher.Invoke(() => Cursor = null);
-							Dispatcher.Invoke(() => Graph.DrawFunctions());
-						}
-					}, tpl.ToTuple());
-					t.Start();
+						AddIFunctionX(Core.Polynomial.Parse(Polynomial.Text), Polynomial.Text);
+					}
+					catch
+					{
+						AddCodeDomEval();
+					}
+				}
+				if (t == "Polynomial")
+				{
+					AddIFunctionX(Core.Polynomial.Parse(Polynomial.Text), Polynomial.Text);
+				}
+				if (t == "CodeDomEval")
+				{
+					AddCodeDomEval();
+				}
+				if (t == "Straight")
+				{
+					var fp = new Straight(Double.Parse(ABox.Text), Double.Parse(BBox.Text));
+					AddIFunctionX(fp, fp.ToString());
+				}
+				if (t == "QuadraticParabola")
+				{
+					var fp = new QuadraticParabola(Double.Parse(ABox.Text), Double.Parse(BBox.Text), Double.Parse(CBox.Text));
+					AddIFunctionX(fp, fp.ToString());
 				}
 			}
 			catch (Exception ex)
@@ -163,11 +197,16 @@ namespace MyExpression.Wpf
 		{
 			try
 			{
-				//var last = Functions.Last();
-				//var last = LastFunction;
 				var last = FunctionsListView.SelectedFunction;
-				var p = (Polynomial)last.Function;
-				var pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
+				IEquation pe;
+				if (last.Function is Polynomial p)
+				{
+					pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
+				}
+				else
+				{
+					pe = (IEquation)last.Function;
+				}
 				pe.Solve();
 				last.GraphFunction.Roots = new List<double>(pe.Roots);
 				last.GraphFunction.RootsBrush = RootsBrushComboBox.SelectedBrush;
@@ -186,34 +225,12 @@ namespace MyExpression.Wpf
 			{
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
 
-				double k, m;
-				//if (LastFunction.Function is Polynomial p)
-				if (FunctionsListView.SelectedFunction.Function is Polynomial p)
-				{
-					var d = p.Derivative;
-					var x0 = Double.Parse(TangentX.Text);
-					k = d.Calculate(x0);
-					m = p.Calculate(x0) - d.Calculate(x0) * x0;
-				}
-				else
-				{
-					//var fn = LastFunction.Function;
-					var fn = FunctionsListView.SelectedFunction.Function;
-					var x0 = Double.Parse(TangentX.Text);
-					var x1 = x0 + Double.Parse(TangentLim.Text);
-					var y0 = fn.Calculate(x0);
-					var y1 = fn.Calculate(x1);
-
-					k = (y1 - y0) / (x1 - x0);
-					m = y0 - k * x0;
-				}
-
-				var fp = new Polynomial(k, m);
+				var fp = new Tangent(FunctionsListView.SelectedFunction.Function, Double.Parse(TangentX.Text), Double.Parse(TangentLim.Text));
 
 				Func<double, double> f = fp.Calculate;
 				Graph.Add(f, da, TangentBrushComboBox.SelectedBrush);
 				var df = Graph.Functions.Last();
-				Functions.Add(new GraphableFunction(fp, df, $"{(k * m == 0 ? "0" : ((k == 0 ? "" : Math.Abs(k) == 1 ? k < 0 ? "-x" : "" : k + "x")+(m == 0 ? "" : m > 0 ? "+" + m : m.ToString())))}", Functions));
+				Functions.Add(new GraphableFunction(fp, df, fp.ToString(), Functions));
 
 				Graph.DrawFunctions();
 
@@ -229,6 +246,94 @@ namespace MyExpression.Wpf
 		private void Graph_Loaded(object sender, RoutedEventArgs e)
 		{
 			InitGraph();
+		}
+
+		private void EraseButton_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				var last = FunctionsListView.SelectedFunction;
+				last.GraphFunction.Roots = null;
+				Graph.DrawRoots();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+			}
+		}
+
+		private void FunctionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			try
+			{
+				if (e.RemovedItems.Count == 1)
+				{
+					TangentLim.IsEnabled = true;
+					SolveButton.IsEnabled = false;
+					TangentAddButton.IsEnabled = false;
+				}
+				if (e.AddedItems.Count == 1)
+				{
+					TangentAddButton.IsEnabled = true;
+					var g = (GraphableFunction)e.AddedItems[0];
+					if (g.Function is CodeDomEval)
+					{
+						TangentLim.IsEnabled = true;
+						SolveButton.IsEnabled = false;
+					}
+					else
+					{
+						if (g.Function is Polynomial)
+						{
+							SolveEpsilon.IsEnabled = true;
+						}
+						else
+						{
+							SolveEpsilon.IsEnabled = false;
+						}
+						TangentLim.IsEnabled = false;
+						SolveButton.IsEnabled = true;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+			}
+		}
+
+		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			try
+			{
+				if (ABox == null) return;
+				var t = (string)((ComboBoxItem)e.AddedItems[0]).Content;
+				if (t == "Auto" || t == "Polynomial" || t == "CodeDomEval")
+				{
+					Polynomial.IsEnabled = true;
+					ABox.IsEnabled = false;
+					BBox.IsEnabled = false;
+					CBox.IsEnabled = false;
+				}
+				if (t == "Straight")
+				{
+					Polynomial.IsEnabled = false;
+					ABox.IsEnabled = true;
+					BBox.IsEnabled = true;
+					CBox.IsEnabled = false;
+				}
+				if (t == "QuadraticParabola")
+				{
+					Polynomial.IsEnabled = false;
+					ABox.IsEnabled = true;
+					BBox.IsEnabled = true;
+					CBox.IsEnabled = true;
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+			}
 		}
 	}
 }
