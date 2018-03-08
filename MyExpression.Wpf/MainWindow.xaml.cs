@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 using MyExpression.Core;
 
@@ -25,25 +27,12 @@ namespace MyExpression.Wpf
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public IList<GraphableFunction> Functions { get; private set; } = new List<GraphableFunction>();
+		public ObservableCollection<GraphableFunction> Functions { get; private set; } = new ObservableCollection<GraphableFunction>();
 		public GraphableFunction LastFunction { get; private set; }
-
-		public class GraphableFunction
-		{
-			public IFunctionX Function { get; set; }
-			public FunctionGraph.DrawableFunction GraphFunction { get; set; }
-
-			public GraphableFunction(IFunctionX f, FunctionGraph.DrawableFunction gf)
-			{
-				Function = f;
-				GraphFunction = gf;
-			}
-		}
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			InitGraph();
 		}
 
 		private void Graph_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -62,7 +51,7 @@ namespace MyExpression.Wpf
 
 		private void InitGraph()
 		{
-			
+
 			try
 			{
 				Graph.Scale = new Point(Double.Parse(ScaleX.Text), Double.Parse(ScaleY.Text));
@@ -116,7 +105,7 @@ namespace MyExpression.Wpf
 					Func<double, double> f = fp.Calculate;
 					Graph.Add(f, da, GraphBrushComboBox.SelectedBrush);
 					var df = Graph.Functions.Last();
-					Functions.Add(LastFunction = new GraphableFunction(fp, df));
+					Functions.Add(LastFunction = new GraphableFunction(fp, df, Polynomial.Text, Functions));
 					CountLabel.Content = Graph.Count;
 					Cursor = null;
 					Graph.DrawFunctions();
@@ -133,7 +122,7 @@ namespace MyExpression.Wpf
 							Func<double, double> f = fp.Calculate;
 							Graph.Add(f, tp.Item3, tp.Item2);
 							var df = Graph.Functions.Last();
-							Functions.Add(LastFunction = new GraphableFunction(fp, df));
+							Dispatcher.Invoke(() => Functions.Add(LastFunction = new GraphableFunction(fp, df, tp.Item1, Functions)));
 							Dispatcher.Invoke(() => CountLabel.Content = Graph.Count);
 						}
 						catch (Exception ex)
@@ -221,7 +210,7 @@ namespace MyExpression.Wpf
 				Func<double, double> f = fp.Calculate;
 				Graph.Add(f, da, TangentBrushComboBox.SelectedBrush);
 				var df = Graph.Functions.Last();
-				Functions.Add(new GraphableFunction(fp, df));
+				Functions.Add(new GraphableFunction(fp, df, $"{(Math.Abs(k) == 1 ? k < 0 ? "-" : "" : k.ToString())}x{(m >= 0 ? "+" : "")}{m}", Functions));
 
 				Graph.DrawFunctions();
 
@@ -232,6 +221,11 @@ namespace MyExpression.Wpf
 			{
 				MessageBox.Show(ex.StackTrace, ex.Message);
 			}
+		}
+
+		private void Graph_Loaded(object sender, RoutedEventArgs e)
+		{
+			InitGraph();
 		}
 	}
 }

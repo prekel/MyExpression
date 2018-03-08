@@ -17,7 +17,7 @@
 		</Grid.ColumnDefinitions>
 
 		<Grid Grid.Column="2" Grid.RowSpan="2" >
-			<local:FunctionGraph x:Name="Graph" RenderTransformOrigin="0.5,0.5" SizeChanged="Graph_SizeChanged">
+			<local:FunctionGraph x:Name="Graph" RenderTransformOrigin="0.5,0.5" SizeChanged="Graph_SizeChanged" Loaded="Graph_Loaded">
 				<local:FunctionGraph.RenderTransform>
 					<TransformGroup>
 						<ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -30,7 +30,7 @@
 		</Grid>
 		<Grid>
 			<Grid.RowDefinitions>
-				<!--<RowDefinition Height="300"/>-->
+				<RowDefinition Height="300"/>
 				<RowDefinition Height="1*"/>
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
@@ -152,6 +152,7 @@
 					</Grid>
 				</TabItem>
 			</TabControl>
+			<local:FunctionsListView Grid.Row="1" ItemsSource="{Binding Functions, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" />
 		</Grid>
 
 		<GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5" Grid.RowSpan="2"/>
