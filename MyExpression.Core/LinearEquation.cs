@@ -49,7 +49,15 @@ namespace MyExpression.Core
 
 		public override string ToString()
 		{
-			return ToPolynomial() + " = 0";
+			var k = A.ToString();
+			var m = B.ToString();
+			var x = "x";
+			if (A == 0) return m;
+			if (A == 1) k = "";
+			if (A == -1) k = "-";
+			if (B > 0) m = "+" + m;
+			if (B == 0) m = "";
+			return $"{k}{x}{m}";
 		}
 	}
 }

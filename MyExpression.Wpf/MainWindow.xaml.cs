@@ -186,34 +186,12 @@ namespace MyExpression.Wpf
 			{
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
 
-				double k, m;
-				//if (LastFunction.Function is Polynomial p)
-				if (FunctionsListView.SelectedFunction.Function is Polynomial p)
-				{
-					var d = p.Derivative;
-					var x0 = Double.Parse(TangentX.Text);
-					k = d.Calculate(x0);
-					m = p.Calculate(x0) - d.Calculate(x0) * x0;
-				}
-				else
-				{
-					//var fn = LastFunction.Function;
-					var fn = FunctionsListView.SelectedFunction.Function;
-					var x0 = Double.Parse(TangentX.Text);
-					var x1 = x0 + Double.Parse(TangentLim.Text);
-					var y0 = fn.Calculate(x0);
-					var y1 = fn.Calculate(x1);
-
-					k = (y1 - y0) / (x1 - x0);
-					m = y0 - k * x0;
-				}
-
-				var fp = new Polynomial(k, m);
+				var fp = new Tangent(FunctionsListView.SelectedFunction.Function, Double.Parse(TangentX.Text), Double.Parse(TangentLim.Text));
 
 				Func<double, double> f = fp.Calculate;
 				Graph.Add(f, da, TangentBrushComboBox.SelectedBrush);
 				var df = Graph.Functions.Last();
-				Functions.Add(new GraphableFunction(fp, df, $"{(k * m == 0 ? "0" : ((k == 0 ? "" : Math.Abs(k) == 1 ? k < 0 ? "-x" : "" : k + "x")+(m == 0 ? "" : m > 0 ? "+" + m : m.ToString())))}", Functions));
+				Functions.Add(new GraphableFunction(fp, df, fp.ToString(), Functions));
 
 				Graph.DrawFunctions();
 

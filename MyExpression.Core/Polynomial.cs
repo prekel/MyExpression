@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace MyExpression.Core
 {
-	public class Polynomial : IFunctionX, IEnumerable<Monomial>
+	public class Polynomial : IFunctionX, IDerivativable, IEnumerable<Monomial>
 	{
 		private SortedDictionary<double, Monomial> Data { get; set; } = new SortedDictionary<double, Monomial>();
 
@@ -159,7 +159,7 @@ namespace MyExpression.Core
 			}
 		}
 
-		public Polynomial Derivative
+		public IFunctionX Derivative
 		{
 			get
 			{

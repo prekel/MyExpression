@@ -13,7 +13,7 @@ namespace MyExpression.Core
 		public double Epsilon { get; set; }
 		public Polynomial Polynomial { get; private set; }
 
-		public Polynomial Derivative => Polynomial.Derivative;
+		public Polynomial Derivative => (Polynomial)Polynomial.Derivative;
 
 		private PolynomialEquation polynomialEquation;
 		public PolynomialEquation DerivativeEquation
