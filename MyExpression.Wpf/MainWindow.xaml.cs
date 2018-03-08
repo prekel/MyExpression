@@ -226,26 +226,67 @@ namespace MyExpression.Wpf
 
 		private void FunctionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (e.RemovedItems.Count == 1)
+			try
 			{
-				TangentLim.IsEnabled = true;
-				SolveButton.IsEnabled = false;
-				TangentAddButton.IsEnabled = false;
-			}
-			if (e.AddedItems.Count == 1)
-			{
-				TangentAddButton.IsEnabled = true;
-				var g = (GraphableFunction)e.AddedItems[0];
-				if (g.Function.GetType().Equals(typeof(Polynomial)))
-				{
-					TangentLim.IsEnabled = false;
-					SolveButton.IsEnabled = true;
-				}
-				if (g.Function.GetType().Equals(typeof(CodeDomEval)))
+				if (e.RemovedItems.Count == 1)
 				{
 					TangentLim.IsEnabled = true;
 					SolveButton.IsEnabled = false;
+					TangentAddButton.IsEnabled = false;
 				}
+				if (e.AddedItems.Count == 1)
+				{
+					TangentAddButton.IsEnabled = true;
+					var g = (GraphableFunction)e.AddedItems[0];
+					if (g.Function.GetType().Equals(typeof(Polynomial)))
+					{
+						TangentLim.IsEnabled = false;
+						SolveButton.IsEnabled = true;
+					}
+					if (g.Function.GetType().Equals(typeof(CodeDomEval)))
+					{
+						TangentLim.IsEnabled = true;
+						SolveButton.IsEnabled = false;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+			}
+		}
+
+		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			try
+			{
+				if (ABox == null) return;
+				var t = (string)((ComboBoxItem)e.AddedItems[0]).Content;
+				if (t == "Auto" || t == "Polynomial" || t == "CodeDomEval")
+				{
+					Polynomial.IsEnabled = true;
+					ABox.IsEnabled = false;
+					BBox.IsEnabled = false;
+					CBox.IsEnabled = false;
+				}
+				if (t == "Straight")
+				{
+					Polynomial.IsEnabled = false;
+					ABox.IsEnabled = true;
+					BBox.IsEnabled = true;
+					CBox.IsEnabled = false;
+				}
+				if (t == "QuadraticParabola")
+				{
+					Polynomial.IsEnabled = false;
+					ABox.IsEnabled = true;
+					BBox.IsEnabled = true;
+					CBox.IsEnabled = true;
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
 			}
 		}
 	}
