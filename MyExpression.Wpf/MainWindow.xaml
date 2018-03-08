@@ -35,7 +35,7 @@
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 			</Grid.ColumnDefinitions>
-			<TabControl>
+			<TabControl SelectedIndex="1">
 				<TabItem Header="Плоскость">
 					<Grid>
 						<Grid.ColumnDefinitions>

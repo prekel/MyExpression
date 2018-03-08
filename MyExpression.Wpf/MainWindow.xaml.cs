@@ -276,15 +276,21 @@ namespace MyExpression.Wpf
 				{
 					TangentAddButton.IsEnabled = true;
 					var g = (GraphableFunction)e.AddedItems[0];
-					//if (g.Function.GetType().Equals(typeof(CodeDomEval)))
 					if (g.Function is CodeDomEval)
 					{
 						TangentLim.IsEnabled = true;
 						SolveButton.IsEnabled = false;
 					}
-					//if (g.Function.GetType().Equals(typeof(Polynomial)))
 					else
 					{
+						if (g.Function is Polynomial)
+						{
+							SolveEpsilon.IsEnabled = true;
+						}
+						else
+						{
+							SolveEpsilon.IsEnabled = false;
+						}
 						TangentLim.IsEnabled = false;
 						SolveButton.IsEnabled = true;
 					}
