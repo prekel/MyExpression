@@ -213,7 +213,7 @@ namespace MyExpression.Wpf
 				Func<double, double> f = fp.Calculate;
 				Graph.Add(f, da, TangentBrushComboBox.SelectedBrush);
 				var df = Graph.Functions.Last();
-				Functions.Add(new GraphableFunction(fp, df, $"{(Math.Abs(k) == 1 ? k < 0 ? "-" : "" : k.ToString())}x{(m >= 0 ? "+" : "")}{m}", Functions));
+				Functions.Add(new GraphableFunction(fp, df, $"{(k * m == 0 ? "0" : ((k == 0 ? "" : Math.Abs(k) == 1 ? k < 0 ? "-x" : "" : k + "x")+(m == 0 ? "" : m > 0 ? "+" + m : m.ToString())))}", Functions));
 
 				Graph.DrawFunctions();
 
