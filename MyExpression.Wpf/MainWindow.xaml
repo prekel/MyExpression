@@ -94,14 +94,14 @@
 							<RowDefinition Height="15"/>
 							<RowDefinition/>
 						</Grid.RowDefinitions>
-						<Label Content="Type" VerticalAlignment="Top" Height="28" FlowDirection="RightToLeft" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,17,0"/>
+						<Label Content="Type" VerticalAlignment="Top" Height="28" FlowDirection="RightToLeft" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,22,0"/>
 						<TextBox x:Name="Polynomial" Height="38" TextWrapping="Wrap" Text="x^3-2x^2-x+2" VerticalAlignment="Top" Margin="0,28,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6"/>
 						<TextBox x:Name="DefinitionAreaLeft" Height="23" TextWrapping="Wrap" Text="-20" VerticalAlignment="Top" Margin="0,98,0,0" Grid.Row="1" Grid.Column="4"/>
 						<TextBox x:Name="DefinitionAreaRight" Height="23" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Margin="0,98,0,0" Grid.Row="1" Grid.Column="6"/>
 						<Button x:Name="AddButton" Content="Add" VerticalAlignment="Top" Click="AddButton_Click" Height="20" Margin="0,126,1,0" Grid.Row="1" Grid.Column="6"/>
 						<local:BrushesList x:Name="GraphBrushComboBox" Margin="0,126,0,0" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="1" Height="30" VerticalAlignment="Top" Width="150" SelectedBrush="DarkMagenta"/>
 						<Label Content="DefinitionArea" HorizontalAlignment="Right" Margin="0,98,0,0" VerticalAlignment="Top" Height="28" Width="100" Grid.Row="1" Grid.Column="1" FlowDirection="RightToLeft" Grid.ColumnSpan="2"/>
-						<ComboBox x:Name="TypeComboBox" Grid.ColumnSpan="5" Grid.Column="2" Margin="40,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged">
+						<ComboBox x:Name="TypeComboBox" Grid.ColumnSpan="5" Grid.Column="2" Margin="35,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged">
 							<ComboBoxItem Content="Auto"/>
 							<ComboBoxItem Content="Polynomial" />
 							<ComboBoxItem Content="CodeDomEval"/>

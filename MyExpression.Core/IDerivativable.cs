@@ -9,6 +9,6 @@ namespace MyExpression.Core
 	public interface IDerivativable
 	{
 		IFunctionX Derivative { get; }
-		double Calculate(double x);
+		//double Calculate(double x);
 	}
 }

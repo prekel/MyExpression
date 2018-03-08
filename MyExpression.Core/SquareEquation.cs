@@ -103,5 +103,10 @@ namespace MyExpression.Core
 			if (C > 0) c = "+" + c;
 			return $"{a}{x2}{b}{x}{c}";
 		}
+
+		public void Solve()
+		{
+			
+		}
 	}
 }

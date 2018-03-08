@@ -10,7 +10,7 @@ namespace MyExpression.Core
 	{
 		public QuadraticParabola(double a, double b, double c) : base(a, b, c) { }
 
-		public IFunctionX Derivative => new Straight(A, B);
+		public IFunctionX Derivative => new Straight(2 * A, B);
 
 		public double Calculate(double x) => A * x * x + B * x + C;
 	}

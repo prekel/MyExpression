@@ -59,5 +59,10 @@ namespace MyExpression.Core
 			if (B == 0) m = "";
 			return $"{k}{x}{m}";
 		}
+
+		public void Solve()
+		{
+			
+		}
 	}
 }

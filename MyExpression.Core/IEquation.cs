@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace MyExpression.Core
 {
-	interface IEquation
+	public interface IEquation
 	{
 		IList<double> AllRoots { get; }
 		IList<double> Roots { get; }
+		void Solve();
 	}
 }

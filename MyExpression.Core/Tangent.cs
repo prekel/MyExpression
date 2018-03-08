@@ -17,7 +17,7 @@ namespace MyExpression.Core
 			{
 				var d = p.Derivative;
 				k = d.Calculate(x0);
-				m = p.Calculate(x0) - d.Calculate(x0) * x0;
+				m = function.Calculate(x0) - d.Calculate(x0) * x0;
 			}
 			else
 			{
