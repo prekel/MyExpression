@@ -44,6 +44,7 @@ namespace MyExpression.Wpf
 			SelectionMode = SelectionMode.Single;
 			SizeChanged += FunctionsListView_SizeChanged;
 			Loaded += FunctionsListView_Loaded;
+			MouseDoubleClick += (s, ea) => SelectedFunction = null;
 		}
 
 		public double MinFormulaColumnWidth { get; set; } = 100;
@@ -51,8 +52,8 @@ namespace MyExpression.Wpf
 		private void FunctionsListView_Loaded(object sender, RoutedEventArgs e)
 		{
 			var gv = (GridView)View;
-			var a = 20;
-			var b = 95;
+			var a = 0;
+			var b = 90;
 			gv.Columns[0].Width = a;
 			gv.Columns[2].Width = b;
 			gv.Columns[1].Width = Math.Max(ActualWidth - a - b - 10, MinFormulaColumnWidth);
