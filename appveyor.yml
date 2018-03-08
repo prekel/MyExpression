@@ -43,7 +43,7 @@ deploy:
   description: $(appveyor_repo_tag_name) $(assembly_version)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf; MyExpression_All_Files
+  artifact: MyExpression; MyExpression_All_Files
   draft: false
   prerelease: true
   on:
@@ -55,7 +55,7 @@ deploy:
   description: $(appveyor_repo_tag_name) $(assembly_version)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression; MyExpression.Core.dll; MyExpression.Console.exe; MyExpression.Wpf; MyExpression_All_Files
+  artifact: MyExpression; MyExpression_All_Files
   draft: false
   prerelease: false
   on:
