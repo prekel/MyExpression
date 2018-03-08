@@ -152,7 +152,7 @@
 					</Grid>
 				</TabItem>
 			</TabControl>
-			<local:FunctionsListView Grid.Row="1" ItemsSource="{Binding Functions, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" />
+			<local:FunctionsListView x:Name="FunctionsListView" Grid.Row="1" ItemsSource="{Binding Functions, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" />
 		</Grid>
 
 		<GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5" Grid.RowSpan="2"/>

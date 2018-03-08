@@ -164,7 +164,8 @@ namespace MyExpression.Wpf
 			try
 			{
 				//var last = Functions.Last();
-				var last = LastFunction;
+				//var last = LastFunction;
+				var last = FunctionsListView.SelectedFunction;
 				var p = (Polynomial)last.Function;
 				var pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
 				pe.Solve();
@@ -186,7 +187,8 @@ namespace MyExpression.Wpf
 				var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
 
 				double k, m;
-				if (LastFunction.Function is Polynomial p)
+				//if (LastFunction.Function is Polynomial p)
+				if (FunctionsListView.SelectedFunction.Function is Polynomial p)
 				{
 					var d = p.Derivative;
 					var x0 = Double.Parse(TangentX.Text);
@@ -195,7 +197,8 @@ namespace MyExpression.Wpf
 				}
 				else
 				{
-					var fn = LastFunction.Function;
+					//var fn = LastFunction.Function;
+					var fn = FunctionsListView.SelectedFunction.Function;
 					var x0 = Double.Parse(TangentX.Text);
 					var x1 = x0 + Double.Parse(TangentLim.Text);
 					var y0 = fn.Calculate(x0);

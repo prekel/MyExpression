@@ -20,8 +20,20 @@ using MyExpression.Core;
 
 namespace MyExpression.Wpf
 {
-	public class FunctionsListView : ListView, IEnumerable<IFunctionX>
+	public class FunctionsListView : ListView, IEnumerable<GraphableFunction>
 	{
+		public IList<GraphableFunction> Functions 
+		{
+			get => (IList<GraphableFunction>)ItemsSource;
+			set => ItemsSource = value;
+		}
+
+		public GraphableFunction SelectedFunction
+		{
+			get => (GraphableFunction)SelectedItem;
+			set => SelectedItem = value;
+		}
+
 		public FunctionsListView() : base()
 		{
 			var gv = new GridView();
@@ -29,6 +41,7 @@ namespace MyExpression.Wpf
 			gv.Columns.Add(new GridViewColumn() { Header = "Формула", DisplayMemberBinding= new Binding("Formula")});
 			gv.Columns.Add(new GridViewColumn() { Header = "Тип", DisplayMemberBinding = new Binding("Type") });
 			View = gv;
+			SelectionMode = SelectionMode.Single;
 			SizeChanged += FunctionsListView_SizeChanged;
 			Loaded += FunctionsListView_Loaded;
 		}
@@ -55,14 +68,14 @@ namespace MyExpression.Wpf
 			}
 		}
 
-		public IEnumerator<IFunctionX> GetEnumerator()
+		public IEnumerator<GraphableFunction> GetEnumerator()
 		{
-			throw new NotImplementedException();
+			return Functions.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			throw new NotImplementedException();
+			return Functions.GetEnumerator();
 		}
 	}
 }
