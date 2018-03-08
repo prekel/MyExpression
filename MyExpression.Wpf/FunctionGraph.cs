@@ -41,7 +41,7 @@ namespace MyExpression.Wpf
 			// TODO: разобраться с сеттером
 			public bool IsDrawed { get; set; }
 
-			public SolidColorBrush RootsBrush { get; private set; } = Brushes.Indigo;
+			public SolidColorBrush RootsBrush { get; set; } = Brushes.Indigo;
 
 			public IList<double> Roots { get; set; }
 
