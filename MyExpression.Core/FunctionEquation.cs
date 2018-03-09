@@ -29,7 +29,7 @@ namespace MyExpression.Core
 
 		public IList<double> AllRoots { get; private set; }
 
-		public IList<double> Roots { get; private set; }
+		public IList<double> Roots => AllRoots;
 
 		public void Solve()
 		{
