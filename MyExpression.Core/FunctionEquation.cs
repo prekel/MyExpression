@@ -37,16 +37,29 @@ namespace MyExpression.Core
 			var x0 = Interval.Left;
 			var y0 = Function(x0);
 			var y = 0d;
+			var fl = false;
+			var x1 = Double.NaN;
 			for (var x = Interval.Left + Step; x <= Interval.Right; x += Step)
 			{
 				y = Function(x);
 
-				var p = y0 * y;
+				if (!fl && Math.Abs(y) < Epsilon)
+				{
+					fl = true;
+					x1 = x;
+				}
+				if (fl && Math.Abs(y) >= Epsilon)
+				{
+					fl = false;
+					AllRoots.Add(x1);
+				}
 
+				var p = y0 * y;
 				if (!Double.IsInfinity(p) && !Double.IsNaN(p) && p < 0)
 				{
 					var bs = new RecursiveBinarySearch(Function, new Interval(x0, x), Epsilon);
-					AllRoots.Add(bs.Solve());
+					x1 = bs.Solve();
+					if (!fl) AllRoots.Add(x1);
 				}
 
 				y0 = y;
