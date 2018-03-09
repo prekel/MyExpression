@@ -53,8 +53,8 @@ namespace MyExpression.Console
 			//System.Console.WriteLine("   Roots: " + String.Join(" ", e.Roots));
 
 			//var f = new CodeDomEval("pow(x, 3) - 2 * pow(x, 2) - x + 2");
-			var f = new CodeDomEval("sin(x)");
-			var e = new FunctionEquation(Math.Sin, new Interval(-5, 5));
+			//var f = new CodeDomEval("sin(x)");
+			var e = new FunctionEquation(Math.Sin, new Interval(-5, 5), eps: 1e-15);
 			e.Solve();
 			var r = e.AllRoots;
 		}
