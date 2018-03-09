@@ -279,7 +279,11 @@ namespace MyExpression.Wpf
 					if (g.Function is CodeDomEval)
 					{
 						TangentLim.IsEnabled = true;
-						SolveButton.IsEnabled = false;
+						SolveButton.IsEnabled = true;
+						SolveStep.IsEnabled = true;
+						SolveIntervalLeft.IsEnabled = true;
+						SolveIntervalRight.IsEnabled = true;
+						MultipleRootsCheckBox.IsEnabled = false;
 					}
 					else
 					{
@@ -293,6 +297,10 @@ namespace MyExpression.Wpf
 						}
 						TangentLim.IsEnabled = false;
 						SolveButton.IsEnabled = true;
+						SolveStep.IsEnabled = false;
+						SolveIntervalLeft.IsEnabled = false;
+						SolveIntervalRight.IsEnabled = false;
+						MultipleRootsCheckBox.IsEnabled = true;
 					}
 				}
 			}

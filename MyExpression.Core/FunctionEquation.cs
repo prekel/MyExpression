@@ -41,7 +41,9 @@ namespace MyExpression.Core
 			{
 				y = Function(x);
 
-				if (y0 * y < 0)
+				var p = y0 * y;
+
+				if (!Double.IsInfinity(p) && !Double.IsNaN(p) && p < 0)
 				{
 					var bs = new RecursiveBinarySearch(Function, new Interval(x0, x), Epsilon);
 					AllRoots.Add(bs.Solve());
