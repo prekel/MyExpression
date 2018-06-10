@@ -203,6 +203,14 @@ namespace MyExpression.Wpf
 				{
 					pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
 				}
+				else if (last.Function is CodeDomEval f)
+				{
+					var l = Double.Parse(SolveIntervalLeft.Text);
+					var r = Double.Parse(SolveIntervalRight.Text);
+					var step = Double.Parse(SolveStep.Text);
+					var eps = Double.Parse(SolveEpsilon.Text);
+					pe = new FunctionEquation(f, new Interval(l, r), step, eps);
+				}
 				else
 				{
 					pe = (IEquation)last.Function;
@@ -279,7 +287,12 @@ namespace MyExpression.Wpf
 					if (g.Function is CodeDomEval)
 					{
 						TangentLim.IsEnabled = true;
-						SolveButton.IsEnabled = false;
+						SolveButton.IsEnabled = true;
+						SolveStep.IsEnabled = true;
+						SolveIntervalLeft.IsEnabled = true;
+						SolveIntervalRight.IsEnabled = true;
+						MultipleRootsCheckBox.IsEnabled = false;
+						if (SolveEpsilon.Text == "1e-15") SolveEpsilon.Text = "1e-6";
 					}
 					else
 					{
@@ -293,6 +306,11 @@ namespace MyExpression.Wpf
 						}
 						TangentLim.IsEnabled = false;
 						SolveButton.IsEnabled = true;
+						SolveStep.IsEnabled = false;
+						SolveIntervalLeft.IsEnabled = false;
+						SolveIntervalRight.IsEnabled = false;
+						MultipleRootsCheckBox.IsEnabled = true;
+						if (SolveEpsilon.Text == "1e-6") SolveEpsilon.Text = "1e-15";
 					}
 				}
 			}

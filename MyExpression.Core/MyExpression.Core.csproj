@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FunctionEquation.cs" />
     <Compile Include="IEquation.cs" />
     <Compile Include="CodeDomEval.cs" />
     <Compile Include="IBinarySearch.cs" />
