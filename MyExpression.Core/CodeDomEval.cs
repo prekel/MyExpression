@@ -35,6 +35,41 @@ namespace Evaluation
 		}
 	}
 }";
+		private string ReformExpression(string e)
+		{
+			var sb = new StringBuilder(e);
+			sb.Replace(" ", "");
+			sb.Replace("abs", "Math.Abs");
+			sb.Replace("acos", "Math.Acos");
+			sb.Replace("asin", "Math.Asin");
+			sb.Replace("atan", "Math.Atan");
+			sb.Replace("atan2", "Math.Atan2");
+			sb.Replace("bigmul", "Math.BigMul");
+			sb.Replace("ceiling", "Math.Ceiling");
+			sb.Replace("cos", "Math.Cos");
+			sb.Replace("cosh", "Math.Cosh");
+			sb.Replace("divrem", "Math.DivRem");
+			sb.Replace("e", "Math.E");
+			sb.Replace("exp", "Math.Exp");
+			sb.Replace("floor", "Math.Floor");
+			sb.Replace("ieeeremainder", "Math.IEEERemainder");
+			sb.Replace("log", "Math.Log");
+			sb.Replace("log10", "Math.Log10");
+			sb.Replace("max", "Math.Max");
+			sb.Replace("min", "Math.Min");
+			sb.Replace("pi", "Math.PI");
+			sb.Replace("pow", "Math.Pow");
+			sb.Replace("round", "Math.Round");
+			sb.Replace("sign", "Math.Sign");
+			sb.Replace("sin", "Math.Sin");
+			sb.Replace("sinh", "Math.Sinh");
+			sb.Replace("sqrt", "Math.Sqrt");
+			sb.Replace("tan", "Math.Tan");
+			sb.Replace("tanh", "Math.Tanh");
+			sb.Replace("truncate", "Math.Truncate");
+			return sb.ToString();
+		}
+	
 		/// <summary>
 		/// Конструктор
 		/// </summary>
@@ -49,7 +84,8 @@ namespace Evaluation
 			// Компиляция сборки с вычисляющим классом
 			var compilerParams = CreateCompilerParameters();
 			//var src = String.Format(SourceFormat, expression);
-			var src = SourceFormat.Replace("[|<expression>|]", expression);
+			var rfex = ReformExpression(expression);
+			var src = SourceFormat.Replace("[|<expression>|]", rfex);
 			CompilerResults = provider.CompileAssemblyFromSource(compilerParams, src);
 
 			if (CompilerResults.Errors.Count == 0)
@@ -62,9 +98,9 @@ namespace Evaluation
 				// Сбор ошибок компиляции
 				foreach (CompilerError error in CompilerResults.Errors)
 				{
-					sb.Append(error.ErrorText + "\n");
+					sb.Append(error + "\n");
 				}
-				throw new Exception("Ошибка сборки\n" + sb);
+				throw new ApplicationException("Ошибка сборки\n" + sb);
 			}
 
 			if (!IsSuccessfulBuild) throw new Exception("Ошибка сборки");
