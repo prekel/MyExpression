@@ -50,5 +50,18 @@ namespace MyExpression.Core.Tests
 			Assert.AreEqual(0, f(Math.PI), 1e-7);
 			Assert.AreEqual(Math.Sqrt(2) / 2, f(Math.PI / 4), 1e-7);
 		}
+
+		[Test]
+		public void AtanAsinAcosTest()
+		{
+			Func<double, double> evalf = new CodeDomEval("atan(x) + asin(x) + acos(x)").Calculate;
+			double f(double x) => Math.Atan(x) + Math.Asin(x) + Math.Acos(x);
+			var r = new MyRandom();
+			for (var i = 0; i < 10; i++)
+			{
+				var x = r.Next(100) * r.NextDouble();
+				Assert.AreEqual(f(x), evalf(x));
+			}
+		}
 	}
 }
