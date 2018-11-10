@@ -285,7 +285,7 @@ namespace MyExpression.Core
 		/// </summary>
 		/// <param name="a">Многочлен</param>
 		/// <param name="b">Многочлен</param>
-		/// <returns>Сумма многочленов</returns>
+		/// <returns>Сумма многочленов (многочлен)</returns>
 		public static Polynomial operator +(Polynomial a, Polynomial b)
 		{
 			var p = new Polynomial(a);
@@ -301,7 +301,7 @@ namespace MyExpression.Core
 		/// </summary>
 		/// <param name="a">Многочлен</param>
 		/// <param name="b">Многочлен</param>
-		/// <returns>Разность многочленов</returns>
+		/// <returns>Разность многочленов (многочлен)</returns>
 		public static Polynomial operator -(Polynomial a, Polynomial b)
 		{
 			var p = new Polynomial(a);
@@ -317,7 +317,7 @@ namespace MyExpression.Core
 		/// </summary>
 		/// <param name="a">Многочлен a</param>
 		/// <param name="b">Одночлен b</param>
-		/// <returns>Сумма</returns>
+		/// <returns>Сумма (многочлен)</returns>
 		public static Polynomial operator +(Polynomial a, Monomial b)
 		{
 			var p = new Polynomial(a);
@@ -330,7 +330,7 @@ namespace MyExpression.Core
 		/// </summary>
 		/// <param name="a">Многочлен a</param>
 		/// <param name="b">Одночлен b</param>
-		/// <returns>Разность</returns>
+		/// <returns>Разность (многочлен)</returns>
 		public static Polynomial operator -(Polynomial a, Monomial b)
 		{
 			var p = new Polynomial(a);
@@ -343,29 +343,28 @@ namespace MyExpression.Core
 		/// </summary>
 		/// <param name="a">Одночлен b</param>
 		/// <param name="b">Многочлен a</param>
-		/// <returns>Сумма</returns>
+		/// <returns>Сумма (многочлен)</returns>
 		public static Polynomial operator +(Monomial b, Polynomial a)
 		{
 			return a + b;
 		}
 		
 		/// <summary>
-		/// Вычитает одночлен и многочлен (не доделано)
+		/// Вычитает одночлен и многочлен, b - a
 		/// </summary>
-		/// <param name="a">Одночлен a</param>
-		/// <param name="b">Многочлен b</param>
-		/// <returns>Разность</returns>
-		[Obsolete]
+		/// <param name="a">Одночлен b</param>
+		/// <param name="b">Многочлен a</param>
+		/// <returns>Разность (многочлен)</returns>
 		public static Polynomial operator -(Monomial b, Polynomial a)
 		{
-			return a - b;
+			return -a + b;
 		}
 
 		/// <summary>
-		/// Унарный минус
+		/// Унарный минус, -a
 		/// </summary>
-		/// <param name="a"></param>
-		/// <returns></returns>
+		/// <param name="a">Многочлен a</param>
+		/// <returns>Унарный минус (многочлен)</returns>
 		public static Polynomial operator -(Polynomial a)
 		{
 			var p = new Polynomial(a);
@@ -376,11 +375,22 @@ namespace MyExpression.Core
 			return p;
 		}
 
+		/// <summary>
+		/// Унарный плюс, +a
+		/// </summary>
+		/// <param name="a">Многочлен a</param>
+		/// <returns>Унарный плюс (многочлен)</returns>
 		public static Polynomial operator +(Polynomial a)
 		{
 			return a;
 		}
 
+		/// <summary>
+		/// Умножение многочлена на одночлен, a * b
+		/// </summary>
+		/// <param name="a">Многочлен a</param>
+		/// <param name="b">Одночлен b</param>
+		/// <returns>Произведение (многочлен)</returns>
 		public static Polynomial operator *(Polynomial a, Monomial b)
 		{
 			var p = new Polynomial(a);
@@ -392,11 +402,23 @@ namespace MyExpression.Core
 			return p;
 		}
 
+		/// <summary>
+		/// Умножение одночлена на многочлен, a * b
+		/// </summary>
+		/// <param name="a">Одночлен a</param>
+		/// <param name="b">Многочлен b</param>
+		/// <returns>Произведение (многочлен)</returns>
 		public static Polynomial operator *(Monomial a, Polynomial b)
 		{
 			return b * a;
 		}
 
+		/// <summary>
+		/// Умножение многочлена на число, a * b
+		/// </summary>
+		/// <param name="a">Многочлен a</param>
+		/// <param name="b">Число b</param>
+		/// <returns>Произведение (многочлен)</returns>
 		public static Polynomial operator *(Polynomial a, double b)
 		{
 			var p = new Polynomial(a);
@@ -408,11 +430,21 @@ namespace MyExpression.Core
 			return p;
 		}
 
+		/// <summary>
+		/// Умножение числа на многочлен, a * b
+		/// </summary>
+		/// <param name="a">Число a</param>
+		/// <param name="b">Многочлен b</param>
+		/// <returns>Произведение (многочлен)</returns>
 		public static Polynomial operator *(double a, Polynomial b)
 		{
 			return b * a;
 		}
 
+		/// <summary>
+		/// Предсавляет многочлен в виде строки
+		/// </summary>
+		/// <returns>Строка</returns>
 		public override string ToString()
 		{
 			var s = "";
@@ -427,8 +459,19 @@ namespace MyExpression.Core
 			return s;
 		}
 
+		// TODO: оставить что-то одно
+		/// <summary>
+		/// Выражает квадратное уравнение из многочлена
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Если степень многочлена не 2</exception>
 		public SquareEquation SquareEquation => ToSquareEquation();
 
+		// TODO: оставить что-то одно
+		/// <summary>
+		/// Выражает квадратное уравнение из многочлена
+		/// </summary>
+		/// <returns>Квадратное уравнение</returns>
+		/// <exception cref="InvalidOperationException">Если степень многочлена не 2</exception>
 		public SquareEquation ToSquareEquation()
 		{
 			if (Degree != 2)
@@ -436,6 +479,10 @@ namespace MyExpression.Core
 			return new SquareEquation(this[2].Coefficient, this[1].Coefficient, this[0].Coefficient);
 		}
 
+		/// <summary>
+		/// Получает перечислитель элементов многочленов
+		/// </summary>
+		/// <returns>Enumerator</returns>
 		public IEnumerator<Monomial> GetEnumerator()
 		{
 			return Data.Values.GetEnumerator();
@@ -446,6 +493,11 @@ namespace MyExpression.Core
 			return Data.Values.GetEnumerator();
 		}
 
+		/// <summary>
+		/// Проверяет на равенство с заданным многочленом
+		/// </summary>
+		/// <param name="obj">С чем сравнивается</param>
+		/// <returns>Логическое значение</returns>
 		public override bool Equals(object obj)
 		{
 			if (obj is null) return false;
@@ -461,6 +513,12 @@ namespace MyExpression.Core
 			return true;
 		}
 
+		/// <summary>
+		/// Проверяет на равенство с заданным многочленом и заданной точностью при сравнении коэффициентов мноочленов
+		/// </summary>
+		/// <param name="p">С чем сравнивается</param>
+		/// <param name="epscoef">Точность</param>
+		/// <returns>Логическое значение</returns>
 		public bool Equals(Polynomial p, double epscoef = 0)
 		{
 			if (p.Degree != p.Degree) return false;
@@ -472,6 +530,10 @@ namespace MyExpression.Core
 			return true;
 		}
 
+		/// <summary>
+		/// Хэш-код
+		/// </summary>
+		/// <returns>Целое число</returns>
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();
