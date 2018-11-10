@@ -101,7 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyExpression.Core\MyExpression.Core.csproj">
-      <Project>{b53ad36c-1482-4d56-9601-33ab1ce095be}</Project>
+      <Project>{c71db3a3-e50d-49c5-b08f-64c458fd4fcc}</Project>
       <Name>MyExpression.Core</Name>
     </ProjectReference>
   </ItemGroup>
