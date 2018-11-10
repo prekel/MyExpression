@@ -8,12 +8,22 @@ using System.Collections;
 
 namespace MyExpression.Core
 {
+	/// <summary>
+	/// Многочлен
+	/// </summary>
 	public class Polynomial : IFunctionX, IDerivativable, IEnumerable<Monomial>
 	{
 		private SortedDictionary<double, Monomial> Data { get; set; } = new SortedDictionary<double, Monomial>();
 
+		/// <summary>
+		/// Степень
+		/// </summary>
 		public double Degree => Data.Last().Value.Degree;
 
+		/// <summary>
+		/// Одночлен многочлена по степени
+		/// </summary>
+		/// <param name="degree">Степень одночлена</param>
 		public Monomial this[double degree]
 		{
 			get
@@ -29,10 +39,17 @@ namespace MyExpression.Core
 			}
 		}
 
+		/// <summary>
+		/// Создаёт нулевой многочлен
+		/// </summary>
 		public Polynomial()
 		{
 		}
 
+		/// <summary>
+		/// Создаёт копию многочлена
+		/// </summary>
+		/// <param name="a">Копируемый многочлен</param>
 		public Polynomial(Polynomial a)
 		{
 			foreach (var i in a)
@@ -41,6 +58,10 @@ namespace MyExpression.Core
 			}
 		}
 
+		/// <summary>
+		/// Создаёт многочлен со степенями от n - 1 до 0, где n - ко-во параметров
+		/// </summary>
+		/// <param name="v">Коэффиценты одночленов</param>
 		public Polynomial(params double[] v)
 		{
 			for (var i = v.Length - 1; i >= 0; i--)
@@ -49,34 +70,72 @@ namespace MyExpression.Core
 			}
 		}
 
+		/// <summary>
+		/// Создаёт нулевой многочлен используя заданный режим вычисления
+		/// </summary>
+		/// <param name="mode">Режим вычисления</param>
 		public Polynomial(CalculateMode mode) : this()
 		{
 			Mode = mode;
 		}
 
+		/// <summary>
+		/// Создаёт копию многочлена используя заданный режим вычисления
+		/// </summary>
+		/// <param name="a">Копируемый многочлен</param>
+		/// <param name="mode">Режим вычисления</param>
 		public Polynomial(Polynomial a, CalculateMode mode) : this(a)
 		{
 			Mode = mode;
 		}
-
+		
+		/// <summary>
+		/// Создаёт многочлен со степенями от n - 1 до 0, где n - ко-во параметров используя заданный режим вычисления
+		/// </summary>
+		/// <param name="mode">Режим вычисления</param>
+		/// <param name="v">Коэффиценты одночленов</param>
 		public Polynomial(CalculateMode mode, params double[] v) : this(v)
 		{
 			Mode = mode;
 		}
 
+		/// <summary>
+		/// Режим вычисления
+		/// </summary>
 		public enum CalculateMode
 		{
-			Manual, Compile
+			/// <summary>
+			/// Вычисление значение в лоб
+			/// </summary>
+			Manual = 1,
+			/// <summary>
+			/// Компиляция в CodeDomEval
+			/// </summary>
+			Compile = 2
 		}
 
+		/// <summary>
+		/// Режим вычисления
+		/// </summary>
 		public CalculateMode Mode { get; set; } = CalculateMode.Manual;
 
+		/// <summary>
+		/// Вычисляет значение в лоб
+		/// </summary>
+		/// <param name="x">Независимая переменная</param>
+		/// <returns>Значение многочлена</returns>
 		public double ManualCalculate(double x) => Data.Values.Sum(m => m.Calculate(x));
 
 		private CodeDomEval Evaluator { get; set; }
 
-		public bool IsCompiled { get; set; }
+		/// <summary>
+		/// Является ли скомпилированным
+		/// </summary>
+		public bool IsCompiled { get; private set; }
 
+		/// <summary>
+		/// Компилирует многочлен
+		/// </summary>
 		public void Compile()
 		{
 			var s = String.Join(" + ", from i in Data.Values select $"({i.Coefficient.ToString(System.Globalization.CultureInfo.InvariantCulture)}*Math.Pow(x, {i.Degree.ToString(System.Globalization.CultureInfo.InvariantCulture)}))");
@@ -84,8 +143,18 @@ namespace MyExpression.Core
 			IsCompiled = true;
 		}
 
+		/// <summary>
+		/// Вычисляет значение через CodeDomEval
+		/// </summary>
+		/// <param name="x">Независимая переменнная</param>
+		/// <returns>Значение многочлена</returns>
 		public double Evaluate(double x) => Evaluator.Calculate(x);
 
+		/// <summary>
+		/// Вычисляет значение многочлена
+		/// </summary>
+		/// <param name="x">Независимая переменная</param>
+		/// <returns>Значение многочлена</returns>
 		public double Calculate(double x)
 		{
 			if (Mode == CalculateMode.Compile)
@@ -96,6 +165,9 @@ namespace MyExpression.Core
 			return ManualCalculate(x);
 		}
 
+		/// <summary>
+		/// Удаляет нулевые одночлены
+		/// </summary>
 		public void DeleteZeros()
 		{
 			IsCompiled = false;
@@ -119,6 +191,10 @@ namespace MyExpression.Core
 			);
 		}
 
+		/// <summary>
+		/// Прибавляет одночлен
+		/// </summary>
+		/// <param name="a">Одночлен</param>
 		public void Add(Monomial a)
 		{
 			IsCompiled = false;
@@ -139,6 +215,10 @@ namespace MyExpression.Core
 			}
 		}
 
+		/// <summary>
+		/// Вычитает одночлен
+		/// </summary>
+		/// <param name="a">Одночлен</param>
 		public void Sub(Monomial a)
 		{
 			IsCompiled = false;
@@ -159,6 +239,9 @@ namespace MyExpression.Core
 			}
 		}
 
+		/// <summary>
+		/// Производная
+		/// </summary>
 		public IFunctionX Derivative
 		{
 			get
@@ -172,6 +255,11 @@ namespace MyExpression.Core
 			}
 		}
 
+		/// <summary>
+		/// Получает многочлен из строки, например из x^5-6x^3-0.5x^2+1
+		/// </summary>
+		/// <param name="p"></param>
+		/// <returns></returns>
 		public static Polynomial Parse(string p)
 		{
 			if (p[0] != '-' && p[0] != '+') p = "+" + p;
@@ -192,6 +280,12 @@ namespace MyExpression.Core
 			return pl;
 		}
 
+		/// <summary>
+		/// Складывает многочлены, a + b
+		/// </summary>
+		/// <param name="a">Многочлен</param>
+		/// <param name="b">Многочлен</param>
+		/// <returns>Сумма многочленов</returns>
 		public static Polynomial operator +(Polynomial a, Polynomial b)
 		{
 			var p = new Polynomial(a);
@@ -202,6 +296,12 @@ namespace MyExpression.Core
 			return p;
 		}
 
+		/// <summary>
+		/// Вычитает многочлены a - b
+		/// </summary>
+		/// <param name="a">Многочлен</param>
+		/// <param name="b">Многочлен</param>
+		/// <returns>Разность многочленов</returns>
 		public static Polynomial operator -(Polynomial a, Polynomial b)
 		{
 			var p = new Polynomial(a);
@@ -212,13 +312,25 @@ namespace MyExpression.Core
 			return p;
 		}
 
+		/// <summary>
+		/// Складывает многочлен и одночлен, a + b
+		/// </summary>
+		/// <param name="a">Многочлен a</param>
+		/// <param name="b">Одночлен b</param>
+		/// <returns>Сумма</returns>
 		public static Polynomial operator +(Polynomial a, Monomial b)
 		{
 			var p = new Polynomial(a);
 			p.Add(b);
 			return p;
 		}
-
+		
+		/// <summary>
+		/// Вычитает многочлен и одночлен, a - b
+		/// </summary>
+		/// <param name="a">Многочлен a</param>
+		/// <param name="b">Одночлен b</param>
+		/// <returns>Разность</returns>
 		public static Polynomial operator -(Polynomial a, Monomial b)
 		{
 			var p = new Polynomial(a);
@@ -226,16 +338,34 @@ namespace MyExpression.Core
 			return p;
 		}
 
+		/// <summary>
+		/// Складывает одночлен и многочлен, b + a
+		/// </summary>
+		/// <param name="a">Одночлен b</param>
+		/// <param name="b">Многочлен a</param>
+		/// <returns>Сумма</returns>
 		public static Polynomial operator +(Monomial b, Polynomial a)
 		{
 			return a + b;
 		}
-
+		
+		/// <summary>
+		/// Вычитает одночлен и многочлен (не доделано)
+		/// </summary>
+		/// <param name="a">Одночлен a</param>
+		/// <param name="b">Многочлен b</param>
+		/// <returns>Разность</returns>
+		[Obsolete]
 		public static Polynomial operator -(Monomial b, Polynomial a)
 		{
 			return a - b;
 		}
 
+		/// <summary>
+		/// Унарный минус
+		/// </summary>
+		/// <param name="a"></param>
+		/// <returns></returns>
 		public static Polynomial operator -(Polynomial a)
 		{
 			var p = new Polynomial(a);
