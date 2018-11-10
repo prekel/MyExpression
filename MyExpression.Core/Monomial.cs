@@ -194,6 +194,12 @@ namespace MyExpression.Core
 			return new Monomial(f * c, d);
 		}
 
+		/// <summary>
+		/// Пытается получить одночлен из строки
+		/// </summary>
+		/// <param name="p">Исходная строка</param>
+		/// <param name="result">Результируемый одночлен</param>
+		/// <returns>Удачность попытки</returns>
 		public static bool TryParse(string p, out Monomial result)
 		{
 			try
@@ -208,11 +214,20 @@ namespace MyExpression.Core
 			}
 		}
 
+		/// <summary>
+		/// Представление в виде строки
+		/// </summary>
+		/// <returns>Строка</returns>
 		public override string ToString()
 		{
 			return $"{Coefficient}x^{Degree}";
 		}
 
+		/// <summary>
+		/// Сравнение с другим одночленом по степени
+		/// </summary>
+		/// <param name="obj">Одночлен</param>
+		/// <returns>Результат сравнения (целое число)</returns>
 		public int CompareTo(object obj)
 		{
 			return Degree.CompareTo(((Monomial) obj).Degree);
