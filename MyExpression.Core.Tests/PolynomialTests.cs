@@ -102,19 +102,28 @@ namespace MyExpression.Core.Tests
 		public void FromRootsEquationTest()
 		{
 			var r = new MyRandom();
-			var n = r.Next(3, 8);
-			var roots = new double[n];
-			for (var i = 0; i < n; i++)
+			for (var j = 0; j < 100; j++)
 			{
-				roots[i] = r.Next(-20, 20);
-			}
-			Array.Sort(roots);
-			var p = Polynomial.FromRoots(roots);
-			var eq = new PolynomialEquation(p, 1e-8);
-			eq.Solve();
-			for (var i = 0; i < n; i++)
-			{
-				Assert.AreEqual(roots[i], eq.AllRoots[i], 1e-7);
+				var n = r.Next(3, 8);
+				var roots = new double[n];
+				for (var i = 0; i < n; i++)
+				{
+					roots[i] = r.Next(-20, 20);
+				}
+
+				Array.Sort(roots);
+				var p = Polynomial.FromRoots(roots);
+				var eq = new PolynomialEquation(p, 1e-12);
+				eq.Solve();
+				for (var i = 0; i < n; i++)
+				{
+					if (Math.Abs(roots[i] - eq.AllRoots[i]) > 1e-3)
+					{
+						throw new ApplicationException($"{String.Join(", ", roots)}\n{String.Join(", ", eq.AllRoots)}");
+					}
+
+					Assert.AreEqual(roots[i], eq.AllRoots[i], 1e-3);
+				}
 			}
 		}
 	}
