@@ -123,7 +123,7 @@ namespace MyExpression.Core
 		/// Вычисляет значение в лоб
 		/// </summary>
 		/// <param name="x">Независимая переменная</param>
-		/// <returns>Значение многочлена</returns>
+		/// <returns>Значение (вещественное число)</returns>
 		public double ManualCalculate(double x) => Data.Values.Sum(m => m.Calculate(x));
 
 		private CodeDomEval Evaluator { get; set; }
@@ -147,14 +147,14 @@ namespace MyExpression.Core
 		/// Вычисляет значение через CodeDomEval
 		/// </summary>
 		/// <param name="x">Независимая переменнная</param>
-		/// <returns>Значение многочлена</returns>
+		/// <returns>Значение (вещественное число)</returns>
 		public double Evaluate(double x) => Evaluator.Calculate(x);
 
 		/// <summary>
 		/// Вычисляет значение многочлена
 		/// </summary>
 		/// <param name="x">Независимая переменная</param>
-		/// <returns>Значение многочлена</returns>
+		/// <returns>Значение (вещественное число)</returns>
 		public double Calculate(double x)
 		{
 			if (Mode == CalculateMode.Compile)
@@ -258,8 +258,9 @@ namespace MyExpression.Core
 		/// <summary>
 		/// Получает многочлен из строки, например из x^5-6x^3-0.5x^2+1
 		/// </summary>
-		/// <param name="p"></param>
-		/// <returns></returns>
+		/// <param name="p">Исходная строка</param>
+		/// <returns>Многочлен</returns>
+		/// <exception cref="FormatException">Неправильный формат</exception>
 		public static Polynomial Parse(string p)
 		{
 			if (p[0] != '-' && p[0] != '+') p = "+" + p;
