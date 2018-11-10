@@ -10,15 +10,16 @@ namespace MyExpression.Core.Tests
 {
 	public class MyUniqueRandom : MyRandom
 	{
-		private int CurrentIndex { get; set; }
+		private int CurrentIndex { get; set; } = 0;
 		private int[] Values { get; set; }
 
 		private void Init(int minvalue, int maxvalue)
 		{
+			Values = new int[maxvalue - minvalue + 1];
 			var len = Values.Length;
 			for (var i = 0; i < len; i++)
 			{
-				Values[i] = i - minvalue;
+				Values[i] = i + minvalue;
 			}
 
 			for (var i = 0; i < len; i++)

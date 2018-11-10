@@ -101,14 +101,14 @@ namespace MyExpression.Core.Tests
 		[Test]
 		public void FromRootsEquationTest()
 		{
-			var r = new MyRandom();
+			var r = new MyUniqueRandom(-20, 20);
 			for (var j = 0; j < 100; j++)
 			{
 				var n = r.Next(3, 8);
 				var roots = new double[n];
 				for (var i = 0; i < n; i++)
 				{
-					roots[i] = r.Next(-20, 20);
+					roots[i] = r.NextUnique();
 				}
 
 				Array.Sort(roots);
@@ -117,7 +117,7 @@ namespace MyExpression.Core.Tests
 				eq.Solve();
 				for (var i = 0; i < n; i++)
 				{
-					if (Math.Abs(roots[i] - eq.AllRoots[i]) > 1e-3)
+					if (Math.Abs(roots[i] - eq.AllRoots[i]) > 1e-3 || eq.AllRoots.Count != n)
 					{
 						throw new ApplicationException($"{String.Join(", ", roots)}\n{String.Join(", ", eq.AllRoots)}");
 					}
