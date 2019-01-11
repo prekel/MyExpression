@@ -104,7 +104,7 @@ namespace MyExpression.Wpf
 				try
 				{
 					var tp = (Tuple<string, SolidColorBrush, Interval>)par;
-					var fp = new CodeDomEval(tp.Item1);
+					var fp = new CodeAnalysisEval(tp.Item1);
 					Func<double, double> f = fp.Calculate;
 					Graph.Add(f, tp.Item3, tp.Item2);
 					var df = Graph.Functions.Last();
@@ -203,7 +203,7 @@ namespace MyExpression.Wpf
 				{
 					pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
 				}
-				else if (last.Function is CodeDomEval f)
+				else if (last.Function is CodeAnalysisEval f)
 				{
 					var l = Double.Parse(SolveIntervalLeft.Text);
 					var r = Double.Parse(SolveIntervalRight.Text);
@@ -284,7 +284,7 @@ namespace MyExpression.Wpf
 				{
 					TangentAddButton.IsEnabled = true;
 					var g = (GraphableFunction)e.AddedItems[0];
-					if (g.Function is CodeDomEval)
+					if (g.Function is CodeAnalysisEval)
 					{
 						TangentLim.IsEnabled = true;
 						SolveButton.IsEnabled = true;
