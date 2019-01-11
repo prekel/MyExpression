@@ -13,6 +13,7 @@ using System.Reflection;
 
 namespace MyExpression.Core
 {
+	[Obsolete]
     public class CodeDomEval : IFunctionX
     {
         public CompilerResults CompilerResults { get; private set; }

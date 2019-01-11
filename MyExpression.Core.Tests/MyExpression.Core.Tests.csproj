@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-      <ProjectReference Include="..\MyExpression.Core\MyExpression.Core.csproj" />
+    <ProjectReference Include="..\MyExpression.Core\MyExpression.Core.csproj" />
   </ItemGroup>
 
 </Project>
