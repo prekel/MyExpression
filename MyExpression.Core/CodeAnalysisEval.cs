@@ -119,25 +119,41 @@ namespace Evaluation
 			return sb.ToString();
 		}
 
+		private static IEnumerable<MetadataReference> GetAssemblyReferences()
+		{
+			var references = new MetadataReference[]
+			{
+				MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location)
+				// A bit hacky, if you need it
+				//MetadataReference.CreateFromFile(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "mscorlib.dll")),
+			};
+			return references;
+		}
+
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="expression">Выражение, которое будем вычислять</param>
 		public CodeAnalysisEval(string expression)
 		{
-
 			var rfex = ReformExpression(expression);
 			var src = SourceFormat.Replace("[|<expression>|]", rfex);
 
 			var syntaxTree = CSharpSyntaxTree.ParseText(src, new CSharpParseOptions(LanguageVersion.Latest));
 
-			var references = AppDomain.CurrentDomain.GetAssemblies()
-				.Select(assembly_ => MetadataReference.CreateFromFile(assembly_.Location))
-				.Cast<MetadataReference>()
-				.ToList();
+			//var references = AppDomain.CurrentDomain.GetAssemblies()
+			//	.Select(assembly_ => MetadataReference.CreateFromFile(assembly_.Location))
+			//	.Cast<MetadataReference>()
+			//	.ToList();
 
-			var compilation = CSharpCompilation.Create("Evaluation", new[] { syntaxTree },
-				references, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+			var assemblyName = Guid.NewGuid().ToString();
+
+			var compilation = CSharpCompilation.Create(
+				assemblyName,
+				new[] { syntaxTree },
+				GetAssemblyReferences(),
+				new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+			);
 
 			var compileLog = syntaxTree.GetDiagnostics().Select(diagnostic => diagnostic.ToString()).ToList();
 
