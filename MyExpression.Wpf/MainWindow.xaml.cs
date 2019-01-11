@@ -94,7 +94,7 @@ namespace MyExpression.Wpf
 		//	}
 		//}
 
-		private void AddCodeDomEval()
+		private void AddCodeAnalysisEval()
 		{
 			Cursor = Cursors.Wait;
 			var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
@@ -150,16 +150,16 @@ namespace MyExpression.Wpf
 					}
 					catch
 					{
-						AddCodeDomEval();
+						AddCodeAnalysisEval();
 					}
 				}
 				if (t == "Polynomial")
 				{
 					AddIFunctionX(Core.Polynomial.Parse(Polynomial.Text), Polynomial.Text);
 				}
-				if (t == "CodeDomEval")
+				if (t == "CodeAnalysisEval")
 				{
-					AddCodeDomEval();
+					AddCodeAnalysisEval();
 				}
 				if (t == "Straight")
 				{
@@ -326,7 +326,7 @@ namespace MyExpression.Wpf
 			{
 				if (ABox == null) return;
 				var t = (string)((ComboBoxItem)e.AddedItems[0]).Content;
-				if (t == "Auto" || t == "Polynomial" || t == "CodeDomEval")
+				if (t == "Auto" || t == "Polynomial" || t == "CodeAnalysisEval")
 				{
 					Polynomial.IsEnabled = true;
 					ABox.IsEnabled = false;
