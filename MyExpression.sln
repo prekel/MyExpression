@@ -1,12 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Core", "MyExpression.Core\MyExpression.Core.csproj", "{C71DB3A3-E50D-49C5-B08F-64C458FD4FCC}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyExpression.Core", "MyExpression.Core\MyExpression.Core.csproj", "{C71DB3A3-E50D-49C5-B08F-64C458FD4FCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Core.Tests", "MyExpression.Core.Tests\MyExpression.Core.Tests.csproj", "{114B27C1-EF3B-475D-BD0C-6EEEDF3C6685}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyExpression.Core.Tests", "MyExpression.Core.Tests\MyExpression.Core.Tests.csproj", "{114B27C1-EF3B-475D-BD0C-6EEEDF3C6685}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Wpf", "MyExpression.Wpf\MyExpression.Wpf.csproj", "{5D4ABA1B-FDCE-4137-974B-C704EE00B435}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Console", "MyExpression.Console\MyExpression.Console.csproj", "{64736F26-F5DE-4F3A-B58A-CCCC88151CD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyExpression.Console", "MyExpression.Console\MyExpression.Console.csproj", "{64736F26-F5DE-4F3A-B58A-CCCC88151CD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Core.Graphs", "MyExpression.Core.Graphs\MyExpression.Core.Graphs.csproj", "{8C0B7284-3460-4CCD-B4FF-79197079AB61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Core.Graphs.Tests", "MyExpression.Core.Graphs.Tests\MyExpression.Core.Graphs.Tests.csproj", "{6ED7B383-5A67-4155-9E3B-4E937EED0F9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +37,19 @@ Global
 		{64736F26-F5DE-4F3A-B58A-CCCC88151CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64736F26-F5DE-4F3A-B58A-CCCC88151CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64736F26-F5DE-4F3A-B58A-CCCC88151CD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C0B7284-3460-4CCD-B4FF-79197079AB61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C0B7284-3460-4CCD-B4FF-79197079AB61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C0B7284-3460-4CCD-B4FF-79197079AB61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C0B7284-3460-4CCD-B4FF-79197079AB61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ED7B383-5A67-4155-9E3B-4E937EED0F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ED7B383-5A67-4155-9E3B-4E937EED0F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED7B383-5A67-4155-9E3B-4E937EED0F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED7B383-5A67-4155-9E3B-4E937EED0F9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C2306DE-898E-4354-932B-D9C366D9638C}
 	EndGlobalSection
 EndGlobal
