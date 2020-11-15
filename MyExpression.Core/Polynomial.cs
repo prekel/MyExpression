@@ -192,6 +192,16 @@ namespace MyExpression.Core
 			return pl;
 		}
 
+		public static Polynomial FromRoots(params double[] roots)
+		{
+			var p = new Polynomial(1, -roots[0]);
+			for (var i = 1; i < roots.Length; i++)
+			{
+				p *= new LinearBinomial(roots[i]);
+			}
+			return p;
+		}
+
 		public static Polynomial operator +(Polynomial a, Polynomial b)
 		{
 			var p = new Polynomial(a);

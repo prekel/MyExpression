@@ -94,7 +94,7 @@ namespace MyExpression.Wpf
 		//	}
 		//}
 
-		private void AddCodeDomEval()
+		private void AddCodeAnalysisEval()
 		{
 			Cursor = Cursors.Wait;
 			var da = new Interval(Double.Parse(DefinitionAreaLeft.Text), Double.Parse(DefinitionAreaRight.Text));
@@ -104,7 +104,7 @@ namespace MyExpression.Wpf
 				try
 				{
 					var tp = (Tuple<string, SolidColorBrush, Interval>)par;
-					var fp = new CodeDomEval(tp.Item1);
+					var fp = new CodeAnalysisEval(tp.Item1);
 					Func<double, double> f = fp.Calculate;
 					Graph.Add(f, tp.Item3, tp.Item2);
 					var df = Graph.Functions.Last();
@@ -150,16 +150,16 @@ namespace MyExpression.Wpf
 					}
 					catch
 					{
-						AddCodeDomEval();
+						AddCodeAnalysisEval();
 					}
 				}
 				if (t == "Polynomial")
 				{
 					AddIFunctionX(Core.Polynomial.Parse(Polynomial.Text), Polynomial.Text);
 				}
-				if (t == "CodeDomEval")
+				if (t == "CodeAnalysisEval")
 				{
-					AddCodeDomEval();
+					AddCodeAnalysisEval();
 				}
 				if (t == "Straight")
 				{
@@ -203,7 +203,7 @@ namespace MyExpression.Wpf
 				{
 					pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
 				}
-				else if (last.Function is CodeDomEval f)
+				else if (last.Function is CodeAnalysisEval f)
 				{
 					var l = Double.Parse(SolveIntervalLeft.Text);
 					var r = Double.Parse(SolveIntervalRight.Text);
@@ -284,7 +284,7 @@ namespace MyExpression.Wpf
 				{
 					TangentAddButton.IsEnabled = true;
 					var g = (GraphableFunction)e.AddedItems[0];
-					if (g.Function is CodeDomEval)
+					if (g.Function is CodeAnalysisEval)
 					{
 						TangentLim.IsEnabled = true;
 						SolveButton.IsEnabled = true;
@@ -326,7 +326,7 @@ namespace MyExpression.Wpf
 			{
 				if (ABox == null) return;
 				var t = (string)((ComboBoxItem)e.AddedItems[0]).Content;
-				if (t == "Auto" || t == "Polynomial" || t == "CodeDomEval")
+				if (t == "Auto" || t == "Polynomial" || t == "CodeAnalysisEval")
 				{
 					Polynomial.IsEnabled = true;
 					ABox.IsEnabled = false;

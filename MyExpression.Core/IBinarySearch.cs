@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyExpression.Core
 {
-	interface IBinarySearch
+	public interface IBinarySearch
 	{
 		Interval StartInterval { get; }
 		double Epsilon { get; }

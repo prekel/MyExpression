@@ -97,5 +97,34 @@ namespace MyExpression.Core.Tests
 			Assert.AreEqual(6, c[1].Coefficient);
 			Assert.AreEqual(8, c[0].Coefficient);
 		}
+
+		[Test]
+		public void FromRootsEquationTest()
+		{
+			var r = new MyUniqueRandom(-20, 20);
+			for (var j = 0; j < 100; j++)
+			{
+				var n = r.Next(3, 8);
+				var roots = new double[n];
+				for (var i = 0; i < n; i++)
+				{
+					roots[i] = r.NextUnique();
+				}
+
+				Array.Sort(roots);
+				var p = Polynomial.FromRoots(roots);
+				var eq = new PolynomialEquation(p, 1e-12);
+				eq.Solve();
+				for (var i = 0; i < n; i++)
+				{
+					if (Math.Abs(roots[i] - eq.AllRoots[i]) > 1e-3 || eq.AllRoots.Count != n)
+					{
+						throw new ApplicationException($"{String.Join(", ", roots)}\n{String.Join(", ", eq.AllRoots)}");
+					}
+
+					Assert.AreEqual(roots[i], eq.AllRoots[i], 1e-3);
+				}
+			}
+		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2018 Vladislav Prekel
+﻿// Copyright (c) 2019 Vladislav Prekel
 
 using System;
 using System.Collections.Generic;
@@ -11,12 +11,12 @@ using NUnit.Framework;
 namespace MyExpression.Core.Tests
 {
 	[TestFixture]
-	public class CodeDomEvalTests
+	public class CodeAnalysisEvalTests
 	{
 		[Test]
 		public void RandomSinCos()
 		{
-			Func<double, double> evalcos = new CodeDomEval("cos(x)").Calculate;
+			Func<double, double> evalcos = new CodeAnalysisEval("cos(x)").Calculate;
 			double cos(double x) => Math.Cos(x);
 			var r = new MyRandom();
 			for (var i = 0; i < 10; i++)
@@ -29,7 +29,7 @@ namespace MyExpression.Core.Tests
 		[Test]
 		public void Random()
 		{
-			Func<double, double> f1 = new CodeDomEval("sin(x)*1/x*4383+2143/1414+141-1.2*23*x*Math.Abs(x*Math.Sin(x))").Calculate;
+			Func<double, double> f1 = new CodeAnalysisEval("sin(x)*1/x*4383+2143/1414+141-1.2*23*x*Math.Abs(x*Math.Sin(x))").Calculate;
 			double f(double x) => Math.Sin(x) * 1 / x * 4383 + 2143 / 1414 + 141 - 1.2 * 23 * x * Math.Abs(x * Math.Sin(x));
 			var r = new MyRandom();
 			for (var i = 0; i < 100; i++)
@@ -43,7 +43,7 @@ namespace MyExpression.Core.Tests
 		public void ReadmeTest()
 		{
 			var s = "sin(x)";
-			var c = new CodeDomEval(s);
+			var c = new CodeAnalysisEval(s);
 			Func<double, double> f = c.Calculate;
 			Assert.AreEqual(0, f(0), 1e-7);
 			Assert.AreEqual(1, f(Math.PI / 2), 1e-7);
@@ -54,7 +54,7 @@ namespace MyExpression.Core.Tests
 		[Test]
 		public void AtanAsinAcosTest()
 		{
-			Func<double, double> evalf = new CodeDomEval("atan(x) + asin(x) + acos(x)").Calculate;
+			Func<double, double> evalf = new CodeAnalysisEval("atan(x) + asin(x) + acos(x)").Calculate;
 			double f(double x) => Math.Atan(x) + Math.Asin(x) + Math.Acos(x);
 			var r = new MyRandom();
 			for (var i = 0; i < 10; i++)
