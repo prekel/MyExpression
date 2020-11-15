@@ -3,45 +3,45 @@ image: Visual Studio 2019
 configuration: Release
 platform: Any CPU
 before_build:
-- ps: dotnet restore MyExpression.sln
+  - ps: dotnet restore MyExpression.sln
 build:
   project: MyExpression.sln
   verbosity: minimal
 artifacts:
-- path: \
-  name: MyExpression_All_Files
-- path: MyExpression.Core\bin\Release\
-  name: MyExpression.Core
-- path: MyExpression.Core.Tests\bin\Release\
-  name: MyExpression.Core.Tests
-- path: MyExpression.Console\bin\Release\
-  name: MyExpression.Console
-- path: MyExpression.Wpf\bin\Release\
-  name: MyExpression.Wpf
-- path: TestResult.xml
-  name: TestResult
+  - path: \
+    name: MyExpression_All_Files
+  - path: MyExpression.Core\bin\Release\
+    name: MyExpression.Core
+  - path: MyExpression.Core.Tests\bin\Release\
+    name: MyExpression.Core.Tests
+  - path: MyExpression.Console\bin\Release\
+    name: MyExpression.Console
+  - path: MyExpression.Wpf\bin\Release\
+    name: MyExpression.Wpf
+  - path: TestResult.xml
+    name: TestResult
 deploy:
-- provider: GitHub
-  tag: $(appveyor_repo_tag_name)
-  release: MyExpression $(appveyor_repo_tag_name)
-  description: $(appveyor_repo_tag_name) $(assembly_version)
-  auth_token:
-    secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression_All_Files
-  draft: false
-  prerelease: true
-  on:
-    branch: develop
-    appveyor_repo_tag: true
-- provider: GitHub
-  tag: $(appveyor_repo_tag_name)
-  release: MyExpression $(appveyor_repo_tag_name)
-  description: $(appveyor_repo_tag_name) $(assembly_version)
-  auth_token:
-    secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression_All_Files
-  draft: false
-  prerelease: false
-  on:
-    branch: master
-    appveyor_repo_tag: true
+  - provider: GitHub
+    tag: $(appveyor_repo_tag_name)
+    release: MyExpression $(appveyor_repo_tag_name)
+    description: $(appveyor_repo_tag_name) $(assembly_version)
+    auth_token:
+      secure: Tp0J4J4VZk2DZOAxGNgkLKyFcX3wXcAhP6IpcAjg6At0i0lhOwXlI5oEtgCW30BG
+    artifact: MyExpression_All_Files
+    draft: false
+    prerelease: true
+    on:
+      branch: develop
+      appveyor_repo_tag: true
+  - provider: GitHub
+    tag: $(appveyor_repo_tag_name)
+    release: MyExpression $(appveyor_repo_tag_name)
+    description: $(appveyor_repo_tag_name) $(assembly_version)
+    auth_token:
+      secure: Tp0J4J4VZk2DZOAxGNgkLKyFcX3wXcAhP6IpcAjg6At0i0lhOwXlI5oEtgCW30BG
+    artifact: MyExpression_All_Files
+    draft: false
+    prerelease: false
+    on:
+      branch: master
+      appveyor_repo_tag: true
