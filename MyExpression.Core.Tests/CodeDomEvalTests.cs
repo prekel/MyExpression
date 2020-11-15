@@ -11,6 +11,7 @@ using NUnit.Framework;
 namespace MyExpression.Core.Tests
 {
 	[TestFixture]
+	[Ignore("CodeDomEval obsolete")]
 	public class CodeDomEvalTests
 	{
 		[Test]
