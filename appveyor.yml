@@ -1,27 +1,13 @@
-version: 0.3.{build}
-image: Visual Studio 2017
+version: 0.4.{build}
+image: Visual Studio 2019
 configuration: Release
 platform: Any CPU
-install:
-- ps: >-
-    scripts\version.ps1
-
-    scripts\patching.ps1
 before_build:
-- ps: nuget restore MyExpression.sln
+- ps: dotnet restore MyExpression.sln
 build:
   project: MyExpression.sln
   verbosity: minimal
-after_build:
-- ps: >-
-    scripts\removemeta.ps1
-
-    scripts\binaries.ps1
 artifacts:
-- path: MyExpression.Core\bin\Release\MyExpression.Core.dll
-  name: MyExpression.Core.dll
-- path: MyExpression.Console\bin\Release\MyExpression.Console.exe
-  name: MyExpression.Console.exe
 - path: \
   name: MyExpression_All_Files
 - path: MyExpression.Core\bin\Release\
@@ -32,8 +18,6 @@ artifacts:
   name: MyExpression.Console
 - path: MyExpression.Wpf\bin\Release\
   name: MyExpression.Wpf
-- path: bin
-  name: MyExpression
 - path: TestResult.xml
   name: TestResult
 deploy:
@@ -43,7 +27,7 @@ deploy:
   description: $(appveyor_repo_tag_name) $(assembly_version)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression; MyExpression_All_Files
+  artifact: MyExpression_All_Files
   draft: false
   prerelease: true
   on:
@@ -55,7 +39,7 @@ deploy:
   description: $(appveyor_repo_tag_name) $(assembly_version)
   auth_token:
     secure: Npd8Pdh2luH0INNPoAQXoPC2g71ZM39Ys1Cu842ZZaRFt6B45Or6vy1bV10x0oSn
-  artifact: MyExpression; MyExpression_All_Files
+  artifact: MyExpression_All_Files
   draft: false
   prerelease: false
   on:
