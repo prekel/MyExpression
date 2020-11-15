@@ -1,22 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
 
-    <IsPackable>false</IsPackable>
+        <IsPackable>false</IsPackable>
 
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+        <LangVersion>9</LangVersion>
 
-  <ItemGroup>
-    <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
-    <PackageReference Include="nunit" Version="3.10.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
-  </ItemGroup>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MyExpression.Core\MyExpression.Core.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
+        <PackageReference Include="nunit" Version="3.12.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.0.0-alpha.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.0-preview-20201020-06" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\MyExpression.Core\MyExpression.Core.csproj" />
+    </ItemGroup>
 
 </Project>
