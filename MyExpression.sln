@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Console", "MyE
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MyExpression.FSharp.Core", "MyExpression.FSharp.Core\MyExpression.FSharp.Core.fsproj", "{C6FA4CAD-147D-4A47-B568-4BDD302BA62C}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MyExpression.FSharp.Console", "MyExpression.FSharp.Console\MyExpression.FSharp.Console.fsproj", "{3C339131-35A8-4432-B964-FABC703AC583}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{C6FA4CAD-147D-4A47-B568-4BDD302BA62C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6FA4CAD-147D-4A47-B568-4BDD302BA62C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6FA4CAD-147D-4A47-B568-4BDD302BA62C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C339131-35A8-4432-B964-FABC703AC583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C339131-35A8-4432-B964-FABC703AC583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C339131-35A8-4432-B964-FABC703AC583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C339131-35A8-4432-B964-FABC703AC583}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
