@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Wpf", "MyExpre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Console", "MyExpression.Console\MyExpression.Console.csproj", "{64736F26-F5DE-4F3A-B58A-CCCC88151CD0}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MyExpression.FSharp.Core", "MyExpression.FSharp.Core\MyExpression.FSharp.Core.fsproj", "{C6FA4CAD-147D-4A47-B568-4BDD302BA62C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{64736F26-F5DE-4F3A-B58A-CCCC88151CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64736F26-F5DE-4F3A-B58A-CCCC88151CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64736F26-F5DE-4F3A-B58A-CCCC88151CD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6FA4CAD-147D-4A47-B568-4BDD302BA62C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6FA4CAD-147D-4A47-B568-4BDD302BA62C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6FA4CAD-147D-4A47-B568-4BDD302BA62C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6FA4CAD-147D-4A47-B568-4BDD302BA62C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
