@@ -5,7 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Library.fs"/>
+        <Compile Include="Interval.fs" />
+        <Compile Include="Monomial.fs" />
+        <Compile Include="Polynomial.fs" />
+        <Compile Include="Derivative.fs" />
+        <Compile Include="PolynomialEquation.fs" />
     </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
-﻿// Learn more about F# at http://docs.microsoft.com/dotnet/fsharp
+﻿open MyExpression.FSharp.Core
 
-open System
-open MyExpression.FSharp.Core.Core
+open Core
 
 // Define a function to construct a message to print
 let from whom = sprintf "from %s" whom
@@ -16,15 +15,15 @@ let main argv =
 
     printfn "%A" y
 
-    let mon = { Coefficient = 3.0; Degree = 2 }
+    let mon = Monomial.create 3.0 2 
 
     let d = derivative (Monomial mon)
 
 
     let p =
         Polynomial [ mon
-                     monomial 12.3 3
-                     monomial 2.0 4 ]
+                     Monomial.create 12.3 3
+                     Monomial.create 2.0 4 ]
 
     let pd = derivative p
 
