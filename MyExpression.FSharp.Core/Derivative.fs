@@ -1,16 +1,10 @@
 ﻿namespace MyExpression.FSharp.Core
 
+type Derivativable =
+    | Mono of Monomial
+    | Poly of Polynomial
+
 module Derivative =
-
-    type Interval = { Left: float; Right: float }
-
-    let isInInterval x interval =
-        x >= interval.Left && x <= interval.Right
-
-
-    type Derivativable =
-        | Mono of Monomial
-        | Poly of Polynomial
 
     let rec derivative x =
         match x with
@@ -22,3 +16,8 @@ module Derivative =
                      match derivative (Mono t) with
                      | Mono (u) -> u
                      | _ -> failwith "")))
+
+    let derivative1 =
+        function
+        | Mono (y) -> Mono(Monomial.derivative y)
+        | Poly (y) -> Poly(Polynomial.derivative y)

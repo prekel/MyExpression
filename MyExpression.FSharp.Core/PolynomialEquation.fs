@@ -6,3 +6,6 @@ type PolynomialEquation =
 
 module PolynomialEquation =
     let create poly eps = { Polynomial = poly; Epsilon = eps }
+
+
+    
