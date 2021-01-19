@@ -1,3 +1,5 @@
+// Copyright (c) 2021 Vladislav Prekel
+
 namespace MyExpression.FSharp.Core
 
 
@@ -9,7 +11,7 @@ module Interval =
     let create left right = Interval(left, right)
     let ofTuple (left, right) = Interval(left, right)
 
-    let isInInterval x interval = fst interval <= x && x <= snd interval
+    let isInInterval x (interval: Interval) = fst interval <= x && x <= snd interval
 
     let infinityInterval = create -infinity infinity
 

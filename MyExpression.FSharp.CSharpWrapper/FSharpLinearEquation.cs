@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Copyright (c) 2021 Vladislav Prekel
+
 using System.Collections.Generic;
 
 using MyExpression.Core;
@@ -12,7 +13,7 @@ namespace MyExpression.FSharp.CSharpWrapper
         public double B => _equation.B;
         public double X => LinearEquationModule.solve(_equation);
 
-        private Core.LinearEquation _equation;
+        private readonly Core.LinearEquation _equation;
 
         public IList<double> AllRoots => new List<double>(new[] {X});
         public IList<double> Roots => AllRoots;

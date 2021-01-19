@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyExpression.Core
 {
-	public class Interval
+	public class Interval : IInterval
 	{
 		public double Left { get; set; }
 

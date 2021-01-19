@@ -17,7 +17,19 @@ namespace MyExpression.Core.Tests
     [TestFixture]
     public abstract class AbstractLinearEquationTests
     {
-        public abstract ILinearEquation CreateEquation(double a, double b);
+        [TestFixture]
+        public class FSharpLinearEquationTests : AbstractLinearEquationTests
+        {
+            protected override ILinearEquation CreateEquation(double a, double b) => new FSharpLinearEquation(a, b);
+        }
+
+        [TestFixture]
+        public class LinearEquationTests : AbstractLinearEquationTests
+        {
+            protected override ILinearEquation CreateEquation(double a, double b) => new LinearEquation(a, b);
+        }
+
+        protected abstract ILinearEquation CreateEquation(double a, double b);
 
         [Test]
         public void X_IntRandom()

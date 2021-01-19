@@ -1,4 +1,6 @@
-﻿namespace MyExpression.FSharp.Core
+﻿// Copyright (c) 2021 Vladislav Prekel
+
+namespace MyExpression.FSharp.Core
 
 type Derivativable =
     | Mono of Monomial

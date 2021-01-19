@@ -1,3 +1,5 @@
+// Copyright (c) 2021 Vladislav Prekel
+
 namespace MyExpression.FSharp.Core
 
 type Monomial = { Degree: int; Coefficient: float }
