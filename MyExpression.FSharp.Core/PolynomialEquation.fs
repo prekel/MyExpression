@@ -1,11 +1,37 @@
 namespace MyExpression.FSharp.Core
 
+open System
+
 type PolynomialEquation =
     { Polynomial: Polynomial
       Epsilon: float }
 
 module PolynomialEquation =
-    let create poly eps = { Polynomial = poly; Epsilon = eps }
+    let create eps poly = { Polynomial = poly; Epsilon = eps }
 
+    let derivative equation =
+        { equation with
+              Polynomial = equation.Polynomial |> Polynomial.derivative }
 
-    
+    let solve equation =
+        let norm =
+            { equation with
+                  Polynomial = equation.Polynomial |> Polynomial.normalize }
+
+        let poly = norm.Polynomial
+
+        let rec solveRec poly =
+            match poly |> Polynomial.degree with
+            | 1 ->
+                poly
+                |> LinearEquation.ofPolynomial
+                |> LinearEquation.solve
+                |> fun t -> [ t ]
+            | _ -> notImplemented ""
+
+        solveRec poly
+
+    let calc equation = Polynomial.calc equation.Polynomial
+
+    let check equation x =
+        Math.Abs(calc equation x) < equation.Epsilon

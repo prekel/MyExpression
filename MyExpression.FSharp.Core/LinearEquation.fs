@@ -1,0 +1,21 @@
+namespace MyExpression.FSharp.Core
+
+type LinearEquation = { A: float; B: float }
+
+module LinearEquation =
+    let create a b = { A = a; B = b }
+
+    let ofTuple (a, b) = create a b
+
+    let solve linear = -linear.B / linear.A
+
+    let ofPolynomial poly =
+        create
+            (poly
+             |> Polynomial.byDegree 1
+             |> Monomial.coefficient)
+            (poly
+             |> Polynomial.byDegree 0
+             |> Monomial.coefficient)
+
+    let check linear x = linear.A * x + linear.B
