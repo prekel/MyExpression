@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyExpression.Core
 {
-	public class LinearEquation : IEquation
+	public class LinearEquation : ILinearEquation
 	{
 		public double A { get; set; }
 		public double B { get; set; }
