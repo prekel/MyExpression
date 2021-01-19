@@ -15,23 +15,18 @@ using NUnit.Framework;
 namespace MyExpression.Core.Tests
 {
     [TestFixture]
-    public class LinearEquationTests
+    public abstract class AbstractLinearEquationTests
     {
-        private static LinearEquation ctor1(double a, double b) => new(a, b);
-
-        private static FSharpLinearEquation ctor2(double a, double b) => new(a, b);
-
-        private static Func<double, double, ILinearEquation>[] ctors = new Func<double, double, ILinearEquation>[]
-            {ctor1, ctor2};
+        public abstract ILinearEquation CreateEquation(double a, double b);
 
         [Test]
-        public void X_IntRandom([ValueSource(nameof(ctors))] Func<double, double, ILinearEquation> ctor)
+        public void X_IntRandom()
         {
             var r = new MyRandom();
             var a = r.Next(1, 100000) * r.NextSign();
             var b = r.Next(0, 100000) * r.NextSign();
 
-            var le = new FSharpLinearEquation(a, b);
+            var le = CreateEquation(a, b);
 
             var x = -b / (double) a;
 
