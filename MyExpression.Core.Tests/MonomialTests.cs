@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using MyExpression.FSharp.CSharpWrapper;
-
 namespace MyExpression.Core.Tests
 {
     [TestFixture]
@@ -19,12 +17,6 @@ namespace MyExpression.Core.Tests
         public class MonomialTests : AbstractMonomialTests
         {
             protected override IMonomial CreateMonomial(double coef, double degree) => new Monomial(coef, degree);
-        }
-
-        [TestFixture]
-        public class FMonomialTests : AbstractMonomialTests
-        {
-            protected override IMonomial CreateMonomial(double coef, double degree) => new FMonomial(coef, degree);
         }
 
         protected abstract IMonomial CreateMonomial(double coef, double degree);

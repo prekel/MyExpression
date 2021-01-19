@@ -1,13 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
 
         <IsPackable>false</IsPackable>
-
-        <LangVersion>9</LangVersion>
-
-        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,7 +14,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MyExpression.Core\MyExpression.Core.csproj" />
+      <ProjectReference Include="..\MyExpression.Core.Tests\MyExpression.Core.Tests.csproj" />
+      <ProjectReference Include="..\MyExpression.FSharp.CSharpWrapper\MyExpression.FSharp.CSharpWrapper.csproj" />
     </ItemGroup>
 
 </Project>

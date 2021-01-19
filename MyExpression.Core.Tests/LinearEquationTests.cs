@@ -7,8 +7,6 @@ using System.Runtime.Intrinsics;
 using System.Text;
 using System.Threading.Tasks;
 
-using MyExpression.FSharp.CSharpWrapper;
-
 //using MyExpression.Core;
 using NUnit.Framework;
 
@@ -17,12 +15,6 @@ namespace MyExpression.Core.Tests
     [TestFixture]
     public abstract class AbstractLinearEquationTests
     {
-        [TestFixture]
-        public class FLinearEquationTests : AbstractLinearEquationTests
-        {
-            protected override ILinearEquation CreateEquation(double a, double b) => new FSharpLinearEquation(a, b);
-        }
-
         [TestFixture]
         public class LinearEquationTests : AbstractLinearEquationTests
         {

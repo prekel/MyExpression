@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using MyExpression.FSharp.CSharpWrapper;
-
 namespace MyExpression.Core.Tests
 {
     [TestFixture]
@@ -20,12 +18,7 @@ namespace MyExpression.Core.Tests
         {
             protected override IInterval CreateInterval(double left, double right) => new Interval(left, right);
         }
-
-        [TestFixture]
-        public class FIntervalTests : AbstractIntervalTests
-        {
-            protected override IInterval CreateInterval(double left, double right) => new FInterval(left, right);
-        }
+        
 
         protected abstract IInterval CreateInterval(double left, double right);
 
