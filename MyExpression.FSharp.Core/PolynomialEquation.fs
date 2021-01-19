@@ -27,7 +27,12 @@ module PolynomialEquation =
                 |> LinearEquation.ofPolynomial
                 |> LinearEquation.solve
                 |> fun t -> [ t ]
-            | _ -> notImplemented ""
+            | _ ->
+                let der = Polynomial.derivative poly
+                let derRoots = solveRec der
+                let intervals = Interval.ofList derRoots
+                
+                []  
 
         solveRec poly
 

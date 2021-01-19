@@ -11,6 +11,7 @@
         <Compile Include="Polynomial.fs" />
         <Compile Include="Derivative.fs" />
         <Compile Include="LinearEquation.fs" />
+        <Compile Include="BinarySearch.fs" />
         <Compile Include="PolynomialEquation.fs" />
     </ItemGroup>
 

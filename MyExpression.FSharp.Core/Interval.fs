@@ -1,12 +1,15 @@
 namespace MyExpression.FSharp.Core
 
-type Interval = { Left: float; Right: float }
+
+open System
+
+type Interval = float * float
 
 module Interval =
-    let create left right = { Left = left; Right = right }
+    let create left right = Interval(left, right)
+    let ofTuple (left, right) = Interval(left, right)
 
-    let isInInterval x interval =
-        x >= interval.Left && x <= interval.Right
+    let isInInterval x interval = fst interval <= x && x <= snd interval
 
     let infinityInterval = create -infinity infinity
 
@@ -30,3 +33,8 @@ module Interval =
               create b c
               positiveInfinityInterval c ]
         | _ -> notImplemented ""
+
+    let left (interval: Interval) = fst interval
+    let right (interval: Interval) = snd interval
+
+    let difference ((left, right): Interval) = Math.Abs(left - right)
