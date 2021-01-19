@@ -1,7 +1,7 @@
 namespace MyExpression.FSharp.Core
 
 module BinarySearch =
-    let search f interval eps =
+    let search f eps interval =
         let median interval =
             match interval with
             | (NegativeInfinity, PositiveInfinity) -> 0.
