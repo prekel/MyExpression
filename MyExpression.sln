@@ -12,6 +12,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MyExpression.FSharp.Core", 
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MyExpression.FSharp.Console", "MyExpression.FSharp.Console\MyExpression.FSharp.Console.fsproj", "{3C339131-35A8-4432-B964-FABC703AC583}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.FSharp.CSharpWrapper", "MyExpression.FSharp.CSharpWrapper\MyExpression.FSharp.CSharpWrapper.csproj", "{5A79BCA9-07EF-4ED4-A3B4-A2A4FFE65663}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{3C339131-35A8-4432-B964-FABC703AC583}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C339131-35A8-4432-B964-FABC703AC583}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C339131-35A8-4432-B964-FABC703AC583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A79BCA9-07EF-4ED4-A3B4-A2A4FFE65663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A79BCA9-07EF-4ED4-A3B4-A2A4FFE65663}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A79BCA9-07EF-4ED4-A3B4-A2A4FFE65663}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A79BCA9-07EF-4ED4-A3B4-A2A4FFE65663}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

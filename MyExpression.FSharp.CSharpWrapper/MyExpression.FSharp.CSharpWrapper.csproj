@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MyExpression.Core\MyExpression.Core.csproj" />
+      <ProjectReference Include="..\MyExpression.FSharp.Core\MyExpression.FSharp.Core.fsproj" />
+    </ItemGroup>
+
+</Project>
