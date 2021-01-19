@@ -22,9 +22,9 @@ namespace MyExpression.Core.Tests
         }
 
         [TestFixture]
-        public class FSharpIntervalTests : AbstractIntervalTests
+        public class FIntervalTests : AbstractIntervalTests
         {
-            protected override IInterval CreateInterval(double left, double right) => new FSharpInterval(left, right);
+            protected override IInterval CreateInterval(double left, double right) => new FInterval(left, right);
         }
 
         protected abstract IInterval CreateInterval(double left, double right);

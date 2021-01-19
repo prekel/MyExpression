@@ -7,7 +7,7 @@ using MyExpression.FSharp.Core;
 
 namespace MyExpression.FSharp.CSharpWrapper
 {
-    public class FSharpInterval : IInterval
+    public class FInterval : IInterval
     {
         public double Left => _interval.Item1;
         public double Right => _interval.Item2;
@@ -15,6 +15,6 @@ namespace MyExpression.FSharp.CSharpWrapper
 
         private readonly Tuple<double, double> _interval;
 
-        public FSharpInterval(double l, double r) => _interval = IntervalModule.create(l, r);
+        public FInterval(double l, double r) => _interval = IntervalModule.create(l, r);
     }
 }

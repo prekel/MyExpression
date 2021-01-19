@@ -18,7 +18,7 @@ namespace MyExpression.Core.Tests
     public abstract class AbstractLinearEquationTests
     {
         [TestFixture]
-        public class FSharpLinearEquationTests : AbstractLinearEquationTests
+        public class FLinearEquationTests : AbstractLinearEquationTests
         {
             protected override ILinearEquation CreateEquation(double a, double b) => new FSharpLinearEquation(a, b);
         }
