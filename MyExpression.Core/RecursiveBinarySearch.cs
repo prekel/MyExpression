@@ -10,7 +10,7 @@ namespace MyExpression.Core
 {
 	public class RecursiveBinarySearch : IBinarySearch
 	{
-		public Interval StartInterval { get; private set; }
+		public IInterval StartInterval { get; private set; }
 		public double Epsilon { get; private set; }
 		public double Answer { get; private set; }
 		public Func<double, double> Function { get; private set; }

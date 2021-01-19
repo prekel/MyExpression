@@ -10,7 +10,7 @@ namespace MyExpression.Core
 {
 	public interface IBinarySearch
 	{
-		Interval StartInterval { get; }
+		IInterval StartInterval { get; }
 		double Epsilon { get; }
 		double Answer { get; }
 		Func<double, double> Function { get; }
