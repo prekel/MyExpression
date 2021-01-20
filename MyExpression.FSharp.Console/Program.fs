@@ -54,4 +54,10 @@ let main argv =
     let exn = p |> PolynomialEquation.create 1e-8
     let exn1 = exn |> PolynomialEquation.solve
 
+    let co = Interval.closureObject ()
+    let a = co.GetA ()
+    let b = co.GetB ()
+    co.SetA 12
+    let a1 = co.GetA ()
+    
     0 // return an integer exit code

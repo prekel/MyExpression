@@ -54,3 +54,12 @@ module Interval =
     let right (interval: Interval) = snd interval
 
     let difference ((left, right): Interval) = Math.Abs(left - right)
+
+    let closureObject () =
+        let mutable a = 0
+        let mutable b = 0.0
+
+        {| GetA = fun () -> a
+           SetA = fun value -> a <- value
+           GetB = fun () -> b
+           SetB = fun value -> b <- value |}
