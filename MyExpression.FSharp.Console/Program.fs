@@ -33,13 +33,24 @@ let main argv =
     let check1 = check 1.
     let checka = check lea
 
+//    let p =
+//        [ Monomial.create 12.3 1
+//          Monomial.create 2.0 0
+//          Monomial.create 2.0 0 ]
+//        |> Polynomial.ofList
+//        |> Polynomial.normalize
+//
+//    let exn = p |> PolynomialEquation.create 1e-8
+//    let exn1 = exn |> PolynomialEquation.solve
+
     let p =
-        [ Monomial.create 12.3 1
-          Monomial.create 2.0 0
+        [ Monomial.create 1. 3
+          Monomial.create -2.0 2
+          Monomial.create -1.0 1
           Monomial.create 2.0 0 ]
         |> Polynomial.ofList
         |> Polynomial.normalize
-        
+
     let exn = p |> PolynomialEquation.create 1e-8
     let exn1 = exn |> PolynomialEquation.solve
 

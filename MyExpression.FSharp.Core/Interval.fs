@@ -15,9 +15,9 @@ module Interval =
 
     let infinityInterval = create -infinity infinity
 
-    let positiveInfinityInterval a = create -infinity a
+    let negativeInfinityInterval a = create -infinity a
 
-    let negativeInfinityInterval a = create a infinity
+    let positiveInfinityInterval a = create a infinity
 
     let ofList roots =
         match roots with
