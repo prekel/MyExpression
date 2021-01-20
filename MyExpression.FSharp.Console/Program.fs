@@ -51,7 +51,6 @@ let main argv =
         |> Polynomial.ofList
         |> Polynomial.normalize
 
-    let exn = p |> PolynomialEquation.create 1e-8
-    let exn1 = exn |> PolynomialEquation.solve
+    let exn1 = PolynomialEquation.solve p 1e-13
 
     0 // return an integer exit code
