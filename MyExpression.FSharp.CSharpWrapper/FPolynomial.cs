@@ -28,6 +28,19 @@ namespace MyExpression.FSharp.CSharpWrapper
 
         private FPolynomial(FSharpList<Monomial> polynomial) => _polynomial = polynomial;
 
+
+        public FPolynomial(params double[] v)
+        {
+            var list = new List<Monomial>();
+            for (var i = v.Length - 1; i >= 0; i--)
+            {
+                list.Add(MonomialModule.create(v[v.Length - i - 1], i));
+            }
+
+            list.Reverse();
+            _polynomial = PolynomialModule.ofList(ToFSharpList(list));
+        }
+
         public FPolynomial(IEnumerable<IMonomial> a)
         {
             _polynomial = PolynomialModule.ofList(
@@ -40,5 +53,7 @@ namespace MyExpression.FSharp.CSharpWrapper
         private static FSharpList<T> CreateFSharpList<T>(IList<T> input, int index) => index >= input.Count
             ? FSharpList<T>.Empty
             : FSharpList<T>.Cons(input[index], CreateFSharpList(input, index + 1));
+
+        public IMonomial this[double degree] => this.ToList()[(int) degree];
     }
 }

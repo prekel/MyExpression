@@ -10,122 +10,133 @@ using NUnit.Framework;
 
 namespace MyExpression.Core.Tests
 {
-	[TestFixture]
-	public class PolynomialTests
-	{
-		[Test]
-		public void ParseTest1()
-		{
-			var s = "x^3+4*x^2+5*x+2";
-			var p = Polynomial.Parse(s);
+    [TestFixture]
+    public abstract class AbstractPolynomialTests
+    {
+        [TestFixture]
+        public class PolynomialTests : AbstractPolynomialTests
+        {
+            protected override IPolynomial CreatePolynomial(IEnumerable<IMonomial> a) => new Polynomial(a);
+            protected override IPolynomial CreatePolynomial(params double[] v) => new Polynomial(v);
+        }
 
-			Assert.AreEqual(new Monomial(1, 3), p[3]);
-			Assert.AreEqual(new Monomial(4, 2), p[2]);
-			Assert.AreEqual(new Monomial(5, 1), p[1]);
-			Assert.AreEqual(new Monomial(2, 0), p[0]);
+        protected abstract IPolynomial CreatePolynomial(IEnumerable<IMonomial> a);
+        protected abstract IPolynomial CreatePolynomial(params double[] v);
 
-			var pe = new Polynomial()
-			{
-				new Monomial(1, 3),
-				new Monomial(4, 2),
-				new Monomial(5, 1),
-				new Monomial(2, 0)
-			};
-			Assert.AreEqual(pe, p);
-		}
 
-		[Test]
-		public void Ctor()
-		{
-			var a = new double[] { 1.234, -1.234, 2.345, -2.345 };
-			var b = new Polynomial(a);
-			Assert.AreEqual(a[0], b[3].Coefficient);
-			Assert.AreEqual(a[1], b[2].Coefficient);
-			Assert.AreEqual(a[2], b[1].Coefficient);
-			Assert.AreEqual(a[3], b[0].Coefficient);
+        [Test]
+        public void ParseTest1()
+        {
+            var s = "x^3+4*x^2+5*x+2";
+            var p = Polynomial.Parse(s);
 
-			var d = new Polynomial(b);
-			Assert.AreEqual(a[0], d[3].Coefficient);
-			Assert.AreEqual(a[1], d[2].Coefficient);
-			Assert.AreEqual(a[2], d[1].Coefficient);
-			Assert.AreEqual(a[3], d[0].Coefficient);
-			Assert.AreEqual(b[3].Coefficient, d[3].Coefficient);
-			Assert.AreEqual(b[2].Coefficient, d[2].Coefficient);
-			Assert.AreEqual(b[1].Coefficient, d[1].Coefficient);
-			Assert.AreEqual(b[0].Coefficient, d[0].Coefficient);
-		}
+            Assert.AreEqual(new Monomial(1, 3), p[3]);
+            Assert.AreEqual(new Monomial(4, 2), p[2]);
+            Assert.AreEqual(new Monomial(5, 1), p[1]);
+            Assert.AreEqual(new Monomial(2, 0), p[0]);
 
-		[Test]
-		public void SumTest()
-		{
-			var a = new Polynomial(1, 2, 3, 4);
-			var b = new Polynomial(1, 2, -3, -4);
-			var c = a + b;
-			Assert.AreEqual(2, c[3].Coefficient);
-			Assert.AreEqual(4, c[2].Coefficient);
-			Assert.AreEqual(0, c[1].Coefficient);
-			Assert.AreEqual(0, c[0].Coefficient);
+            var pe = new Polynomial
+            {
+                new Monomial(1, 3),
+                new Monomial(4, 2),
+                new Monomial(5, 1),
+                new Monomial(2, 0)
+            };
+            Assert.AreEqual(pe, p);
+        }
 
-			a = new Polynomial(1, 2, 3, 4);
-			b = new Polynomial(-1, 2, -3, -4);
-			c = a + b;
-			Assert.AreEqual(2, c.Degree);
-			Assert.AreEqual(0, c[3].Coefficient);
-			Assert.AreEqual(4, c[2].Coefficient);
-			Assert.AreEqual(0, c[1].Coefficient);
-			Assert.AreEqual(0, c[0].Coefficient);
-		}
+        [Test]
+        public void Ctor()
+        {
+            var a = new double[] {1.234, -1.234, 2.345, -2.345};
+            var b = CreatePolynomial(a);
+            Assert.AreEqual(a[0], b[3].Coefficient);
+            Assert.AreEqual(a[1], b[2].Coefficient);
+            Assert.AreEqual(a[2], b[1].Coefficient);
+            Assert.AreEqual(a[3], b[0].Coefficient);
 
-		[Test]
-		public void SubTest()
-		{
-			var a = new Polynomial(1, 2, 3, 4);
-			var b = new Polynomial(1, 2, -3, -4);
-			var c = a - b;
-			Assert.AreEqual(1, c.Degree);
-			Assert.AreEqual(0, c[3].Coefficient);
-			Assert.AreEqual(0, c[2].Coefficient);
-			Assert.AreEqual(6, c[1].Coefficient);
-			Assert.AreEqual(8, c[0].Coefficient);
+            var d = CreatePolynomial(b);
+            Assert.AreEqual(a[0], d[3].Coefficient);
+            Assert.AreEqual(a[1], d[2].Coefficient);
+            Assert.AreEqual(a[2], d[1].Coefficient);
+            Assert.AreEqual(a[3], d[0].Coefficient);
+            Assert.AreEqual(b[3].Coefficient, d[3].Coefficient);
+            Assert.AreEqual(b[2].Coefficient, d[2].Coefficient);
+            Assert.AreEqual(b[1].Coefficient, d[1].Coefficient);
+            Assert.AreEqual(b[0].Coefficient, d[0].Coefficient);
+        }
 
-			a = new Polynomial(1, 2, 3, 4);
-			b = new Polynomial(-1, 2, -3, -4);
-			c = a - b;
-			Assert.AreEqual(3, c.Degree);
-			Assert.AreEqual(2, c[3].Coefficient);
-			Assert.AreEqual(0, c[2].Coefficient);
-			Assert.AreEqual(6, c[1].Coefficient);
-			Assert.AreEqual(8, c[0].Coefficient);
-		}
+        [Test]
+        public void SumTest()
+        {
+            var a = new Polynomial(1, 2, 3, 4);
+            var b = new Polynomial(1, 2, -3, -4);
+            var c = a + b;
+            Assert.AreEqual(2, c[3].Coefficient);
+            Assert.AreEqual(4, c[2].Coefficient);
+            Assert.AreEqual(0, c[1].Coefficient);
+            Assert.AreEqual(0, c[0].Coefficient);
 
-		[Test]
-		[Ignore("Почему-то падает")]
-		public void FromRootsEquationTest()
-		{
-			var r = new MyUniqueRandom(-20, 20);
-			for (var j = 0; j < 100; j++)
-			{
-				var n = r.Next(3, 8);
-				var roots = new double[n];
-				for (var i = 0; i < n; i++)
-				{
-					roots[i] = r.NextUnique();
-				}
+            a = new Polynomial(1, 2, 3, 4);
+            b = new Polynomial(-1, 2, -3, -4);
+            c = a + b;
+            Assert.AreEqual(2, c.Degree);
+            Assert.AreEqual(0, c[3].Coefficient);
+            Assert.AreEqual(4, c[2].Coefficient);
+            Assert.AreEqual(0, c[1].Coefficient);
+            Assert.AreEqual(0, c[0].Coefficient);
+        }
 
-				Array.Sort(roots);
-				var p = Polynomial.FromRoots(roots);
-				var eq = new PolynomialEquation(p, 1e-12);
-				eq.Solve();
-				for (var i = 0; i < n; i++)
-				{
-					if (Math.Abs(roots[i] - eq.AllRoots[i]) > 1e-3 || eq.AllRoots.Count != n)
-					{
-						throw new ApplicationException($"{String.Join(", ", roots)}\n{String.Join(", ", eq.AllRoots)}");
-					}
+        [Test]
+        public void SubTest()
+        {
+            var a = new Polynomial(1, 2, 3, 4);
+            var b = new Polynomial(1, 2, -3, -4);
+            var c = a - b;
+            Assert.AreEqual(1, c.Degree);
+            Assert.AreEqual(0, c[3].Coefficient);
+            Assert.AreEqual(0, c[2].Coefficient);
+            Assert.AreEqual(6, c[1].Coefficient);
+            Assert.AreEqual(8, c[0].Coefficient);
 
-					Assert.AreEqual(roots[i], eq.AllRoots[i], 1e-3);
-				}
-			}
-		}
-	}
+            a = new Polynomial(1, 2, 3, 4);
+            b = new Polynomial(-1, 2, -3, -4);
+            c = a - b;
+            Assert.AreEqual(3, c.Degree);
+            Assert.AreEqual(2, c[3].Coefficient);
+            Assert.AreEqual(0, c[2].Coefficient);
+            Assert.AreEqual(6, c[1].Coefficient);
+            Assert.AreEqual(8, c[0].Coefficient);
+        }
+
+        [Test]
+        [Ignore("Почему-то падает")]
+        public void FromRootsEquationTest()
+        {
+            var r = new MyUniqueRandom(-20, 20);
+            for (var j = 0; j < 100; j++)
+            {
+                var n = r.Next(3, 8);
+                var roots = new double[n];
+                for (var i = 0; i < n; i++)
+                {
+                    roots[i] = r.NextUnique();
+                }
+
+                Array.Sort(roots);
+                var p = Polynomial.FromRoots(roots);
+                var eq = new PolynomialEquation(p, 1e-12);
+                eq.Solve();
+                for (var i = 0; i < n; i++)
+                {
+                    if (Math.Abs(roots[i] - eq.AllRoots[i]) > 1e-3 || eq.AllRoots.Count != n)
+                    {
+                        throw new ApplicationException($"{String.Join(", ", roots)}\n{String.Join(", ", eq.AllRoots)}");
+                    }
+
+                    Assert.AreEqual(roots[i], eq.AllRoots[i], 1e-3);
+                }
+            }
+        }
+    }
 }
