@@ -31,11 +31,11 @@ module PolynomialEquation =
                 poly
                 |> LinearEquation.ofPolynomial
                 |> LinearEquation.solve
-                |> fun t -> [ t ]
+                |> List.singleton
             | _ ->
                 let der = Polynomial.derivative poly
                 let derRoots = solveRec der
-                let intervals = Interval.ofList derRoots
+                let intervals = Interval.intervalsOfList derRoots
 
                 let filteredIntervals =
                     intervals

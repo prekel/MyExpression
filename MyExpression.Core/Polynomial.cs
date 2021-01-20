@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace MyExpression.Core
 {
-	public class Polynomial : IFunctionX, IDerivativable, IEnumerable<Monomial>
+	public class Polynomial : IPolynomial, IEnumerable<Monomial>
 	{
 		private SortedDictionary<double, Monomial> Data { get; set; } = new SortedDictionary<double, Monomial>();
 
@@ -327,6 +327,8 @@ namespace MyExpression.Core
 		{
 			return Data.Values.GetEnumerator();
 		}
+
+		IEnumerator<IMonomial> IEnumerable<IMonomial>.GetEnumerator() => GetEnumerator();
 
 		public override bool Equals(object obj)
 		{
