@@ -63,7 +63,10 @@ module Polynomial =
         let rec recOfRoots roots =
             match roots with
             | [] -> never ()
-            | [x] -> [Monomial.create 1.0 1; Monomial.create -x 0] |> ofList
+            | [ x ] ->
+                [ Monomial.create 1.0 1
+                  Monomial.create -x 0 ]
+                |> ofList
             | x :: xs -> multiplyWithLinearBinomial (recOfRoots xs) x
 
         recOfRoots roots
