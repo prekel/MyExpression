@@ -21,6 +21,8 @@ using System.Collections.Specialized;
 using MyExpression.Core;
 using System.Globalization;
 
+using MyExpression.FSharp.CSharpWrapper;
+
 namespace MyExpression.Wpf
 {
 	/// <summary>
@@ -157,6 +159,10 @@ namespace MyExpression.Wpf
 				{
 					AddIFunctionX(Core.Polynomial.Parse(Polynomial.Text), Polynomial.Text);
 				}
+				if (t == "FPolynomial")
+				{
+					AddIFunctionX(new FPolynomial(Core.Polynomial.Parse(Polynomial.Text)), Polynomial.Text);
+				}
 				if (t == "CodeAnalysisEval")
 				{
 					AddCodeAnalysisEval();
@@ -202,6 +208,10 @@ namespace MyExpression.Wpf
 				if (last.Function is Polynomial p)
 				{
 					pe = new PolynomialEquation(p, Double.Parse(SolveEpsilon.Text));
+				}
+				else if (last.Function is FPolynomial fp)
+				{
+					pe = new FPolynomialEquation(fp, Double.Parse(SolveEpsilon.Text));
 				}
 				else if (last.Function is CodeAnalysisEval f)
 				{
@@ -296,7 +306,7 @@ namespace MyExpression.Wpf
 					}
 					else
 					{
-						if (g.Function is Polynomial)
+						if (g.Function is IPolynomial)
 						{
 							SolveEpsilon.IsEnabled = true;
 						}
@@ -326,7 +336,7 @@ namespace MyExpression.Wpf
 			{
 				if (ABox == null) return;
 				var t = (string)((ComboBoxItem)e.AddedItems[0]).Content;
-				if (t == "Auto" || t == "Polynomial" || t == "CodeAnalysisEval")
+				if (t == "Auto" || t == "Polynomial" || t == "FPolynomial" || t == "CodeAnalysisEval")
 				{
 					Polynomial.IsEnabled = true;
 					ABox.IsEnabled = false;

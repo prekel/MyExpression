@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\MyExpression.Core\MyExpression.Core.csproj" />
+        <ProjectReference Include="..\MyExpression.FSharp.CSharpWrapper\MyExpression.FSharp.CSharpWrapper.csproj" />
     </ItemGroup>
 
 </Project>

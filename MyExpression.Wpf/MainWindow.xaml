@@ -104,6 +104,7 @@
 						<ComboBox x:Name="TypeComboBox" Grid.ColumnSpan="5" Grid.Column="2" Margin="35,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged">
 							<ComboBoxItem Content="Auto"/>
 							<ComboBoxItem Content="Polynomial" />
+							<ComboBoxItem Content="FPolynomial" />
                             <ComboBoxItem Content="CodeAnalysisEval"/>
 							<ComboBoxItem Content="Straight"/>
 							<ComboBoxItem Content="QuadraticParabola"/>
