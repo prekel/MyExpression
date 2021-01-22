@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.FSharp.CSharpW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Core.Tests.FSharp", "MyExpression.Core.Tests.FSharp\MyExpression.Core.Tests.FSharp.csproj", "{E81B05A9-5035-41A8-B2D2-EAF85DDB20BC}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MyExpression.FSharp.FSharp.FParsec", "MyExpression.FSharp.FSharp.FParsec\MyExpression.FSharp.FSharp.FParsec.fsproj", "{05726267-19F9-4DFB-BD99-7B85409160A9}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MyExpression.FSharp.FParsec", "MyExpression.FSharp.FParsec\MyExpression.FSharp.FParsec.fsproj", "{05726267-19F9-4DFB-BD99-7B85409160A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
