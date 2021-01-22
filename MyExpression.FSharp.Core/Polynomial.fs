@@ -13,8 +13,13 @@ module Polynomial =
         |> List.groupBy (fun m -> m.Degree)
         |> List.map (fun t ->
             snd t
-            |> List.reduce (fun m1 m2 -> (Monomial.create (m1.Coefficient + m2.Coefficient) (fst t))))
+            |> List.reduce (fun m1 m2 -> Monomial.create (m1.Coefficient + m2.Coefficient) (fst t)))
         |> ofList
+
+    let isValid (poly: Polynomial) =
+        poly |> List.forall (fun m -> m.Degree > 0)
+
+    let isNormalized poly = poly = (poly |> normalize)
 
     let derivative (xs: Polynomial) =
         xs
