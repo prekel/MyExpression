@@ -6,6 +6,6 @@ namespace MyExpression.Core
 {
     public interface IPolynomial : IFunctionX, IDerivativable, IEnumerable<IMonomial>
     {
-        public IMonomial this[double degree] { get; }
+        public IMonomial this[int degree] { get; }
     }
 }

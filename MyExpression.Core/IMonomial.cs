@@ -6,6 +6,6 @@ namespace MyExpression.Core
     {
         public double Coefficient { get; }
 
-        public double Degree { get; }
+        public int Degree { get; }
     }
 }

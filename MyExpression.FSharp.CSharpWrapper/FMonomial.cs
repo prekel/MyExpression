@@ -13,11 +13,11 @@ namespace MyExpression.FSharp.CSharpWrapper
 
         public IFunctionX Derivative => new FMonomial(MonomialModule.derivative(_monomial));
         public double Coefficient => _monomial.Coefficient;
-        public double Degree => _monomial.Degree;
+        public int Degree => _monomial.Degree;
 
         private readonly Monomial _monomial;
 
-        public FMonomial(double coef, double degree) => _monomial = MonomialModule.create(coef, (int) degree);
+        public FMonomial(double coef, int degree) => _monomial = MonomialModule.create(coef, (int) degree);
 
         private FMonomial(Monomial monomial) => _monomial = monomial;
     }

@@ -16,10 +16,10 @@ namespace MyExpression.Core.Tests
         [TestFixture]
         public class MonomialTests : AbstractMonomialTests
         {
-            protected override IMonomial CreateMonomial(double coef, double degree) => new Monomial(coef, degree);
+            protected override IMonomial CreateMonomial(double coef, int degree) => new Monomial(coef, degree);
         }
 
-        protected abstract IMonomial CreateMonomial(double coef, double degree);
+        protected abstract IMonomial CreateMonomial(double coef, int degree);
 
         [Test]
         public void SumTest_Random()

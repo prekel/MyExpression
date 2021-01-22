@@ -12,11 +12,11 @@ namespace MyExpression.Core
 {
     public class Polynomial : IPolynomial, IEnumerable<Monomial>
     {
-        private SortedDictionary<double, Monomial> Data { get; set; } = new SortedDictionary<double, Monomial>();
+        private SortedDictionary<int, Monomial> Data { get; set; } = new SortedDictionary<int, Monomial>();
 
         public double Degree => Data.Last().Value.Degree;
 
-        public IMonomial this[double degree]
+        public IMonomial this[int degree]
         {
             get
             {
@@ -128,7 +128,7 @@ namespace MyExpression.Core
             //	Data.Remove(i);
             //}
 
-            Data = new SortedDictionary<double, Monomial>(
+            Data = new SortedDictionary<int, Monomial>(
                 (from i in Data where i.Value.Coefficient != 0 select i)
                 .ToDictionary(x => x.Value.Degree, y => y.Value)
             );
@@ -360,7 +360,7 @@ namespace MyExpression.Core
             if (!(obj is Polynomial)) return false;
             var p = (Polynomial) obj;
             if (p.Degree != p.Degree) return false;
-            for (var i = 0d; i <= Math.Max(Degree, p.Degree); i++)
+            for (var i = 0; i <= Math.Max(Degree, p.Degree); i++)
             {
                 if (this[i].Coefficient != p[i].Coefficient)
                     return false;
@@ -372,7 +372,7 @@ namespace MyExpression.Core
         public bool Equals(Polynomial p, double epscoef = 0)
         {
             if (p.Degree != p.Degree) return false;
-            for (var i = 0d; i <= Math.Max(Degree, p.Degree); i++)
+            for (var i = 0; i <= Math.Max(Degree, p.Degree); i++)
             {
                 if (Math.Abs(this[i].Coefficient - p[i].Coefficient) > epscoef)
                     return false;

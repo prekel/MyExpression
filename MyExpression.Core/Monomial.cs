@@ -10,7 +10,7 @@ namespace MyExpression.Core
 	public class Monomial : IFunctionX, IDerivativable, IComparable, IMonomial
 	{
 		public double Coefficient { get; set; }
-		public double Degree { get; set; }
+		public int Degree { get; set; }
 
 		public double Calculate(double x) => Coefficient * Math.Pow(x, Degree);
 
@@ -71,7 +71,7 @@ namespace MyExpression.Core
 			return new Monomial(a.Coefficient * b, a.Degree);
 		}
 
-		public Monomial(double coef = 1, double degree = 1)
+		public Monomial(double coef = 1, int degree = 1)
 		{
 			Coefficient = coef;
 			Degree = degree;
@@ -96,7 +96,7 @@ namespace MyExpression.Core
 			if (m.Groups[4].Value.Length > 0 && m.Groups[5].Value.Length == 0) throw new FormatException();
 			var f = m.Groups[1].Length == 1 ? Double.Parse(m.Groups[1] + "1") : 1;
 			var c = m.Groups[2].Length > 0 ? Double.Parse(m.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture) : 1;
-			var d = m.Groups[5].Length > 0 ? Double.Parse(m.Groups[5].Value, System.Globalization.CultureInfo.InvariantCulture) : 1;
+			var d = m.Groups[5].Length > 0 ? Int32.Parse(m.Groups[5].Value, System.Globalization.CultureInfo.InvariantCulture) : 1;
 			if (m.Groups[3].Length == 0) d = 0;
 			return new Monomial(f * c, d);
 		}

@@ -9,6 +9,6 @@ namespace MyExpression.Core.Tests.FSharp
     [TestFixture]
     public class FMonomialTests : AbstractMonomialTests
     {
-        protected override IMonomial CreateMonomial(double coef, double degree) => new FMonomial(coef, degree);
+        protected override IMonomial CreateMonomial(double coef, int degree) => new FMonomial(coef, degree);
     }
 }

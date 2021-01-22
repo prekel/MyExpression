@@ -54,6 +54,6 @@ namespace MyExpression.FSharp.CSharpWrapper
             ? FSharpList<T>.Empty
             : FSharpList<T>.Cons(input[index], CreateFSharpList(input, index + 1));
 
-        public IMonomial this[double degree] => this.ToList()[(int) degree];
+        public IMonomial this[int degree] => this.ToList()[(int) degree];
     }
 }
