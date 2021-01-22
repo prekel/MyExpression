@@ -45,3 +45,25 @@ module Polynomial =
         poly
         |> List.find (fun m -> m.Degree = degree)
         |> Monomial.coefficient
+
+    let sum (a: Polynomial) (b: Polynomial) = a @ b |> normalize
+
+    let multiplyWithLinearBinomial (poly: Polynomial) x0 =
+        let byX =
+            poly
+            |> List.map (fun m -> Monomial.create m.Coefficient (m.Degree + 1))
+
+        let byX0 =
+            poly
+            |> List.map (fun m -> Monomial.create (m.Coefficient * -x0) m.Degree)
+
+        sum byX byX0
+
+    let ofRoots roots =
+        let rec recOfRoots roots =
+            match roots with
+            | [] -> never ()
+            | [x] -> [Monomial.create 1.0 1; Monomial.create -x 0] |> ofList
+            | x :: xs -> multiplyWithLinearBinomial (recOfRoots xs) x
+
+        recOfRoots roots
