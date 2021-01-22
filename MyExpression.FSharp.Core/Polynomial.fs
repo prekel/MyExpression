@@ -7,9 +7,6 @@ type Polynomial = Monomial list
 module Polynomial =
     let ofList (x: Monomial list): Polynomial = x
 
-    let derivative (xs: Polynomial) =
-        xs |> List.map Monomial.derivative |> ofList
-
     let normalize (xs: Polynomial) =
         xs
         |> List.sortByDescending (fun m -> m.Degree)
@@ -17,6 +14,12 @@ module Polynomial =
         |> List.map (fun t ->
             snd t
             |> List.reduce (fun m1 m2 -> (Monomial.create (m1.Coefficient + m2.Coefficient) (fst t))))
+        |> ofList
+
+    let derivative (xs: Polynomial) =
+        xs
+        |> List.map Monomial.derivative
+        |> normalize
         |> ofList
 
     let degree poly =
@@ -34,4 +37,6 @@ module Polynomial =
         poly |> List.map (Monomial.calcByX x) |> List.sum
 
     let coefficient (poly: Polynomial) degree =
-        poly |> List.find (fun m -> m.Degree = degree) |> Monomial.coefficient
+        poly
+        |> List.find (fun m -> m.Degree = degree)
+        |> Monomial.coefficient
