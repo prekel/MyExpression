@@ -20,4 +20,8 @@ module LinearEquation =
              |> Polynomial.byDegree 0
              |> Monomial.coefficient)
 
-    let check linear x = linear.A * x + linear.B
+    let calc linear x = linear.A * x + linear.B
+
+    let checkAccurate linear x = (calc linear x) = 0.
+    
+    let check linear eps x = abs (calc linear x) < eps
