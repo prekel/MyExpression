@@ -12,7 +12,9 @@ module Monomial =
     let ofTuple (coefficient, deg) = create coefficient deg
 
     let derivative x =
-        create (x.Coefficient * float x.Degree) (x.Degree - 1)
+        match x.Degree with
+        | 0 -> create 0. 0
+        | _ -> create (x.Coefficient * float x.Degree) (x.Degree - 1)
 
     let coefficient monomial = monomial.Coefficient
 

@@ -33,7 +33,7 @@ let main argv =
     let check1 = check 1.
     let checka = check lea
 
-//    let p =
+    //    let p =
 //        [ Monomial.create 12.3 1
 //          Monomial.create 2.0 0
 //          Monomial.create 2.0 0 ]

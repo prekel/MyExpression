@@ -14,7 +14,7 @@ namespace MyExpression.Core
     {
         private SortedDictionary<int, Monomial> Data { get; set; } = new SortedDictionary<int, Monomial>();
 
-        public double Degree => Data.Last().Value.Degree;
+        public int Degree => Data.Last().Value.Degree;
 
         public IMonomial this[int degree]
         {

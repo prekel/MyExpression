@@ -10,8 +10,8 @@ namespace MyExpression.Core
 {
 	public interface IEquation
 	{
-		IList<double> AllRoots { get; }
-		IList<double> Roots { get; }
+		IList<double>? AllRoots { get; }
+		IList<double>? Roots { get; }
 		void Solve();
 	}
 }

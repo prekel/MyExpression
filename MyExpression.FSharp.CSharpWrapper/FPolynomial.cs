@@ -19,6 +19,7 @@ namespace MyExpression.FSharp.CSharpWrapper
 
         public IFunctionX Derivative => new FPolynomial(PolynomialModule.derivative(_polynomial));
 
+        // TODO: сделать отдельный список
         public IEnumerator<IMonomial> GetEnumerator() =>
             _polynomial.Select(u => new FMonomial(u.Coefficient, u.Degree)).GetEnumerator();
 
@@ -38,22 +39,17 @@ namespace MyExpression.FSharp.CSharpWrapper
             }
 
             list.Reverse();
-            _polynomial = PolynomialModule.ofList(ToFSharpList(list));
+            _polynomial = PolynomialModule.ofList(Interop.ToFSharpList(list));
         }
 
         public FPolynomial(IEnumerable<IMonomial> a)
         {
             _polynomial = PolynomialModule.ofList(
-                ToFSharpList(new List<IMonomial>(a)
+                Interop.ToFSharpList(new List<IMonomial>(a)
                     .Select(u => MonomialModule.create(u.Coefficient, (int) u.Degree)).ToList()));
         }
 
-        private static FSharpList<T> ToFSharpList<T>(IList<T> input) => CreateFSharpList(input, 0);
-
-        private static FSharpList<T> CreateFSharpList<T>(IList<T> input, int index) => index >= input.Count
-            ? FSharpList<T>.Empty
-            : FSharpList<T>.Cons(input[index], CreateFSharpList(input, index + 1));
-
-        public IMonomial this[int degree] => this.ToList()[(int) degree];
+        public IMonomial this[int degree] => this.ToList()[degree];
+        public int Degree => PolynomialModule.degree(_polynomial);
     }
 }

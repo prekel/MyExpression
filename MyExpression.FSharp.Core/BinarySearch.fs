@@ -12,6 +12,8 @@ module BinarySearch =
             | (left, right) -> (left + right) / 2.
 
         let globalMedian = median interval
+        
+        if (globalMedian = -1.) then ()
 
         let endsDifference =
             match interval with
@@ -37,7 +39,8 @@ module BinarySearch =
                     let rl1 = rl + k
                     if cnd (f rl1) then rl1 else increaseRec (k * 2.)
 
-                increaseRec k
+                let t = increaseRec k
+                if (System.Double.IsInfinity(t)) then never () else t
 
             let ltZero = (>) 0.
             let gtZero = (<) 0.
