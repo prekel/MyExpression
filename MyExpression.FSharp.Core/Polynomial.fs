@@ -13,10 +13,10 @@ module Polynomial =
     let normalize (xs: Polynomial) =
         xs
         |> List.sortByDescending (fun m -> m.Degree)
-        |> List.groupBy (fun t -> t.Degree)
+        |> List.groupBy (fun m -> m.Degree)
         |> List.map (fun t ->
             snd t
-            |> List.reduce (fun s t1 -> (Monomial.create (s.Coefficient + t1.Coefficient) (fst t))))
+            |> List.reduce (fun m1 m2 -> (Monomial.create (m1.Coefficient + m2.Coefficient) (fst t))))
         |> ofList
 
     let degree poly =
@@ -32,3 +32,6 @@ module Polynomial =
 
     let calc (poly: Polynomial) x =
         poly |> List.map (Monomial.calcByX x) |> List.sum
+
+    let coefficient (poly: Polynomial) degree =
+        poly |> List.find (fun m -> m.Degree = degree) |> Monomial.coefficient

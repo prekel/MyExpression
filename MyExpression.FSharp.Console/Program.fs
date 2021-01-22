@@ -50,7 +50,6 @@ let main argv =
           Monomial.create 2.0 0 ]
         |> Polynomial.ofList
         |> Polynomial.normalize
-
-    let exn1 = PolynomialEquation.solve p 1e-13
+        |> PolynomialEquation.solve 1e-12
 
     0 // return an integer exit code

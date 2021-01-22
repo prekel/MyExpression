@@ -2,9 +2,6 @@
 
 namespace MyExpression.FSharp.Core
 
-
-open System
-
 type Interval = float * float
 
 module Interval =
@@ -53,4 +50,4 @@ module Interval =
     let left (interval: Interval) = fst interval
     let right (interval: Interval) = snd interval
 
-    let difference ((left, right): Interval) = Math.Abs(left - right)
+    let difference ((left, right): Interval) = abs(left - right)

@@ -2,17 +2,23 @@
 
 namespace MyExpression.FSharp.Core
 
-open System
-
 module PolynomialEquation =
 
-    let solve equation eps =
-        let norm = equation |> Polynomial.normalize
-
-        let poly = norm
-
+    let solve eps poly =
         let rec solveRec poly =
             let calc = Polynomial.calc poly
+
+            let filterIntervals =
+                List.filter (function
+                    | (NegativeInfinity, right) ->
+                        let a, b = (calc (right - 1.), calc right)
+                        not (a > b && b > eps || a < b && b < -eps)
+                    | (left, PositiveInfinity) ->
+                        let a, b = (calc left, calc (left + 1.))
+                        not (a > b && a < -eps || a < b && a > eps)
+                    | (left, right) ->
+                        let a, b = (calc left, calc right)
+                        not (sign (a) * sign (b) > 0 && abs (a * b) >= eps))
 
             match poly |> Polynomial.degree with
             | 1 ->
@@ -21,32 +27,15 @@ module PolynomialEquation =
                 |> LinearEquation.solve
                 |> List.singleton
             | _ ->
-                let der = Polynomial.derivative poly
-                let derRoots = solveRec der
-                let intervals = Interval.intervalsOfList derRoots
+                poly
+                |> Polynomial.derivative
+                |> solveRec
+                |> Interval.intervalsOfList
+                |> filterIntervals
+                |> List.map (BinarySearch.search calc eps)
+                |> List.sort
 
-                let filteredIntervals =
-                    intervals
-                    |> List.filter (fun i ->
-                        not
-                            (match i with
-                             | (NegativeInfinity, right) ->
-                                 let a, b = (calc (right - 1.), calc right)
-                                 a > b && b > eps || a < b && b < -eps
-                             | (left, PositiveInfinity) ->
-                                 let a, b = (calc left, calc (left + 1.))
-                                 a > b && a < -eps || a < b && a > eps
-                             | (left, right) ->
-                                 let a, b = (calc left, calc right)
-                                 sign (a) * sign (b) > 0 && abs (a * b) >= eps))
 
-                let roots =
-                    filteredIntervals
-                    |> List.map (BinarySearch.search calc eps)
-                    |> List.sort
+        poly |> Polynomial.normalize |> solveRec
 
-                roots
-
-        solveRec poly
-
-    let check poly eps x = Math.Abs(Polynomial.calc poly x) < eps
+    let check poly eps x = abs (Polynomial.calc poly x) < eps

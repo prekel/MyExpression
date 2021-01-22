@@ -15,7 +15,7 @@ module BinarySearch =
 
         let endsDifference =
             match interval with
-            | (NegativeInfinity, PositiveInfinity) -> f 1.0 - f -1.
+            | (NegativeInfinity, PositiveInfinity) -> f 1. - f -1.
             | (NegativeInfinity, right) -> f right - f globalMedian
             | (left, PositiveInfinity) -> f globalMedian - f left
             | (left, right) -> f right - f left
@@ -39,18 +39,21 @@ module BinarySearch =
 
                 increaseRec k
 
+            let ltZero = (>) 0.
+            let gtZero = (<) 0.
+
             match interval with
             | (NegativeInfinity, PositiveInfinity) ->
                 match f 0. with
-                | z when z >= 0. && isPositive -> (increase -1. 0. (fun u -> u < 0.), 0.)
-                | z when z >= 0. && isNegative -> (0., increase 1. 0. (fun u -> u < 0.))
-                | z when z < 0. && isPositive -> (0., increase 1. 0. (fun u -> u > 0.))
-                | z when z < 0. && isNegative -> (increase -1. 0. (fun u -> u > 0.), 0.)
+                | z when z >= 0. && isPositive -> (increase -1. 0. ltZero, 0.)
+                | z when z >= 0. && isNegative -> (0., increase 1. 0. ltZero)
+                | z when z < 0. && isPositive -> (0., increase 1. 0. gtZero)
+                | z when z < 0. && isNegative -> (increase -1. 0. gtZero, 0.)
                 | _ -> never ()
-            | (NegativeInfinity, right) when isPositive -> (increase -1. right (fun u -> u < 0.), right)
-            | (NegativeInfinity, right) when isNegative -> (increase -1. right (fun u -> u > 0.), right)
-            | (left, PositiveInfinity) when isPositive -> (left, increase 1. left (fun u -> u > 0.))
-            | (left, PositiveInfinity) when isNegative -> (left, increase 1. left (fun u -> u < 0.))
+            | (NegativeInfinity, right) when isPositive -> (increase -1. right ltZero, right)
+            | (NegativeInfinity, right) when isNegative -> (increase -1. right gtZero, right)
+            | (left, PositiveInfinity) when isPositive -> (left, increase 1. left gtZero)
+            | (left, PositiveInfinity) when isNegative -> (left, increase 1. left ltZero)
             | x -> x
 
         let increasedInterval = increaseInterval f interval
