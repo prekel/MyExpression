@@ -15,5 +15,6 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\MyExpression.FSharp.Core\MyExpression.FSharp.Core.fsproj" />
+      <ProjectReference Include="..\..\Parsec.fs\Parsec.fsproj" />
     </ItemGroup>
 </Project>

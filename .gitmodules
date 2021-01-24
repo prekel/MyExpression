@@ -1,0 +1,3 @@
+[submodule "Parsec.fs"]
+	path = Parsec.fs
+	url = https://github.com/cannorin/Parsec.fs.git

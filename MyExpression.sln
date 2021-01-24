@@ -22,6 +22,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "App", "MyExpression.FSharp.
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "MyExpression.FSharp.Feliz\tests\Tests.fsproj", "{1E3A378F-DFA0-45FD-8B41-3EDE616AD0E8}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Parsec", "Parsec.fs\Parsec.fsproj", "{5775B21C-86FD-4698-900F-847BD07B8633}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,9 @@ Global
 		{05726267-19F9-4DFB-BD99-7B85409160A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05726267-19F9-4DFB-BD99-7B85409160A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05726267-19F9-4DFB-BD99-7B85409160A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5775B21C-86FD-4698-900F-847BD07B8633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5775B21C-86FD-4698-900F-847BD07B8633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5775B21C-86FD-4698-900F-847BD07B8633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5775B21C-86FD-4698-900F-847BD07B8633}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
