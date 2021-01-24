@@ -5,8 +5,8 @@ namespace MyExpression.FSharp.Core
 type Interval = float * float
 
 module Interval =
-    let create left right = Interval(left, right)
-    let ofTuple (left, right) = Interval(left, right)
+    let create left right: Interval = left, right
+    let ofTuple (left, right) = create left right
 
     let ofList list =
         create (list |> List.head) (list |> List.tail |> List.head)
@@ -50,4 +50,4 @@ module Interval =
     let left (interval: Interval) = fst interval
     let right (interval: Interval) = snd interval
 
-    let difference ((left, right): Interval) = abs(left - right)
+    let difference ((left, right): Interval) = abs (left - right)
