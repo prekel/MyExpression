@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.FSharp.CSharpW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpression.Core.Tests.FSharp", "MyExpression.Core.Tests.FSharp\MyExpression.Core.Tests.FSharp.csproj", "{E81B05A9-5035-41A8-B2D2-EAF85DDB20BC}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "App", "MyExpression.FSharp.Feliz\src\App.fsproj", "{C17ADA67-9AB0-413C-9127-8FEC4AAD4233}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "MyExpression.FSharp.Feliz\tests\Tests.fsproj", "{1E3A378F-DFA0-45FD-8B41-3EDE616AD0E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,5 +58,13 @@ Global
 		{E81B05A9-5035-41A8-B2D2-EAF85DDB20BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E81B05A9-5035-41A8-B2D2-EAF85DDB20BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E81B05A9-5035-41A8-B2D2-EAF85DDB20BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C17ADA67-9AB0-413C-9127-8FEC4AAD4233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17ADA67-9AB0-413C-9127-8FEC4AAD4233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C17ADA67-9AB0-413C-9127-8FEC4AAD4233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C17ADA67-9AB0-413C-9127-8FEC4AAD4233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E3A378F-DFA0-45FD-8B41-3EDE616AD0E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E3A378F-DFA0-45FD-8B41-3EDE616AD0E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E3A378F-DFA0-45FD-8B41-3EDE616AD0E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E3A378F-DFA0-45FD-8B41-3EDE616AD0E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
