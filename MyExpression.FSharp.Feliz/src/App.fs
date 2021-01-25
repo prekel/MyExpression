@@ -33,6 +33,13 @@ let private update (state: State) b =
               |> List.filter (fun m -> m.Degree <= 3)
               |> List.append [ m ] }
 
+let tryParseFloat (s: string) =  
+    let c, a = Double.TryParse(s)
+
+    match c with
+    | true -> Some a
+    | false -> None
+
 [<ReactComponent>]
 let HelloWorld () =
     let a, setA = React.useState ("1.")
@@ -53,6 +60,8 @@ let HelloWorld () =
 
     React.useEffect
         ((fun _ ->
+            let y = ()
+
             SetABCD(Double.Parse(a), Double.Parse(b), Double.Parse(c), Double.Parse(d))
             |> dispatch),
          [| a :> obj
