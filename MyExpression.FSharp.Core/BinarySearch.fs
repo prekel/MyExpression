@@ -3,7 +3,7 @@
 namespace MyExpression.FSharp.Core
 
 module BinarySearch =
-    let search f eps interval =
+    let searchRestriction restriction f eps (interval: Interval) =
         let median interval =
             match interval with
             | (NegativeInfinity, PositiveInfinity) -> 0.
@@ -75,4 +75,6 @@ module BinarySearch =
 
         match isIntervalValueLessEps with
         | Some x -> x
-        | _ -> recSearch increasedInterval 100
+        | _ -> recSearch increasedInterval restriction
+
+    let search = searchRestriction 100
