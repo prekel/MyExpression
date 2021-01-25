@@ -7,10 +7,31 @@ open MyExpression.FSharp.Core
 
 open Parsec
 
-let test p str =
+type private State = { Polynomial: Polynomial }
+
+let private test p str =
     match run p "" (StringSegment.ofString str) with
     | Ok (result) -> printfn "Success: %A" result
     | Error (errorMsg) -> printfn "Failure:"
+
+type private Msg =
+    | SetABCD of float * float * float * float
+    | SetMonomial of Monomial
+
+let private update (state: State) b =
+    match b with
+    | SetABCD (a, b, c, d) ->
+        { Polynomial =
+              [ Monomial.create a 3
+                Monomial.create b 2
+                Monomial.create c 1
+                Monomial.create d 0 ]
+              |> Polynomial.ofList }
+    | SetMonomial m ->
+        { Polynomial =
+              state.Polynomial
+              |> List.filter (fun m -> m.Degree <= 3)
+              |> List.append [ m ] }
 
 [<ReactComponent>]
 let HelloWorld () =
@@ -18,6 +39,26 @@ let HelloWorld () =
     let b, setB = React.useState ("-2.")
     let c, setC = React.useState ("-1.")
     let d, setD = React.useState ("2.")
+    let m, setM = React.useState ("2.0x^4")
+
+    let state, dispatch =
+        React.useReducer
+            (update,
+             { Polynomial =
+                   [ Monomial.create 1. 3
+                     Monomial.create -2. 2
+                     Monomial.create -1. 1
+                     Monomial.create 2. 0 ]
+                   |> Polynomial.ofList })
+
+    React.useEffect
+        ((fun _ ->
+            SetABCD(Double.Parse(a), Double.Parse(b), Double.Parse(c), Double.Parse(d))
+            |> dispatch),
+         [| a :> obj
+            b :> obj
+            c :> obj
+            d :> obj |])
 
     let abcd, setABCD =
         React.useState ({| A = 1.; B = -2.; C = -1.; D = 2. |})
@@ -25,14 +66,10 @@ let HelloWorld () =
     let parsed, setParsed = React.useState (1.0)
 
     React.fragment [ Html.h1
-                         ([ Monomial.create abcd.A 3
-                            Monomial.create abcd.B 2
-                            Monomial.create abcd.C 1
-                            Monomial.create abcd.D 0 ]
-                          |> Polynomial.ofList
-                          |> Polynomial.normalize
+                         (state.Polynomial
                           |> PolynomialEquation.solve 1e-4
                           |> sprintf "%A")
+                     Html.input [ prop.onChange setM ]
                      Html.input [ prop.value a
                                   prop.onChange setA ]
                      Html.input [ prop.value b
@@ -52,14 +89,33 @@ let HelloWorld () =
                                        then setABCD ({| A = a'; B = b'; C = c'; D = d' |})) ]
                      Html.button [ prop.text "Parse"
                                    prop.onClick (fun _ ->
-                                       let y = pfloat
+                                       let str_ws str =
+                                           parse {
+                                               do! skipString str
+                                               return ()
+                                           }
 
-                                       let u = run y "" (StringSegment.ofString a)
+                                       let number_ws =
+                                           parse {
+                                               let! number = pfloat
+                                               return number
+                                           }
+
+                                       let pairOfNumbers =
+                                           parse {
+                                               let! number1 = pfloat
+                                               do! str_ws "x^"
+                                               let! number2 = pint32
+                                               return Monomial.create number1 number2
+                                           }
+
+                                       let u =
+                                           run pairOfNumbers "" (StringSegment.ofString m)
 
                                        match u with
                                        | Ok p ->
                                            let i1, i2, i3 = p
-                                           setParsed i1
+                                           SetMonomial i1 |> dispatch
                                            printf "success %A" p
                                        | Error b -> printf "error %A" b) ]
 
