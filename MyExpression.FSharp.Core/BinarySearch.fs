@@ -12,7 +12,7 @@ module BinarySearch =
             | (left, right) -> (left + right) / 2.
 
         let globalMedian = median interval
-        
+
         if (globalMedian = -1.) then ()
 
         let endsDifference =
@@ -61,16 +61,18 @@ module BinarySearch =
 
         let increasedInterval = increaseInterval f interval
 
-        let rec recSearch (interval: Interval) =
+        let rec recSearch (interval: Interval) restriction =
             let localMedian = median interval
             let medianValue = f localMedian
 
             if Interval.difference interval < eps
-            then localMedian
-            elif comparer medianValue 0.
-            then recSearch (interval |> Interval.left, localMedian)
-            else recSearch (localMedian, interval |> Interval.right)
+               || restriction = 0 then
+                localMedian
+            elif comparer medianValue 0. then
+                recSearch (interval |> Interval.left, localMedian) (restriction - 1)
+            else
+                recSearch (localMedian, interval |> Interval.right) (restriction - 1)
 
         match isIntervalValueLessEps with
         | Some x -> x
-        | _ -> recSearch increasedInterval
+        | _ -> recSearch increasedInterval 100

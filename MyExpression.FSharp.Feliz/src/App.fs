@@ -18,8 +18,8 @@ type private Msg =
     | SetABCD of float * float * float * float
     | SetMonomial of Monomial
 
-let private update (state: State) b =
-    match b with
+let private update (state: State)  =
+    function
     | SetABCD (a, b, c, d) ->
         { Polynomial =
               [ Monomial.create a 3
@@ -33,12 +33,10 @@ let private update (state: State) b =
               |> List.filter (fun m -> m.Degree <= 3)
               |> List.append [ m ] }
 
-let tryParseFloat (s: string) =  
-    let c, a = Double.TryParse(s)
-
-    match c with
-    | true -> Some a
-    | false -> None
+let tryParseFloat (s: string) =
+    match Double.TryParse(s) with
+    | true, a -> Some a
+    | _ -> None
 
 [<ReactComponent>]
 let HelloWorld () =
@@ -60,10 +58,9 @@ let HelloWorld () =
 
     React.useEffect
         ((fun _ ->
-            let y = ()
-
-            SetABCD(Double.Parse(a), Double.Parse(b), Double.Parse(c), Double.Parse(d))
-            |> dispatch),
+            match tryParseFloat (a), tryParseFloat (b), tryParseFloat (c), tryParseFloat (d) with
+            | Some a, Some b, Some c, Some d -> SetABCD(a, b, c, d) |> dispatch
+            | _ -> ()),
          [| a :> obj
             b :> obj
             c :> obj
