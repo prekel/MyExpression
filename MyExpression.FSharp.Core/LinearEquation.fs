@@ -2,10 +2,10 @@
 
 namespace MyExpression.FSharp.Core
 
-type LinearEquation = { A: float; B: float }
+open MyExpression.FSharp.Core.Types
 
 module LinearEquation =
-    let create a b = { A = a; B = b }
+    let create a b = { LinearEquation.A = a; B = b }
 
     let ofTuple (a, b) = create a b
 

@@ -1,15 +1,22 @@
 // Copyright (c) 2021 Vladislav Prekel
 
-namespace MyExpression.FSharp.Core
+namespace global
 
 open System
 
 [<AutoOpen>]
-module Global =
-    let notImplemented message =
+module Utils =
+    let inline (^) a b = a b
+
+    let inline notImplemented message =
         match message with
         | "" -> raise (NotImplementedException())
         | _ -> raise (NotImplementedException(message))
+
+    let inline unimplemented a =
+        match a with
+        | "" -> raise ^ NotImplementedException()
+        | _ -> raise ^ NotImplementedException a
 
     let (|Float|PositiveInfinity|NegativeInfinity|NaN|) n =
         if Double.IsPositiveInfinity n then PositiveInfinity
@@ -17,4 +24,4 @@ module Global =
         elif Double.IsNaN n then NaN
         else Float n
 
-    let never () = failwith "Never"
+    let inline unreached () = failwith "Never"
