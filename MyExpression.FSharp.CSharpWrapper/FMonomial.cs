@@ -9,7 +9,7 @@ namespace MyExpression.FSharp.CSharpWrapper
 {
     public class FMonomial : IMonomial
     {
-        public double Calculate(double x) => MonomialModule.calc(_monomial, x);
+        public double Calculate(double x) => MonomialModule.calc(_monomial, x); 
 
         public IFunctionX Derivative => new FMonomial(MonomialModule.derivative(_monomial));
         public double Coefficient => _monomial.Coefficient;
